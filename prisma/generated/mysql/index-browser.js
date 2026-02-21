@@ -7,10 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
   Decimal,
-  DbNull,
-  JsonNull,
-  AnyNull,
-  NullTypes,
+  objectEnumValues,
   makeStrictEnum,
   Public,
   getRuntime,
@@ -24,12 +21,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.4.1
- * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
+ * Prisma Client JS version: 6.19.2
+ * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
-  client: "7.4.1",
-  engine: "55ae170b1ced7fc6ed07a15f110549408c501bb3"
+  client: "6.19.2",
+  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -101,11 +98,15 @@ In case this error is unexpected for you, please report it in https://pris.ly/pr
 /**
  * Shorthand utilities for JSON filtering
  */
-Prisma.DbNull = DbNull
-Prisma.JsonNull = JsonNull
-Prisma.AnyNull = AnyNull
+Prisma.DbNull = objectEnumValues.instances.DbNull
+Prisma.JsonNull = objectEnumValues.instances.JsonNull
+Prisma.AnyNull = objectEnumValues.instances.AnyNull
 
-Prisma.NullTypes = NullTypes
+Prisma.NullTypes = {
+  DbNull: objectEnumValues.classes.DbNull,
+  JsonNull: objectEnumValues.classes.JsonNull,
+  AnyNull: objectEnumValues.classes.AnyNull
+}
 
 
 
@@ -142,6 +143,13 @@ exports.Prisma.MenuScalarFieldEnum = {
   shopId: 'shopId'
 };
 
+exports.Prisma.MenuOptionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  menuId: 'menuId'
+};
+
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -176,6 +184,10 @@ exports.Prisma.MenuOrderByRelevanceFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.MenuOptionOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.OrderOrderByRelevanceFieldEnum = {
   status: 'status',
   mongoOrderId: 'mongoOrderId'
@@ -190,6 +202,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Shop: 'Shop',
   Menu: 'Menu',
+  MenuOption: 'MenuOption',
   Order: 'Order'
 };
 

@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
+  url      = env("MONGO_DATABASE_URL")
 }
 
 model OrderDetail {
@@ -18,11 +19,18 @@ model OrderDetail {
 }
 
 type Item {
-  menuId       Int
-  menuName     String
-  price        Float
-  quantity     Int
-  specialNote  String?  // เช่น "ไม่ใส่ผักชี", "เผ็ดน้อย"
+  menuId          Int
+  menuName        String
+  price           Float
+  quantity        Int
+  selectedOptions SelectedOption[] // 👈 เพิ่มฟิลด์นี้เพื่อเก็บ Add-on ที่เลือก
+  specialNote     String?  // เช่น "ไม่ใส่ผักชี", "เผ็ดน้อย"
+}
+
+type SelectedOption {
+  optionId   Int
+  name       String
+  price      Float
 }
 
 model ActivityLog {

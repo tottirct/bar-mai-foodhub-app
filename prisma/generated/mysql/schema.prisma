@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
+  url      = env("MYSQL_DATABASE_URL")
 }
 
 model User {
@@ -44,7 +45,17 @@ model Menu {
   shopId Int
 
   // Relations
-  shop Shop @relation(fields: [shopId], references: [id])
+  shop    Shop         @relation(fields: [shopId], references: [id])
+  options MenuOption[]
+}
+
+model MenuOption {
+  id     Int    @id @default(autoincrement())
+  name   String
+  price  Float
+  menuId Int
+
+  menu Menu @relation(fields: [menuId], references: [id])
 }
 
 model Order {

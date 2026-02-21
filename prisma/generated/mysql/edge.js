@@ -19,10 +19,7 @@ const {
   skip,
   Decimal,
   Debug,
-  DbNull,
-  JsonNull,
-  AnyNull,
-  NullTypes,
+  objectEnumValues,
   makeStrictEnum,
   Extensions,
   warnOnce,
@@ -30,7 +27,7 @@ const {
   Public,
   getRuntime,
   createParam,
-} = require('./runtime/wasm-compiler-edge.js')
+} = require('./runtime/edge.js')
 
 
 const Prisma = {}
@@ -39,12 +36,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.4.1
- * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
+ * Prisma Client JS version: 6.19.2
+ * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
-  client: "7.4.1",
-  engine: "55ae170b1ced7fc6ed07a15f110549408c501bb3"
+  client: "6.19.2",
+  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -72,11 +69,15 @@ Prisma.defineExtension = Extensions.defineExtension
 /**
  * Shorthand utilities for JSON filtering
  */
-Prisma.DbNull = DbNull
-Prisma.JsonNull = JsonNull
-Prisma.AnyNull = AnyNull
+Prisma.DbNull = objectEnumValues.instances.DbNull
+Prisma.JsonNull = objectEnumValues.instances.JsonNull
+Prisma.AnyNull = objectEnumValues.instances.AnyNull
 
-Prisma.NullTypes = NullTypes
+Prisma.NullTypes = {
+  DbNull: objectEnumValues.classes.DbNull,
+  JsonNull: objectEnumValues.classes.JsonNull,
+  AnyNull: objectEnumValues.classes.AnyNull
+}
 
 
 
@@ -114,6 +115,13 @@ exports.Prisma.MenuScalarFieldEnum = {
   shopId: 'shopId'
 };
 
+exports.Prisma.MenuOptionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  menuId: 'menuId'
+};
+
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -148,6 +156,10 @@ exports.Prisma.MenuOrderByRelevanceFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.MenuOptionOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.OrderOrderByRelevanceFieldEnum = {
   status: 'status',
   mongoOrderId: 'mongoOrderId'
@@ -162,38 +174,79 @@ exports.Prisma.ModelName = {
   User: 'User',
   Shop: 'Shop',
   Menu: 'Menu',
+  MenuOption: 'MenuOption',
   Order: 'Order'
 };
 /**
  * Create the Client
  */
 const config = {
-  "previewFeatures": [],
-  "clientVersion": "7.4.1",
-  "engineVersion": "55ae170b1ced7fc6ed07a15f110549408c501bb3",
-  "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mysql\" // ป้องกันการทับซ้อนกับ Client ของ MongoDB\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel User {\n  id     Int    @id @default(autoincrement())\n  email  String @unique\n  name   String\n  wallet Float  @default(0.0)\n  role   Role   @default(CUSTOMER)\n\n  // Relations\n  orders Order[]\n  shops  Shop[]\n}\n\nenum Role {\n  CUSTOMER\n  OWNER\n  ADMIN\n}\n\nmodel Shop {\n  id          Int     @id @default(autoincrement())\n  name        String\n  description String?\n  ownerId     Int\n\n  // Relations\n  user   User    @relation(fields: [ownerId], references: [id])\n  menus  Menu[]\n  orders Order[]\n}\n\nmodel Menu {\n  id     Int    @id @default(autoincrement())\n  name   String\n  price  Float\n  shopId Int\n\n  // Relations\n  shop Shop @relation(fields: [shopId], references: [id])\n}\n\nmodel Order {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  shopId       Int\n  totalPrice   Float\n  status       String   @default(\"PENDING\")\n  createdAt    DateTime @default(now())\n  mongoOrderId String?\n\n  // Relations\n  user User @relation(fields: [userId], references: [id])\n  shop Shop @relation(fields: [shopId], references: [id])\n}\n"
-}
-
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"wallet\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToUser\"},{\"name\":\"shops\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToUser\"}],\"dbName\":null},\"Shop\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShopToUser\"},{\"name\":\"menus\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToShop\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToShop\"}],\"dbName\":null},\"Menu\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"MenuToShop\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"mongoOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrderToUser\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"OrderToShop\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
-defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
-config.parameterizationSchema = {
-  strings: JSON.parse("[\"where\",\"orderBy\",\"cursor\",\"user\",\"shop\",\"menus\",\"orders\",\"_count\",\"shops\",\"User.findUnique\",\"User.findUniqueOrThrow\",\"User.findFirst\",\"User.findFirstOrThrow\",\"User.findMany\",\"data\",\"User.createOne\",\"User.createMany\",\"User.updateOne\",\"User.updateMany\",\"create\",\"update\",\"User.upsertOne\",\"User.deleteOne\",\"User.deleteMany\",\"having\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"User.groupBy\",\"User.aggregate\",\"Shop.findUnique\",\"Shop.findUniqueOrThrow\",\"Shop.findFirst\",\"Shop.findFirstOrThrow\",\"Shop.findMany\",\"Shop.createOne\",\"Shop.createMany\",\"Shop.updateOne\",\"Shop.updateMany\",\"Shop.upsertOne\",\"Shop.deleteOne\",\"Shop.deleteMany\",\"Shop.groupBy\",\"Shop.aggregate\",\"Menu.findUnique\",\"Menu.findUniqueOrThrow\",\"Menu.findFirst\",\"Menu.findFirstOrThrow\",\"Menu.findMany\",\"Menu.createOne\",\"Menu.createMany\",\"Menu.updateOne\",\"Menu.updateMany\",\"Menu.upsertOne\",\"Menu.deleteOne\",\"Menu.deleteMany\",\"Menu.groupBy\",\"Menu.aggregate\",\"Order.findUnique\",\"Order.findUniqueOrThrow\",\"Order.findFirst\",\"Order.findFirstOrThrow\",\"Order.findMany\",\"Order.createOne\",\"Order.createMany\",\"Order.updateOne\",\"Order.updateMany\",\"Order.upsertOne\",\"Order.deleteOne\",\"Order.deleteMany\",\"Order.groupBy\",\"Order.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"userId\",\"shopId\",\"totalPrice\",\"status\",\"createdAt\",\"mongoOrderId\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"contains\",\"startsWith\",\"endsWith\",\"search\",\"not\",\"name\",\"price\",\"description\",\"ownerId\",\"email\",\"wallet\",\"Role\",\"role\",\"every\",\"some\",\"none\",\"is\",\"isNot\",\"connectOrCreate\",\"upsert\",\"createMany\",\"set\",\"disconnect\",\"delete\",\"connect\",\"updateMany\",\"deleteMany\",\"_relevance\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
-  graph: "gwIjOAoGAACBAQAgCAAAggEAIEkAAHwAMEoAABUAEEsAAHwAMEwCAAAAAV8BAH4AIWMBAAAAAWQIAH8AIWYAAIABZiIBAAAAAQAgDAMAAIUBACAEAACIAQAgSQAAiQEAMEoAAAMAEEsAAIkBADBMAgB9ACFNAgB9ACFOAgB9ACFPCAB_ACFQAQB-ACFRQACKAQAhUgEAhAEAIQQDAADmAQAgBAAA6QEAIFIAAIsBACB1AADrAQAgDAMAAIUBACAEAACIAQAgSQAAiQEAMEoAAAMAEEsAAIkBADBMAgAAAAFNAgB9ACFOAgB9ACFPCAB_ACFQAQB-ACFRQACKAQAhUgEAhAEAIQMAAAADACABAAAEADACAAAFACAIBAAAiAEAIEkAAIcBADBKAAAHABBLAACHAQAwTAIAfQAhTgIAfQAhXwEAfgAhYAgAfwAhAgQAAOkBACB1AADqAQAgCAQAAIgBACBJAACHAQAwSgAABwAQSwAAhwEAMEwCAAAAAU4CAH0AIV8BAH4AIWAIAH8AIQMAAAAHACABAAAIADACAAAJACADAAAAAwAgAQAABAAwAgAABQAgAQAAAAcAIAEAAAADACAKAwAAhQEAIAUAAIYBACAGAACBAQAgSQAAgwEAMEoAAA4AEEsAAIMBADBMAgB9ACFfAQB-ACFhAQCEAQAhYgIAfQAhBQMAAOYBACAFAADnAQAgBgAA4wEAIGEAAIsBACB1AADoAQAgCgMAAIUBACAFAACGAQAgBgAAgQEAIEkAAIMBADBKAAAOABBLAACDAQAwTAIAAAABXwEAfgAhYQEAhAEAIWICAH0AIQMAAAAOACABAAAPADACAAAQACABAAAAAwAgAQAAAA4AIAEAAAABACAKBgAAgQEAIAgAAIIBACBJAAB8ADBKAAAVABBLAAB8ADBMAgB9ACFfAQB-ACFjAQB-ACFkCAB_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_AEAIBQAAIICACBsAAD9AQAgbQAAgQIAIHIAAAEAIAUTAAD6AQAgFAAA_wEAIGwAAPsBACBtAAD-AQAgcgAAEAAgAxMAAPwBACBsAAD9AQAgcgAAAQAgAxMAAPoBACBsAAD7AQAgcgAAEAAgAAAAAAAFEwAA9QEAIBQAAPgBACBsAAD2AQAgbQAA9wEAIHIAABAAIAMTAAD1AQAgbAAA9gEAIHIAABAAIAAAAAAABRMAAO4BACAUAADzAQAgbAAA7wEAIG0AAPIBACByAAABACALEwAAtQEAMBQAALoBADBsAAC2AQAwbQAAtwEAMG4AALgBACBvAAC5AQAwcAAAuQEAMHEAALkBADByAAC5AQAwcwAAuwEAMHQAALwBADALEwAAqQEAMBQAAK4BADBsAACqAQAwbQAAqwEAMG4AAKwBACBvAACtAQAwcAAArQEAMHEAAK0BADByAACtAQAwcwAArwEAMHQAALABADAHAwAAmAEAIEwCAAAAAU0CAAAAAU8IAAAAAVABAAAAAVFAAAAAAVIBAAAAAQIAAAAFACATAAC0AQAgAwAAAAUAIBMAALQBACAUAACzAQAgAQ4AAPEBADAMAwAAhQEAIAQAAIgBACBJAACJAQAwSgAAAwAQSwAAiQEAMEwCAAAAAU0CAH0AIU4CAH0AIU8IAH8AIVABAH4AIVFAAIoBACFSAQCEAQAhAgAAAAUAIA4AALMBACACAAAAsQEAIA4AALIBACAKSQAAsAEAMEoAALEBABBLAACwAQAwTAIAfQAhTQIAfQAhTgIAfQAhTwgAfwAhUAEAfgAhUUAAigEAIVIBAIQBACEKSQAAsAEAMEoAALEBABBLAACwAQAwTAIAfQAhTQIAfQAhTgIAfQAhTwgAfwAhUAEAfgAhUUAAigEAIVIBAIQBACEGTAIAlQEAIU0CAJUBACFPCACRAQAhUAEAkgEAIVFAAJMBACFSAQCUAQAhBwMAAJYBACBMAgCVAQAhTQIAlQEAIU8IAJEBACFQAQCSAQAhUUAAkwEAIVIBAJQBACEHAwAAmAEAIEwCAAAAAU0CAAAAAU8IAAAAAVABAAAAAVFAAAAAAVIBAAAAAQNMAgAAAAFfAQAAAAFgCAAAAAECAAAACQAgEwAAwAEAIAMAAAAJACATAADAAQAgFAAAvwEAIAEOAADwAQAwCAQAAIgBACBJAACHAQAwSgAABwAQSwAAhwEAMEwCAAAAAU4CAH0AIV8BAH4AIWAIAH8AIQIAAAAJACAOAAC_AQAgAgAAAL0BACAOAAC-AQAgB0kAALwBADBKAAC9AQAQSwAAvAEAMEwCAH0AIU4CAH0AIV8BAH4AIWAIAH8AIQdJAAC8AQAwSgAAvQEAEEsAALwBADBMAgB9ACFOAgB9ACFfAQB-ACFgCAB_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_AEAIBQAAIMCACAIAAAAFQAgCAAAywEAIA4AAIMCACBMAgCVAQAhXwEAkgEAIWMBAJIBACFkCACRAQAhZgAAyQFmIgYIAADLAQAgTAIAlQEAIV8BAJIBACFjAQCSAQAhZAgAkQEAIWYAAMkBZiIDBgYCBwAGCBEDAgMAAQQAAwQDAAEFCgQGCwIHAAUBBAADAgUMAAYNAAIGEgAIEwAABQcACRkAChoACxsADBwADQAAAAAABQcACRkAChoACxsADBwADQUHABAZABEaABIbABMcABQAAAAAAAUHABAZABEaABIbABMcABQFBwAXGQAYGgAZGwAaHAAbAAAAAAAFBwAXGQAYGgAZGwAaHAAbBQcAHhkAHxoAIBsAIRwAIgAAAAAABQcAHhkAHxoAIBsAIRwAIgkCAQoUAQsXAQwYAQ0ZAQ8bARAdBxEfARIhBxUiARYjARckBx0nCB4oDh8pAyAqAyErAyIsAyMtAyQvAyUxByYzAyc1Byg2Ayk3Ayo4Bys7Dyw8FS09BC4-BC8_BDBABDFBBDJDBDNFBzRHBDVJBzZKBDdLBDhMBzlPFjpQHDtRAjxSAj1TAj5UAj9VAkBXAkFZB0JbAkNdB0ReAkVfAkZgB0djHUhkIw"
-}
-config.compilerWasm = {
-  getRuntime: async () => require('./query_compiler_fast_bg.js'),
-  getQueryCompilerWasmModule: async () => {
-    const loader = (await import('#wasm-compiler-loader')).default
-    const compiler = (await loader).default
-    return compiler
+  "generator": {
+    "name": "client",
+    "provider": {
+      "fromEnvVar": null,
+      "value": "prisma-client-js"
+    },
+    "output": {
+      "value": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\generated\\mysql",
+      "fromEnvVar": null
+    },
+    "config": {
+      "engineType": "library"
+    },
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "windows",
+        "native": true
+      }
+    ],
+    "previewFeatures": [],
+    "sourceFilePath": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\schema.mysql.prisma",
+    "isCustomOutput": true
   },
-  importName: './query_compiler_fast_bg.js',
+  "relativeEnvPaths": {
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
+  },
+  "relativePath": "../..",
+  "clientVersion": "6.19.2",
+  "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
+  "datasourceNames": [
+    "db"
+  ],
+  "activeProvider": "mysql",
+  "postinstall": false,
+  "inlineDatasources": {
+    "db": {
+      "url": {
+        "fromEnvVar": "MYSQL_DATABASE_URL",
+        "value": null
+      }
+    }
+  },
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mysql\" // ป้องกันการทับซ้อนกับ Client ของ MongoDB\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"MYSQL_DATABASE_URL\")\n}\n\nmodel User {\n  id     Int    @id @default(autoincrement())\n  email  String @unique\n  name   String\n  wallet Float  @default(0.0)\n  role   Role   @default(CUSTOMER)\n\n  // Relations\n  orders Order[]\n  shops  Shop[]\n}\n\nenum Role {\n  CUSTOMER\n  OWNER\n  ADMIN\n}\n\nmodel Shop {\n  id          Int     @id @default(autoincrement())\n  name        String\n  description String?\n  ownerId     Int\n\n  // Relations\n  user   User    @relation(fields: [ownerId], references: [id])\n  menus  Menu[]\n  orders Order[]\n}\n\nmodel Menu {\n  id     Int    @id @default(autoincrement())\n  name   String\n  price  Float\n  shopId Int\n\n  // Relations\n  shop    Shop         @relation(fields: [shopId], references: [id])\n  options MenuOption[]\n}\n\nmodel MenuOption {\n  id     Int    @id @default(autoincrement())\n  name   String\n  price  Float\n  menuId Int\n\n  menu Menu @relation(fields: [menuId], references: [id])\n}\n\nmodel Order {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  shopId       Int\n  totalPrice   Float\n  status       String   @default(\"PENDING\")\n  createdAt    DateTime @default(now())\n  mongoOrderId String?\n\n  // Relations\n  user User @relation(fields: [userId], references: [id])\n  shop Shop @relation(fields: [shopId], references: [id])\n}\n",
+  "inlineSchemaHash": "8cff7e9d40cae96e04302506070151a3980b81ef85b8c392907d3032953127c9",
+  "copyEngine": true
 }
-if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || (typeof process !== 'undefined' && process.env && process.env.DEBUG) || undefined) {
-  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || (typeof process !== 'undefined' && process.env && process.env.DEBUG) || undefined)
+config.dirname = '/'
+
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"wallet\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Float\",\"nativeType\":null,\"default\":0,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"role\",\"kind\":\"enum\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Role\",\"nativeType\":null,\"default\":\"CUSTOMER\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"orders\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Order\",\"nativeType\":null,\"relationName\":\"OrderToUser\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"shops\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Shop\",\"nativeType\":null,\"relationName\":\"ShopToUser\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Shop\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"description\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"user\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"User\",\"nativeType\":null,\"relationName\":\"ShopToUser\",\"relationFromFields\":[\"ownerId\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"menus\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Menu\",\"nativeType\":null,\"relationName\":\"MenuToShop\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"orders\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Order\",\"nativeType\":null,\"relationName\":\"OrderToShop\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Menu\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"price\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"shopId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"shop\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Shop\",\"nativeType\":null,\"relationName\":\"MenuToShop\",\"relationFromFields\":[\"shopId\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"options\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"MenuOption\",\"nativeType\":null,\"relationName\":\"MenuToMenuOption\",\"relationFromFields\":[],\"relationToFields\":[],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"MenuOption\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"price\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"menuId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"menu\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Menu\",\"nativeType\":null,\"relationName\":\"MenuToMenuOption\",\"relationFromFields\":[\"menuId\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"Order\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"nativeType\":null,\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"userId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"shopId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":true,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"status\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"String\",\"nativeType\":null,\"default\":\"PENDING\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"DateTime\",\"nativeType\":null,\"default\":{\"name\":\"now\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"mongoOrderId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"user\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"User\",\"nativeType\":null,\"relationName\":\"OrderToUser\",\"relationFromFields\":[\"userId\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"shop\",\"kind\":\"object\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Shop\",\"nativeType\":null,\"relationName\":\"OrderToShop\",\"relationFromFields\":[\"shopId\"],\"relationToFields\":[\"id\"],\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{\"Role\":{\"values\":[{\"name\":\"CUSTOMER\",\"dbName\":null},{\"name\":\"OWNER\",\"dbName\":null},{\"name\":\"ADMIN\",\"dbName\":null}],\"dbName\":null}},\"types\":{}}")
+defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.engineWasm = undefined
+config.compilerWasm = undefined
+
+config.injectableEdgeEnv = () => ({
+  parsed: {
+    MYSQL_DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['MYSQL_DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.MYSQL_DATABASE_URL || undefined
+  }
+})
+
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
 }
 
 const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
+

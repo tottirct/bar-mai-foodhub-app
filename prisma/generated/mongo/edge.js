@@ -19,10 +19,7 @@ const {
   skip,
   Decimal,
   Debug,
-  DbNull,
-  JsonNull,
-  AnyNull,
-  NullTypes,
+  objectEnumValues,
   makeStrictEnum,
   Extensions,
   warnOnce,
@@ -30,7 +27,7 @@ const {
   Public,
   getRuntime,
   createParam,
-} = require('./runtime/wasm-compiler-edge.js')
+} = require('./runtime/edge.js')
 
 
 const Prisma = {}
@@ -39,12 +36,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.4.1
- * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
+ * Prisma Client JS version: 6.19.2
+ * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
-  client: "7.4.1",
-  engine: "55ae170b1ced7fc6ed07a15f110549408c501bb3"
+  client: "6.19.2",
+  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -72,11 +69,15 @@ Prisma.defineExtension = Extensions.defineExtension
 /**
  * Shorthand utilities for JSON filtering
  */
-Prisma.DbNull = DbNull
-Prisma.JsonNull = JsonNull
-Prisma.AnyNull = AnyNull
+Prisma.DbNull = objectEnumValues.instances.DbNull
+Prisma.JsonNull = objectEnumValues.instances.JsonNull
+Prisma.AnyNull = objectEnumValues.instances.AnyNull
 
-Prisma.NullTypes = NullTypes
+Prisma.NullTypes = {
+  DbNull: objectEnumValues.classes.DbNull,
+  JsonNull: objectEnumValues.classes.JsonNull,
+  AnyNull: objectEnumValues.classes.AnyNull
+}
 
 
 
@@ -121,32 +122,71 @@ exports.Prisma.ModelName = {
  * Create the Client
  */
 const config = {
-  "previewFeatures": [],
-  "clientVersion": "7.4.1",
-  "engineVersion": "55ae170b1ced7fc6ed07a15f110549408c501bb3",
-  "activeProvider": "mongodb",
-  "inlineSchema": "// 📍 ไฟล์: prisma/schema.mongo.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mongo\" // ป้องกันการทับซ้อนกับ Client ของ MySQL\n}\n\ndatasource db {\n  provider = \"mongodb\"\n}\n\nmodel OrderDetail {\n  id           String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  mysqlOrderId Int      @unique\n  items        Item[]\n  note         String?\n  createdAt    DateTime @default(now())\n}\n\ntype Item {\n  menuId      Int\n  menuName    String\n  price       Float\n  quantity    Int\n  specialNote String? // เช่น \"ไม่ใส่ผักชี\", \"เผ็ดน้อย\"\n}\n\nmodel ActivityLog {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  userId      Int // อ้างอิง User ID จากฝั่ง MySQL\n  userRole    String // เก็บ Role ตอนที่กระทำ (เช่น \"CUSTOMER\", \"OWNER\", \"ADMIN\") เพื่อให้ Query หาง่ายๆ\n  action      String // ประเภทของสิ่งที่ทำ (เช่น \"WALLET_TOPUP\", \"ORDER_PLACED\", \"LOGIN\", \"SHOP_INCOME\")\n  description String // คำอธิบายแบบอ่านรู้เรื่อง เช่น \"เติมเงินเข้าวอลเล็ต 500 บาท\"\n  metadata    Json? // ⭐️ ฟิลด์ทีเด็ด: เก็บข้อมูลแบบยืดหยุ่นเป็น JSON\n  createdAt   DateTime @default(now())\n}\n"
-}
-
-config.runtimeDataModel = JSON.parse("{\"models\":{\"OrderDetail\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"mysqlOrderId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"Item\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ActivityLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userRole\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
-defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
-config.parameterizationSchema = {
-  strings: JSON.parse("[\"where\",\"items\",\"OrderDetail.findUnique\",\"OrderDetail.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"OrderDetail.findFirst\",\"OrderDetail.findFirstOrThrow\",\"OrderDetail.findMany\",\"data\",\"OrderDetail.createOne\",\"OrderDetail.createMany\",\"OrderDetail.updateOne\",\"OrderDetail.updateMany\",\"create\",\"update\",\"OrderDetail.upsertOne\",\"OrderDetail.deleteOne\",\"OrderDetail.deleteMany\",\"having\",\"_count\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"OrderDetail.groupBy\",\"OrderDetail.aggregate\",\"ActivityLog.findUnique\",\"ActivityLog.findUniqueOrThrow\",\"ActivityLog.findFirst\",\"ActivityLog.findFirstOrThrow\",\"ActivityLog.findMany\",\"ActivityLog.createOne\",\"ActivityLog.createMany\",\"ActivityLog.updateOne\",\"ActivityLog.updateMany\",\"ActivityLog.upsertOne\",\"ActivityLog.deleteOne\",\"ActivityLog.deleteMany\",\"ActivityLog.groupBy\",\"ActivityLog.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"userId\",\"userRole\",\"action\",\"description\",\"metadata\",\"createdAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"mysqlOrderId\",\"note\",\"every\",\"some\",\"none\",\"menuId\",\"menuName\",\"price\",\"quantity\",\"specialNote\",\"set\",\"push\",\"updateMany\",\"deleteMany\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
-  graph: "YhIcCAEAAEcAMCkAAEYAMCoAAAQAECsAAEYAMCwBAAAAATJAAEEAIT4CAAAAAT8BAEgAIQEAAAABACABAAAAAQAgCAEAAEcAMCkAAEYAMCoAAAQAECsAAEYAMCwBAD4AITJAAEEAIT4CAD8AIT8BAEgAIQEBAABeACADAAAABAAgBAAABQAwBQAAAQAgAwAAAAQAIAQAAAUAMAUAAAEAIAMAAAAEACAEAAAFADAFAAABACAFAQAAXQAwLAEAAAABMkAAAAABPgIAAAABPwEAAAABAQkAAAkAIAUBAABdADAsAQAAAAEyQAAAAAE-AgAAAAE_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_ACFEAQA-ACFFCABiACFGAgA_ACFHAQBIACEAAAAAAAVIAgAAAAFMAgAAAAFNAgAAAAFOAgAAAAFPAgAAAAEBSAEAAAABAUhAAAAAAQAAAAAACUMCAAAAAUQBAAAAAUUIAAAAAUYCAAAAAUcBAAAAAUgAAFoAMEkAAFoAMEoAAFsAIEsAAFwAIAFIAQAAAAEFQwIAAAABRAEAAAABRQgAAAABRgIAAAABRwEAAAABAgAAAEoAIAkAAF8AIAEAAABKACAGQwIAAAABRAEAAAABRQgAAAABRgIAAAABRwEAAAABSAAAWgAwAAVDAgBQACFEAQBRACFFCABgACFGAgBQACFHAQBZACEFSAgAAAABTAgAAAABTQgAAAABTggAAAABTwgAAAABCCkAAGEAMCoAAEoAECsAAGEAMEMCAD8AIUQBAD4AIUUIAGIAIUYCAD8AIUcBAEgAIQgzCAAAAAE0CAAAAAQ1CAAAAAQ2CAAAAAE3CAAAAAE4CAAAAAE5CAAAAAE6CAA6ACEBAQACAAAFFAAFFQAGFgAHFwAIGAAJAAAAAAAFFAAFFQAGFgAHFwAIGAAJAAUUAA0VAA4WAA8XABAYABEAAAAAAAUUAA0VAA4WAA8XABAYABECAgEDAwEGBgEHBwEICAEKCgELDAMMDgENEAMQEQEREgESEwMZFgQaFwobGQscGgsdHQseHgsfHwsgIQshIwMiJQsjJwMkKAslKQsmKgMnLQwoLhI"
-}
-config.compilerWasm = {
-  getRuntime: async () => require('./query_compiler_fast_bg.js'),
-  getQueryCompilerWasmModule: async () => {
-    const loader = (await import('#wasm-compiler-loader')).default
-    const compiler = (await loader).default
-    return compiler
+  "generator": {
+    "name": "client",
+    "provider": {
+      "fromEnvVar": null,
+      "value": "prisma-client-js"
+    },
+    "output": {
+      "value": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\generated\\mongo",
+      "fromEnvVar": null
+    },
+    "config": {
+      "engineType": "library"
+    },
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "windows",
+        "native": true
+      }
+    ],
+    "previewFeatures": [],
+    "sourceFilePath": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\schema.mongo.prisma",
+    "isCustomOutput": true
   },
-  importName: './query_compiler_fast_bg.js',
+  "relativeEnvPaths": {
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
+  },
+  "relativePath": "../..",
+  "clientVersion": "6.19.2",
+  "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
+  "datasourceNames": [
+    "db"
+  ],
+  "activeProvider": "mongodb",
+  "inlineDatasources": {
+    "db": {
+      "url": {
+        "fromEnvVar": "MONGO_DATABASE_URL",
+        "value": null
+      }
+    }
+  },
+  "inlineSchema": "// 📍 ไฟล์: prisma/schema.mongo.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mongo\" // ป้องกันการทับซ้อนกับ Client ของ MySQL\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"MONGO_DATABASE_URL\")\n}\n\nmodel OrderDetail {\n  id           String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  mysqlOrderId Int      @unique\n  items        Item[]\n  note         String?\n  createdAt    DateTime @default(now())\n}\n\ntype Item {\n  menuId          Int\n  menuName        String\n  price           Float\n  quantity        Int\n  selectedOptions SelectedOption[] // 👈 เพิ่มฟิลด์นี้เพื่อเก็บ Add-on ที่เลือก\n  specialNote     String? // เช่น \"ไม่ใส่ผักชี\", \"เผ็ดน้อย\"\n}\n\ntype SelectedOption {\n  optionId Int\n  name     String\n  price    Float\n}\n\nmodel ActivityLog {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  userId      Int // อ้างอิง User ID จากฝั่ง MySQL\n  userRole    String // เก็บ Role ตอนที่กระทำ (เช่น \"CUSTOMER\", \"OWNER\", \"ADMIN\") เพื่อให้ Query หาง่ายๆ\n  action      String // ประเภทของสิ่งที่ทำ (เช่น \"WALLET_TOPUP\", \"ORDER_PLACED\", \"LOGIN\", \"SHOP_INCOME\")\n  description String // คำอธิบายแบบอ่านรู้เรื่อง เช่น \"เติมเงินเข้าวอลเล็ต 500 บาท\"\n  metadata    Json? // ⭐️ ฟิลด์ทีเด็ด: เก็บข้อมูลแบบยืดหยุ่นเป็น JSON\n  createdAt   DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "cd40d11e929db2b9fc5d0a0a8c15c5e56f7233d865adc73c2b74062c26ed1a21",
+  "copyEngine": true
 }
-if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || (typeof process !== 'undefined' && process.env && process.env.DEBUG) || undefined) {
-  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || (typeof process !== 'undefined' && process.env && process.env.DEBUG) || undefined)
+config.dirname = '/'
+
+config.runtimeDataModel = JSON.parse("{\"models\":{\"OrderDetail\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"dbName\":\"_id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"String\",\"nativeType\":[\"ObjectId\",[]],\"default\":{\"name\":\"auto\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"mysqlOrderId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"items\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Item\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"note\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"DateTime\",\"nativeType\":null,\"default\":{\"name\":\"now\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false},\"ActivityLog\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"id\",\"dbName\":\"_id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"String\",\"nativeType\":[\"ObjectId\",[]],\"default\":{\"name\":\"auto\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"userId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"userRole\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"action\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"description\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"metadata\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Json\",\"nativeType\":null,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"DateTime\",\"nativeType\":null,\"default\":{\"name\":\"now\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{\"Item\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"menuId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null},{\"name\":\"menuName\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null},{\"name\":\"price\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null},{\"name\":\"quantity\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null},{\"name\":\"selectedOptions\",\"kind\":\"object\",\"isList\":true,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"SelectedOption\",\"nativeType\":null},{\"name\":\"specialNote\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":false,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[]},\"SelectedOption\":{\"dbName\":null,\"schema\":null,\"fields\":[{\"name\":\"optionId\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Int\",\"nativeType\":null},{\"name\":\"name\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"nativeType\":null},{\"name\":\"price\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"Float\",\"nativeType\":null}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[]}}}")
+defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.engineWasm = undefined
+config.compilerWasm = undefined
+
+config.injectableEdgeEnv = () => ({
+  parsed: {
+    MONGO_DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['MONGO_DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.MONGO_DATABASE_URL || undefined
+  }
+})
+
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
 }
 
 const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
+

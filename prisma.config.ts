@@ -16,6 +16,6 @@ export default defineConfig({
   
   datasource: {
     // 3. สลับ URL ดึงค่าจาก .env ให้ตรงกับ Database อัตโนมัติ
-    url: isMongo ? process.env["MONGO_DATABASE_URL"] : process.env["MYSQL_DATABASE_URL"],
+    url: isMongo ? process.env["MONGO_DATABASE_URL"]! : process.env["MYSQL_DATABASE_URL"]!,
   },
 });

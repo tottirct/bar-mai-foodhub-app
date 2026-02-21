@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/client.js';
+import * as runtime from './runtime/library.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
+/**
+ * Model SelectedOption
+ * 
+ */
+export type SelectedOption = $Result.DefaultSelection<Prisma.$SelectedOptionPayload>
 /**
  * Model OrderDetail
  * 
@@ -41,7 +46,7 @@ export type ActivityLog = $Result.DefaultSelection<Prisma.$ActivityLogPayload>
  * ```
  *
  *
- * Read more in our [docs](https://pris.ly/d/client).
+ * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
@@ -62,7 +67,7 @@ export class PrismaClient<
    * ```
    *
    *
-   * Read more in our [docs](https://pris.ly/d/client).
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
@@ -89,7 +94,7 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P]): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
@@ -106,9 +111,10 @@ export class PrismaClient<
    * })
    * ```
    * 
-   * Read more in our [docs](https://pris.ly/d/raw-queries).
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
    */
   $runCommandRaw(command: Prisma.InputJsonObject): Prisma.PrismaPromise<Prisma.JsonObject>
+
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
   }>>
@@ -172,6 +178,14 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
+   * Metrics
+   */
+  export type Metrics = runtime.Metrics
+  export type Metric<T> = runtime.Metric<T>
+  export type MetricHistogram = runtime.MetricHistogram
+  export type MetricHistogramBucket = runtime.MetricHistogramBucket
+
+  /**
   * Extensions
   */
   export import Extension = $Extensions.UserArgs
@@ -182,12 +196,11 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.4.1
-   * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
+   * Prisma Client JS version: 6.19.2
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
-    engine: string
   }
 
   export const prismaVersion: PrismaVersion
@@ -573,6 +586,9 @@ export namespace Prisma {
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
 
+  export type Datasources = {
+    db?: Datasource
+  }
 
   interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
@@ -752,6 +768,14 @@ export namespace Prisma {
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
     /**
+     * Overwrites the datasource url from your schema.prisma file
+     */
+    datasources?: Datasources
+    /**
+     * Overwrites the datasource url from your schema.prisma file
+     */
+    datasourceUrl?: string
+    /**
      * @default "colorless"
      */
     errorFormat?: ErrorFormat
@@ -777,7 +801,7 @@ export namespace Prisma {
      *  { emit: 'stdout', level: 'error' }
      * 
      * ```
-     * Read more in our [docs](https://pris.ly/d/logging).
+     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
     log?: (LogLevel | LogDefinition)[]
     /**
@@ -789,10 +813,6 @@ export namespace Prisma {
       maxWait?: number
       timeout?: number
     }
-    /**
-     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
-     */
-    accelerateUrl?: string
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -905,6 +925,7 @@ export namespace Prisma {
     menuName?: boolean
     price?: boolean
     quantity?: boolean
+    selectedOptions?: boolean | SelectedOptionDefaultArgs<ExtArgs>
     specialNote?: boolean
   }, ExtArgs["result"]["item"]>
 
@@ -918,7 +939,8 @@ export namespace Prisma {
     specialNote?: boolean
   }
 
-  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"menuId" | "menuName" | "price" | "quantity" | "specialNote", ExtArgs["result"]["item"]>
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"menuId" | "menuName" | "price" | "quantity" | "selectedOptions" | "specialNote", ExtArgs["result"]["item"]>
+  export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ItemPayload = {
     name: "Item"
@@ -930,7 +952,9 @@ export namespace Prisma {
       quantity: number
       specialNote: string | null
     }
-    composites: {}
+    composites: {
+      selectedOptions: Prisma.$SelectedOptionPayload[]
+    }
   }
 
   type ItemGetPayload<S extends boolean | null | undefined | ItemDefaultArgs> = $Result.GetResult<Prisma.$ItemPayload, S>
@@ -964,6 +988,77 @@ export namespace Prisma {
      * Omit specific fields from the Item
      */
     omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SelectedOption
+   */
+
+
+
+
+
+  export type SelectedOptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    optionId?: boolean
+    name?: boolean
+    price?: boolean
+  }, ExtArgs["result"]["selectedOption"]>
+
+
+
+  export type SelectedOptionSelectScalar = {
+    optionId?: boolean
+    name?: boolean
+    price?: boolean
+  }
+
+  export type SelectedOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"optionId" | "name" | "price", ExtArgs["result"]["selectedOption"]>
+
+  export type $SelectedOptionPayload = {
+    name: "SelectedOption"
+    objects: {}
+    scalars: {
+      optionId: number
+      name: string
+      price: number
+    }
+    composites: {}
+  }
+
+  type SelectedOptionGetPayload<S extends boolean | null | undefined | SelectedOptionDefaultArgs> = $Result.GetResult<Prisma.$SelectedOptionPayload, S>
+
+
+
+
+
+  /**
+   * Fields of the SelectedOption model
+   */
+  interface SelectedOptionFieldRefs {
+    readonly optionId: FieldRef<"SelectedOption", 'Int'>
+    readonly name: FieldRef<"SelectedOption", 'String'>
+    readonly price: FieldRef<"SelectedOption", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SelectedOption without action
+   */
+  export type SelectedOptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SelectedOption
+     */
+    select?: SelectedOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SelectedOption
+     */
+    omit?: SelectedOptionOmit<ExtArgs> | null
   }
 
 
@@ -3338,6 +3433,7 @@ export namespace Prisma {
     menuName: string
     price: number
     quantity: number
+    selectedOptions?: SelectedOptionObjectEqualityInput[]
     specialNote?: string | null
   }
 
@@ -3540,6 +3636,7 @@ export namespace Prisma {
     menuName: string
     price: number
     quantity: number
+    selectedOptions?: SelectedOptionCreateInput | SelectedOptionCreateInput[]
     specialNote?: string | null
   }
 
@@ -3604,7 +3701,14 @@ export namespace Prisma {
     menuName?: StringFilter<"Item"> | string
     price?: FloatFilter<"Item"> | number
     quantity?: IntFilter<"Item"> | number
+    selectedOptions?: SelectedOptionCompositeListFilter | SelectedOptionObjectEqualityInput[]
     specialNote?: StringNullableFilter<"Item"> | string | null
+  }
+
+  export type SelectedOptionObjectEqualityInput = {
+    optionId: number
+    name: string
+    price: number
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -3733,6 +3837,12 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type SelectedOptionCreateInput = {
+    optionId: number
+    name: string
+    price: number
+  }
+
   export type ItemUpdateManyInput = {
     where: ItemWhereInput
     data: ItemUpdateInput
@@ -3753,12 +3863,31 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type SelectedOptionCompositeListFilter = {
+    equals?: SelectedOptionObjectEqualityInput[]
+    every?: SelectedOptionWhereInput
+    some?: SelectedOptionWhereInput
+    none?: SelectedOptionWhereInput
+    isEmpty?: boolean
+    isSet?: boolean
+  }
+
   export type ItemUpdateInput = {
     menuId?: IntFieldUpdateOperationsInput | number
     menuName?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    selectedOptions?: XOR<SelectedOptionListUpdateEnvelopeInput, SelectedOptionCreateInput> | SelectedOptionCreateInput[]
     specialNote?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SelectedOptionWhereInput = {
+    AND?: SelectedOptionWhereInput | SelectedOptionWhereInput[]
+    OR?: SelectedOptionWhereInput[]
+    NOT?: SelectedOptionWhereInput | SelectedOptionWhereInput[]
+    optionId?: IntFilter<"SelectedOption"> | number
+    name?: StringFilter<"SelectedOption"> | string
+    price?: FloatFilter<"SelectedOption"> | number
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -3767,6 +3896,28 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type SelectedOptionListUpdateEnvelopeInput = {
+    set?: SelectedOptionCreateInput | SelectedOptionCreateInput[]
+    push?: SelectedOptionCreateInput | SelectedOptionCreateInput[]
+    updateMany?: SelectedOptionUpdateManyInput
+    deleteMany?: SelectedOptionDeleteManyInput
+  }
+
+  export type SelectedOptionUpdateManyInput = {
+    where: SelectedOptionWhereInput
+    data: SelectedOptionUpdateInput
+  }
+
+  export type SelectedOptionDeleteManyInput = {
+    where: SelectedOptionWhereInput
+  }
+
+  export type SelectedOptionUpdateInput = {
+    optionId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
   }
 
 
