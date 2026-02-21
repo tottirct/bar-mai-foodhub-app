@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+    --font-prompt: var(--font-prompt), "Prompt", ui-sans-serif, system-ui, sans-serif;
+    --font-inter: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+}
