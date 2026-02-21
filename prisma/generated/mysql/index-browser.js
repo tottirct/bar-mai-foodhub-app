@@ -143,6 +143,13 @@ exports.Prisma.MenuScalarFieldEnum = {
   shopId: 'shopId'
 };
 
+exports.Prisma.MenuOptionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  menuId: 'menuId'
+};
+
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -177,6 +184,10 @@ exports.Prisma.MenuOrderByRelevanceFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.MenuOptionOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.OrderOrderByRelevanceFieldEnum = {
   status: 'status',
   mongoOrderId: 'mongoOrderId'
@@ -191,6 +202,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Shop: 'Shop',
   Menu: 'Menu',
+  MenuOption: 'MenuOption',
   Order: 'Order'
 };
 
