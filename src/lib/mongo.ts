@@ -1,5 +1,5 @@
 // 📍 ไฟล์: lib/mongodb.ts (หรือ utils/mongodb.ts)
-import { PrismaClient } from '../prisma/generated/mongo'; // ชี้ไปที่ output ของ mongo ที่เราตั้งไว้
+import { PrismaClient } from '../../prisma/generated/mongo'; // ชี้ไปที่ output ของ mongo ที่เราตั้งไว้
 
 const globalForMongo = globalThis as unknown as {
   mongoPrisma: PrismaClient | undefined;

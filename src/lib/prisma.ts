@@ -1,5 +1,5 @@
 // 📍 ไฟล์: lib/prisma.ts (หรือ utils/prisma.ts)
-import { PrismaClient } from '../prisma/generated/mysql'; // ชี้ไปที่ output ของ mysql ที่เราตั้งไว้
+import { PrismaClient } from '../../prisma/generated/mysql'; // ชี้ไปที่ output ของ mysql ที่เราตั้งไว้
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
