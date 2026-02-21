@@ -1162,10 +1162,12 @@ export namespace Prisma {
 
   export type ShopCountOutputType = {
     menus: number
+    orders: number
   }
 
   export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     menus?: boolean | ShopCountOutputTypeCountMenusArgs
+    orders?: boolean | ShopCountOutputTypeCountOrdersArgs
   }
 
   // Custom InputTypes
@@ -1184,6 +1186,13 @@ export namespace Prisma {
    */
   export type ShopCountOutputTypeCountMenusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MenuWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -2408,6 +2417,7 @@ export namespace Prisma {
     ownerId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     menus?: boolean | Shop$menusArgs<ExtArgs>
+    orders?: boolean | Shop$ordersArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shop"]>
 
@@ -2424,6 +2434,7 @@ export namespace Prisma {
   export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     menus?: boolean | Shop$menusArgs<ExtArgs>
+    orders?: boolean | Shop$ordersArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2432,6 +2443,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       menus: Prisma.$MenuPayload<ExtArgs>[]
+      orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2780,6 +2792,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     menus<T extends Shop$menusArgs<ExtArgs> = {}>(args?: Subset<T, Shop$menusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orders<T extends Shop$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Shop$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3177,6 +3190,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MenuScalarFieldEnum | MenuScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.orders
+   */
+  export type Shop$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
   /**
@@ -4173,18 +4210,21 @@ export namespace Prisma {
   export type OrderAvgAggregateOutputType = {
     id: number | null
     userId: number | null
+    shopId: number | null
     totalPrice: number | null
   }
 
   export type OrderSumAggregateOutputType = {
     id: number | null
     userId: number | null
+    shopId: number | null
     totalPrice: number | null
   }
 
   export type OrderMinAggregateOutputType = {
     id: number | null
     userId: number | null
+    shopId: number | null
     totalPrice: number | null
     status: string | null
     createdAt: Date | null
@@ -4194,6 +4234,7 @@ export namespace Prisma {
   export type OrderMaxAggregateOutputType = {
     id: number | null
     userId: number | null
+    shopId: number | null
     totalPrice: number | null
     status: string | null
     createdAt: Date | null
@@ -4203,6 +4244,7 @@ export namespace Prisma {
   export type OrderCountAggregateOutputType = {
     id: number
     userId: number
+    shopId: number
     totalPrice: number
     status: number
     createdAt: number
@@ -4214,18 +4256,21 @@ export namespace Prisma {
   export type OrderAvgAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     totalPrice?: true
   }
 
   export type OrderSumAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     totalPrice?: true
   }
 
   export type OrderMinAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     totalPrice?: true
     status?: true
     createdAt?: true
@@ -4235,6 +4280,7 @@ export namespace Prisma {
   export type OrderMaxAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     totalPrice?: true
     status?: true
     createdAt?: true
@@ -4244,6 +4290,7 @@ export namespace Prisma {
   export type OrderCountAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     totalPrice?: true
     status?: true
     createdAt?: true
@@ -4340,6 +4387,7 @@ export namespace Prisma {
   export type OrderGroupByOutputType = {
     id: number
     userId: number
+    shopId: number
     totalPrice: number
     status: string
     createdAt: Date
@@ -4368,11 +4416,13 @@ export namespace Prisma {
   export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    shopId?: boolean
     totalPrice?: boolean
     status?: boolean
     createdAt?: boolean
     mongoOrderId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
 
@@ -4380,25 +4430,29 @@ export namespace Prisma {
   export type OrderSelectScalar = {
     id?: boolean
     userId?: boolean
+    shopId?: boolean
     totalPrice?: boolean
     status?: boolean
     createdAt?: boolean
     mongoOrderId?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "totalPrice" | "status" | "createdAt" | "mongoOrderId", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "shopId" | "totalPrice" | "status" | "createdAt" | "mongoOrderId", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
 
   export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Order"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       userId: number
+      shopId: number
       totalPrice: number
       status: string
       createdAt: Date
@@ -4744,6 +4798,7 @@ export namespace Prisma {
   export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4775,6 +4830,7 @@ export namespace Prisma {
   interface OrderFieldRefs {
     readonly id: FieldRef<"Order", 'Int'>
     readonly userId: FieldRef<"Order", 'Int'>
+    readonly shopId: FieldRef<"Order", 'Int'>
     readonly totalPrice: FieldRef<"Order", 'Float'>
     readonly status: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
@@ -5188,6 +5244,7 @@ export namespace Prisma {
   export const OrderScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    shopId: 'shopId',
     totalPrice: 'totalPrice',
     status: 'status',
     createdAt: 'createdAt',
@@ -5358,6 +5415,7 @@ export namespace Prisma {
     ownerId?: IntFilter<"Shop"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     menus?: MenuListRelationFilter
+    orders?: OrderListRelationFilter
   }
 
   export type ShopOrderByWithRelationInput = {
@@ -5367,6 +5425,7 @@ export namespace Prisma {
     ownerId?: SortOrder
     user?: UserOrderByWithRelationInput
     menus?: MenuOrderByRelationAggregateInput
+    orders?: OrderOrderByRelationAggregateInput
     _relevance?: ShopOrderByRelevanceInput
   }
 
@@ -5380,6 +5439,7 @@ export namespace Prisma {
     ownerId?: IntFilter<"Shop"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     menus?: MenuListRelationFilter
+    orders?: OrderListRelationFilter
   }, "id">
 
   export type ShopOrderByWithAggregationInput = {
@@ -5463,21 +5523,25 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     id?: IntFilter<"Order"> | number
     userId?: IntFilter<"Order"> | number
+    shopId?: IntFilter<"Order"> | number
     totalPrice?: FloatFilter<"Order"> | number
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
     mongoOrderId?: StringNullableFilter<"Order"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }
 
   export type OrderOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     mongoOrderId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
     _relevance?: OrderOrderByRelevanceInput
   }
 
@@ -5487,16 +5551,19 @@ export namespace Prisma {
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     userId?: IntFilter<"Order"> | number
+    shopId?: IntFilter<"Order"> | number
     totalPrice?: FloatFilter<"Order"> | number
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
     mongoOrderId?: StringNullableFilter<"Order"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }, "id">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -5514,6 +5581,7 @@ export namespace Prisma {
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Order"> | number
     userId?: IntWithAggregatesFilter<"Order"> | number
+    shopId?: IntWithAggregatesFilter<"Order"> | number
     totalPrice?: FloatWithAggregatesFilter<"Order"> | number
     status?: StringWithAggregatesFilter<"Order"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -5586,6 +5654,7 @@ export namespace Prisma {
     description?: string | null
     user: UserCreateNestedOneWithoutShopsInput
     menus?: MenuCreateNestedManyWithoutShopInput
+    orders?: OrderCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateInput = {
@@ -5594,6 +5663,7 @@ export namespace Prisma {
     description?: string | null
     ownerId: number
     menus?: MenuUncheckedCreateNestedManyWithoutShopInput
+    orders?: OrderUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopUpdateInput = {
@@ -5601,6 +5671,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutShopsNestedInput
     menus?: MenuUpdateManyWithoutShopNestedInput
+    orders?: OrderUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateInput = {
@@ -5609,6 +5680,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     menus?: MenuUncheckedUpdateManyWithoutShopNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopCreateManyInput = {
@@ -5681,11 +5753,13 @@ export namespace Prisma {
     createdAt?: Date | string
     mongoOrderId?: string | null
     user: UserCreateNestedOneWithoutOrdersInput
+    shop: ShopCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateInput = {
     id?: number
     userId: number
+    shopId: number
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -5698,11 +5772,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mongoOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    shop?: ShopUpdateOneRequiredWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5712,6 +5788,7 @@ export namespace Prisma {
   export type OrderCreateManyInput = {
     id?: number
     userId: number
+    shopId: number
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -5728,6 +5805,7 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6052,6 +6130,7 @@ export namespace Prisma {
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -6061,12 +6140,14 @@ export namespace Prisma {
   export type OrderAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -6076,6 +6157,7 @@ export namespace Prisma {
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -6085,6 +6167,7 @@ export namespace Prisma {
   export type OrderSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     totalPrice?: SortOrder
   }
 
@@ -6223,11 +6306,25 @@ export namespace Prisma {
     connect?: MenuWhereUniqueInput | MenuWhereUniqueInput[]
   }
 
+  export type OrderCreateNestedManyWithoutShopInput = {
+    create?: XOR<OrderCreateWithoutShopInput, OrderUncheckedCreateWithoutShopInput> | OrderCreateWithoutShopInput[] | OrderUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShopInput | OrderCreateOrConnectWithoutShopInput[]
+    createMany?: OrderCreateManyShopInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
   export type MenuUncheckedCreateNestedManyWithoutShopInput = {
     create?: XOR<MenuCreateWithoutShopInput, MenuUncheckedCreateWithoutShopInput> | MenuCreateWithoutShopInput[] | MenuUncheckedCreateWithoutShopInput[]
     connectOrCreate?: MenuCreateOrConnectWithoutShopInput | MenuCreateOrConnectWithoutShopInput[]
     createMany?: MenuCreateManyShopInputEnvelope
     connect?: MenuWhereUniqueInput | MenuWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<OrderCreateWithoutShopInput, OrderUncheckedCreateWithoutShopInput> | OrderCreateWithoutShopInput[] | OrderUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShopInput | OrderCreateOrConnectWithoutShopInput[]
+    createMany?: OrderCreateManyShopInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -6256,6 +6353,20 @@ export namespace Prisma {
     deleteMany?: MenuScalarWhereInput | MenuScalarWhereInput[]
   }
 
+  export type OrderUpdateManyWithoutShopNestedInput = {
+    create?: XOR<OrderCreateWithoutShopInput, OrderUncheckedCreateWithoutShopInput> | OrderCreateWithoutShopInput[] | OrderUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShopInput | OrderCreateOrConnectWithoutShopInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutShopInput | OrderUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: OrderCreateManyShopInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutShopInput | OrderUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutShopInput | OrderUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type MenuUncheckedUpdateManyWithoutShopNestedInput = {
     create?: XOR<MenuCreateWithoutShopInput, MenuUncheckedCreateWithoutShopInput> | MenuCreateWithoutShopInput[] | MenuUncheckedCreateWithoutShopInput[]
     connectOrCreate?: MenuCreateOrConnectWithoutShopInput | MenuCreateOrConnectWithoutShopInput[]
@@ -6268,6 +6379,20 @@ export namespace Prisma {
     update?: MenuUpdateWithWhereUniqueWithoutShopInput | MenuUpdateWithWhereUniqueWithoutShopInput[]
     updateMany?: MenuUpdateManyWithWhereWithoutShopInput | MenuUpdateManyWithWhereWithoutShopInput[]
     deleteMany?: MenuScalarWhereInput | MenuScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<OrderCreateWithoutShopInput, OrderUncheckedCreateWithoutShopInput> | OrderCreateWithoutShopInput[] | OrderUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShopInput | OrderCreateOrConnectWithoutShopInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutShopInput | OrderUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: OrderCreateManyShopInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutShopInput | OrderUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutShopInput | OrderUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type ShopCreateNestedOneWithoutMenusInput = {
@@ -6290,6 +6415,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ShopCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<ShopCreateWithoutOrdersInput, ShopUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutOrdersInput
+    connect?: ShopWhereUniqueInput
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -6300,6 +6431,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutOrdersInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOrdersInput, UserUpdateWithoutOrdersInput>, UserUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type ShopUpdateOneRequiredWithoutOrdersNestedInput = {
+    create?: XOR<ShopCreateWithoutOrdersInput, ShopUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutOrdersInput
+    upsert?: ShopUpsertWithoutOrdersInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutOrdersInput, ShopUpdateWithoutOrdersInput>, ShopUncheckedUpdateWithoutOrdersInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -6480,10 +6619,12 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     mongoOrderId?: string | null
+    shop: ShopCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutUserInput = {
     id?: number
+    shopId: number
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -6504,6 +6645,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     menus?: MenuCreateNestedManyWithoutShopInput
+    orders?: OrderCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutUserInput = {
@@ -6511,6 +6653,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     menus?: MenuUncheckedCreateNestedManyWithoutShopInput
+    orders?: OrderUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutUserInput = {
@@ -6545,6 +6688,7 @@ export namespace Prisma {
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
     id?: IntFilter<"Order"> | number
     userId?: IntFilter<"Order"> | number
+    shopId?: IntFilter<"Order"> | number
     totalPrice?: FloatFilter<"Order"> | number
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -6620,6 +6764,33 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OrderCreateWithoutShopInput = {
+    totalPrice: number
+    status?: string
+    createdAt?: Date | string
+    mongoOrderId?: string | null
+    user: UserCreateNestedOneWithoutOrdersInput
+  }
+
+  export type OrderUncheckedCreateWithoutShopInput = {
+    id?: number
+    userId: number
+    totalPrice: number
+    status?: string
+    createdAt?: Date | string
+    mongoOrderId?: string | null
+  }
+
+  export type OrderCreateOrConnectWithoutShopInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutShopInput, OrderUncheckedCreateWithoutShopInput>
+  }
+
+  export type OrderCreateManyShopInputEnvelope = {
+    data: OrderCreateManyShopInput | OrderCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutShopsInput = {
     update: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
     create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
@@ -6674,10 +6845,27 @@ export namespace Prisma {
     shopId?: IntFilter<"Menu"> | number
   }
 
+  export type OrderUpsertWithWhereUniqueWithoutShopInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutShopInput, OrderUncheckedUpdateWithoutShopInput>
+    create: XOR<OrderCreateWithoutShopInput, OrderUncheckedCreateWithoutShopInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutShopInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutShopInput, OrderUncheckedUpdateWithoutShopInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutShopInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutShopInput>
+  }
+
   export type ShopCreateWithoutMenusInput = {
     name: string
     description?: string | null
     user: UserCreateNestedOneWithoutShopsInput
+    orders?: OrderCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutMenusInput = {
@@ -6685,6 +6873,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     ownerId: number
+    orders?: OrderUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutMenusInput = {
@@ -6707,6 +6896,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutShopsNestedInput
+    orders?: OrderUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutMenusInput = {
@@ -6714,6 +6904,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
+    orders?: OrderUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type UserCreateWithoutOrdersInput = {
@@ -6736,6 +6927,26 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutOrdersInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
+  }
+
+  export type ShopCreateWithoutOrdersInput = {
+    name: string
+    description?: string | null
+    user: UserCreateNestedOneWithoutShopsInput
+    menus?: MenuCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutOrdersInput = {
+    id?: number
+    name: string
+    description?: string | null
+    ownerId: number
+    menus?: MenuUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutOrdersInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutOrdersInput, ShopUncheckedCreateWithoutOrdersInput>
   }
 
   export type UserUpsertWithoutOrdersInput = {
@@ -6766,8 +6977,35 @@ export namespace Prisma {
     shops?: ShopUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type ShopUpsertWithoutOrdersInput = {
+    update: XOR<ShopUpdateWithoutOrdersInput, ShopUncheckedUpdateWithoutOrdersInput>
+    create: XOR<ShopCreateWithoutOrdersInput, ShopUncheckedCreateWithoutOrdersInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutOrdersInput, ShopUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type ShopUpdateWithoutOrdersInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutShopsNestedInput
+    menus?: MenuUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutOrdersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: IntFieldUpdateOperationsInput | number
+    menus?: MenuUncheckedUpdateManyWithoutShopNestedInput
+  }
+
   export type OrderCreateManyUserInput = {
     id?: number
+    shopId: number
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -6785,10 +7023,12 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mongoOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    shop?: ShopUpdateOneRequiredWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6797,6 +7037,7 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6807,6 +7048,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     menus?: MenuUpdateManyWithoutShopNestedInput
+    orders?: OrderUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutUserInput = {
@@ -6814,6 +7056,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     menus?: MenuUncheckedUpdateManyWithoutShopNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateManyWithoutUserInput = {
@@ -6826,6 +7069,15 @@ export namespace Prisma {
     id?: number
     name: string
     price: number
+  }
+
+  export type OrderCreateManyShopInput = {
+    id?: number
+    userId: number
+    totalPrice: number
+    status?: string
+    createdAt?: Date | string
+    mongoOrderId?: string | null
   }
 
   export type MenuUpdateWithoutShopInput = {
@@ -6843,6 +7095,32 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type OrderUpdateWithoutShopInput = {
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mongoOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutOrdersNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mongoOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OrderUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mongoOrderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
