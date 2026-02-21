@@ -34,6 +34,7 @@ model Shop {
   // Relations
   user        User    @relation(fields: [ownerId], references: [id])
   menus       Menu[]
+  orders      Order[]
 }
 
 model Menu {
@@ -49,6 +50,7 @@ model Menu {
 model Order {
   id           Int      @id @default(autoincrement())
   userId       Int
+  shopId       Int
   totalPrice   Float
   status       String   @default("PENDING")
   createdAt    DateTime @default(now())
@@ -56,4 +58,5 @@ model Order {
   
   // Relations
   user         User     @relation(fields: [userId], references: [id])
+  shop         Shop     @relation(fields: [shopId], references: [id])
 }
