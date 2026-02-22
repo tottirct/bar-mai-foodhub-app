@@ -1,9 +1,14 @@
 @import "tailwindcss";
+
+
+
 @layer base {
   h1{
     @apply text-3xl font-bold;
   }
 }
+
+
 
 @layer components {
   .auth-container {
@@ -19,6 +24,21 @@
   }
 
   .auth-button {
-    @apply w-full max-w-md py-2 my-4 bg-green-500 text-white font-normal rounded-md hover:bg-green-600 transition duration-300;
+    @apply w-full max-w-md py-2 my-4 bg-green-500 text-white font-normal rounded-md  hover:bg-green-600  duration-300 transition;
+  }
+
+
+
+  /* Sidebar Navigation */
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200;
+  }
+
+  .nav-item-active {
+    @apply bg-orange-50 text-orange-600;
+  }
+
+  .nav-item-inactive {
+    @apply text-gray-600 hover:bg-orange-50 hover:text-orange-600;
   }
 }

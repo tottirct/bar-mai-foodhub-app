@@ -9,6 +9,7 @@ import Link from 'next/link';
     const [name,setname] = useState('');
     const [password,setpassword] = useState('');
     const [confirmPassword,setconfirmPassword] = useState('');
+    const [sccess,setsuccess] = useState('');
 
     const [error,seterror] = useState('');
 
@@ -28,6 +29,20 @@ import Link from 'next/link';
         }
 
         try{
+            const resCheck = await fetch('/api/auth/checkUser',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            })
+
+            const {user} = await resCheck.json();
+            if(user){
+                seterror('อีเมลนี้ถูกใช้แล้ว');
+                return;
+            }
+
             const response = await fetch('/api/auth/register',{
                 method: 'POST',
                 headers: {
@@ -39,6 +54,7 @@ import Link from 'next/link';
             if(response.ok){
                 const form = e.target;
                 seterror('');
+                setsuccess('ลงทะเบียนสําเร็จ');
                 form.reset();
             } else {
                 console.log('Registration failed.');
@@ -55,6 +71,7 @@ import Link from 'next/link';
                 <h1 className='mb-2'>ลงทะเบียน</h1>
                 <form onSubmit={handleSubmit}>
                     {error && <p className='text-red-600'>{error}</p>}
+                    {sccess && <p className='text-green-600'>{sccess}</p>}
                     <input onChange={(e) => setusername(e.target.value)} className='auth-input' type="text" placeholder='ชื่อผู้ใช้'/>
                     <input onChange={(e) => setemail(e.target.value)} className='auth-input' type="email" placeholder='อีเมล'/>
                     <input onChange={(e) => setname(e.target.value)} className='auth-input' type="text" placeholder='ชื่อ-นามสกุล'/>
