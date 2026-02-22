@@ -66,12 +66,64 @@ export async function POST(
 }
 
 export async function GET(
-    request: NextRequest,
-    { params }: { params : Promise<{ id: string }> }
+    request: NextRequest
 ) {
     try {
-        
-    } catch (error) {
+        const searchParams = request.nextUrl.searchParams;
+        const userIdParam = searchParams.get('userId');
 
+        if (!userIdParam) {
+            return NextResponse.json({ success: false, message: "ลืมส่ง userId มาเห้ยไอบูม" }, { status: 400 });
+        }
+
+        const userId = parseInt(userIdParam);
+
+        const allOrders = await prisma.order.findMany({
+            where: { userId: userId },
+            orderBy: { createdAt: 'desc' },
+            include: {
+                shop: {
+                    select:{
+                        name: true
+                    }
+                }
+            }
+        });
+
+        if(allOrders.length === 0){
+            return NextResponse.json({
+                success: true,
+                data: { cart: [], history: []}
+            });
+        }
+
+        const orderIds = allOrders.map(order => order.id);
+        const allDetails = await mongo.orderDetail.findMany({
+            where: { mysqlOrderId: { in: orderIds }}
+        });
+        
+        const formattedOrders = allOrders.map(order => {
+            const detail = allDetails.find(d => d.mysqlOrderId === order.id);
+            return {
+                ...order,
+                items: detail?.items || [],       
+                note: detail?.note || null
+            };
+        });
+
+        const currentCart = formattedOrders.filter(order => order.status === "PENDING");
+        const orderHistory = formattedOrders.filter(order => order.status !== "PENDING");
+
+        return NextResponse.json({
+            success: true,
+            data: {
+                cart: currentCart,
+                history: orderHistory
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 });
     }
 }
