@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const keyword = searchParams.get('keyword');
 
-        if(!keyword){ // ไม่มี search หวะ
+        if (!keyword) { // ไม่มี search หวะ
             const shops = await prisma.shop.findMany({
                 select: {
                     id: true,
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             success: false,
             message: "Server Error"
-        },{
+        }, {
             status: 500
         });
     }
