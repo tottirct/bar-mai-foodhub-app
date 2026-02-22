@@ -34,8 +34,7 @@ export default function Sidebar() {
                 <nav className="flex flex-col space-y-1 flex-1">
                     <Link
                         href="/customer"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 group
-                            ${isActive("/customer") ? "bg-orange-50 text-orange-600" : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"}`}
+                        className={`nav-item ${isActive("/customer") ? "nav-item-active" : "nav-item-inactive"}`}
                     >
                         <span className="text-lg group-hover:scale-110 transition-transform">🏠</span>
                         Main
@@ -43,8 +42,7 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/customer/credit"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 group
-                            ${isActive("/customer/credit") ? "bg-orange-50 text-orange-600" : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"}`}
+                        className={`nav-item ${isActive("/customer/credit") ? "nav-item-active" : "nav-item-inactive"}`}
                     >
                         <span className="text-lg group-hover:scale-110 transition-transform">💰</span>
                         Credit
@@ -52,8 +50,7 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/customer/information"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 group
-                            ${isActive("/customer/information") ? "bg-orange-50 text-orange-600" : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"}`}
+                        className={`nav-item ${isActive("/customer/information") ? "nav-item-active" : "nav-item-inactive"}`}
                     >
                         <span className="text-lg group-hover:scale-110 transition-transform">ℹ️</span>
                         Information
@@ -61,8 +58,7 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/customer/trolley"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 group
-                            ${isActive("/customer/trolley") ? "bg-orange-50 text-orange-600" : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"}`}
+                        className={`nav-item ${isActive("/customer/trolley") ? "nav-item-active" : "nav-item-inactive"}`}
                     >
                         <span className="text-lg group-hover:scale-110 transition-transform">🛒</span>
                         Trolley
@@ -70,8 +66,7 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/customer/waitlist"
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 group
-                            ${isActive("/customer/waitlist") ? "bg-orange-50 text-orange-600" : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"}`}
+                        className={`nav-item ${isActive("/customer/waitlist") ? "nav-item-active" : "nav-item-inactive"}`}
                     >
                         <span className="text-lg group-hover:scale-110 transition-transform">🕒</span>
                         Wait List
@@ -81,7 +76,7 @@ export default function Sidebar() {
                     {/* Map button — opens modal instead of navigating */}
                     <button
                         onClick={() => setIsMapOpen(true)}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-orange-50 hover:text-orange-600 font-medium transition-all duration-200 text-left group"
+                        className="nav-item nav-item-inactive text-left group"
                     >
                         <span className="text-lg group-hover:scale-110 transition-transform">🗺️</span>
                         Map

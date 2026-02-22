@@ -1,61 +1,105 @@
+"use client";
+
 // src/app/customer/page.tsx
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { mockShops } from "../../lib/mockData";
 
 export default function CustomerMainPage() {
-    return (
-        <main className="container mx-auto p-4 md:p-6 min-h-screen bg-gray-50">
+    const [searchQuery, setSearchQuery] = useState("");
 
-            {/* Page header */}
-            <div className="mb-6">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                    Welcome to Bar Mai FoodHub 🍽️
-                </h1>
-                <p className="text-gray-500 mt-2">Choose Your Restaurant</p>
+    // Filter shops based on search query (name or category)
+    const filteredShops = mockShops.filter(
+        (shop) =>
+            shop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            shop.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <main className="main-container">
+
+            {/* Page header & Search Bar */}
+            <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h1 className="tracking-tight mb-0">
+                        Welcome to Bar Mai FoodHub 🍽️
+                    </h1>
+                    <p className="text-gray-500 mt-2 font-medium">Choose Your Restaurant</p>
+                </div>
+
+                {/* Search Input Container */}
+                <div className="search-container">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500 transition-colors">
+                        <span className="text-lg">🔍</span>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search restaurants or food..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="search-input"
+                    />
+                </div>
             </div>
 
             {/* Shop cards grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {mockShops.map((shop) => (
-                    <Link
-                        key={shop.id}
-                        // Only navigate to menu page if the shop is open
-                        href={shop.isOpen ? `/customer/${shop.id}` : "#"}
-                        className={`flex flex-col bg-white rounded-2xl overflow-hidden border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 
-              ${!shop.isOpen && "opacity-60 cursor-not-allowed grayscale-[50%]"}`}
-                    >
-                        {/* Shop image */}
-                        <div className="relative h-48 w-full bg-gray-200">
-                            <Image
-                                src={shop.imageUrl}
-                                alt={shop.name}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                priority
-                            />
-                            {/* Open/Closed badge */}
-                            <div
-                                className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold text-white shadow-sm
-                ${shop.isOpen ? "bg-green-500" : "bg-red-500"}`}
-                            >
-                                {shop.isOpen ? "เปิด" : "ปิด"}
+            {filteredShops.length > 0 ? (
+                <div className="restaurant-grid">
+                    {filteredShops.map((shop) => (
+                        <Link
+                            key={shop.id}
+                            // Only navigate to menu page if the shop is open
+                            href={shop.isOpen ? `/customer/${shop.id}` : "#"}
+                            className={`restaurant-card ${!shop.isOpen ? "opacity-60 cursor-not-allowed grayscale-[30%]" : ""}`}
+                        >
+                            {/* Shop image */}
+                            <div className="card-img-container">
+                                <Image
+                                    src={shop.imageUrl}
+                                    alt={shop.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    priority
+                                />
+                                {/* Open/Closed badge */}
+                                <div className={`badge-base ${shop.isOpen ? "badge-open" : "badge-closed"}`}>
+                                    {shop.isOpen ? "เปิด" : "ปิด"}
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Shop details */}
-                        <div className="p-4 flex flex-col flex-grow justify-between">
-                            <div>
-                                <h2 className="text-lg font-bold text-gray-800 line-clamp-1">
-                                    {shop.name}
-                                </h2>
-                                <p className="text-sm text-gray-500 mt-1">{shop.category}</p>
+                            {/* Shop details */}
+                            <div className="card-content">
+                                <div>
+                                    <h2 className="text-lg font-bold text-gray-800 line-clamp-1 group-hover:text-orange-600 transition-colors">
+                                        {shop.name}
+                                    </h2>
+                                    <div className="flex items-center gap-2 mt-1.5">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+                                        <p className="text-sm font-medium text-gray-500">{shop.category}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                ))}
-            </div>
+                        </Link>
+                    ))}
+                </div>
+            ) : (
+                /* Empty state */
+                <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-gray-200 shadow-sm">
+                    <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-4xl mb-4">
+                        🍽️
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">No restaurants found</h3>
+                    <p className="text-gray-500 mt-2">Try searching with a different keyword</p>
+                    <button
+                        onClick={() => setSearchQuery("")}
+                        className="btn-clear"
+                    >
+                        Clear search
+                    </button>
+                </div>
+            )}
 
         </main>
     );
