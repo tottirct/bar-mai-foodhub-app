@@ -10,7 +10,7 @@ export async function GET(
         const userId = parseInt(id);
 
         const userInfo = await prisma.user.findUnique({
-            where: {id: userId},
+            where: { id: userId },
             select: {
                 name: true,
                 username: true
@@ -22,7 +22,7 @@ export async function GET(
             data: userInfo
         });
     } catch (error) {
-        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ"}, {status: 500})
+        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 })
     }
 }
 
@@ -30,12 +30,12 @@ export async function PATCH(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    try{
+    try {
         const { id } = await params;
         const userId = parseInt(id);
 
         const body = await request.json();
-        const { name,username,email } = body;
+        const { name, username, email } = body;
 
         const updatedUser = await prisma.user.update({
             where: { id: userId },
