@@ -2,44 +2,79 @@ import { NextResponse, NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { mongo } from '@/lib/mongo'
 
-export async function POST(
-    request: NextRequest
-) {
+export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { userId, shopId, items, totalPrice, note  } = body;
+        const { userId, shopId, items, note } = body;
 
-        const user = await prisma.user.findUnique({
-            where: { id: userId }
+        const menuIds = items.map((i: any) => i.menuId);
+        const dbMenus = await prisma.menu.findMany({
+            where: { id: { in: menuIds } },
+            include: { options: true }
         });
 
-        if(!user || user.wallet < totalPrice) {
-            return NextResponse.json({ success: false, message: "ตังไม่พอเนาะ" }, { status: 400 });
+        let calculatedTotalPrice = 0;
+
+        const processedItems = items.map((item: any) => {
+            const menu = dbMenus.find(m => m.id === item.menuId);
+            if (!menu) throw new Error(`ไม่พบเมนูรหัส ${item.menuId} ในระบบ`);
+
+            let itemPrice = menu.price;
+
+            const selectedOptions = (item.selectedOptions || []).map((opt: any) => {
+                const dbOption = menu.options.find(o => o.id === opt.optionId);
+                if (!dbOption) throw new Error(`ตัวเลือกเสริม ${opt.optionId} ไม่มีในเมนู ${menu.name}`);
+                
+                itemPrice += dbOption.price;
+                return {
+                    optionId: dbOption.id,
+                    name: dbOption.name,
+                    price: dbOption.price
+                };
+            });
+
+            const subTotal = itemPrice * item.quantity;
+            calculatedTotalPrice += subTotal;
+
+            return {
+                menuId: menu.id,
+                menuName: menu.name,
+                price: menu.price,
+                quantity: item.quantity,
+                specialNote: item.specialNote || null,
+                selectedOptions: selectedOptions
+            };
+        });
+
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            return NextResponse.json({ success: false, message: "ไม่พบผู้ใช้งาน" }, { status: 404 });
+        }
+        if (user.wallet < calculatedTotalPrice) {
+            return NextResponse.json({ success: false, message: `ตังไม่พอจ้า ขาดอีก ${calculatedTotalPrice - user.wallet} บาท` }, { status: 400 });
         }
 
         const newOrder = await prisma.order.create({
             data: {
                 userId,
                 shopId,
-                totalPrice,
+                totalPrice: calculatedTotalPrice, 
                 status: "PENDING"
             }
         });
 
-        const orderDetail = await mongo.orderDetail.create({
+        await mongo.orderDetail.create({
             data: {
                 mysqlOrderId: newOrder.id,
-                items: items,
-                note: note
+                items: processedItems,
+                note: note || null
             }
         });
 
         await prisma.user.update({
             where: { id: userId },
             data: {
-                wallet:{
-                    decrement: totalPrice
-                }
+                wallet: { decrement: calculatedTotalPrice }
             }
         });
 
@@ -48,20 +83,24 @@ export async function POST(
                 userId,
                 userRole: user.role,
                 action: "ORDER_PLACED",
-                description: `สั่งร้าน ID: ${shopId} รวม ${totalPrice} บาท`,
-                metadata: { orderId: newOrder.id }
+                description: `สั่งอาหารร้าน ID:${shopId} ยอดรวม ${calculatedTotalPrice} บาท (หักเงินแล้ว)`,
+                metadata: { orderId: newOrder.id, totalPrice: calculatedTotalPrice }
             }
         });
 
         return NextResponse.json({
             success: true,
-            message: "สั่งเสร็จแล้วจ้า รอรับได้เลย",
+            message: "สั่งซื้อสำเร็จ!",
+            totalPaid: calculatedTotalPrice,
             orderId: newOrder.id
         });
 
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 });
+    } catch (error: any) {
+        console.error("Order Error:", error);
+        return NextResponse.json({ 
+            success: false, 
+            message: error.message || "เกิดข้อผิดพลาดในการสั่งซื้อ" 
+        }, { status: 500 });
     }
 }
 
@@ -112,12 +151,13 @@ export async function GET(
         });
 
         const currentCart = formattedOrders.filter(order => order.status === "PENDING");
-        const orderHistory = formattedOrders.filter(order => order.status !== "PENDING");
-
+        const orderHistory = formattedOrders.filter(order => order.status === "COMPLETED" || order.status === "CANCELLED");
+        const inProgress =  formattedOrders.filter(order => order.status === "PREPARING" || order.status === "READY");
         return NextResponse.json({
             success: true,
             data: {
                 cart: currentCart,
+                inProgress: inProgress,
                 history: orderHistory
             }
         });
