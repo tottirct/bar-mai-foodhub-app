@@ -12,6 +12,7 @@ model User {
   id       Int     @id @default(autoincrement())
   email    String  @unique
   name     String
+  username String
   wallet   Float   @default(0.0)
   role     Role    @default(CUSTOMER)
   
@@ -30,7 +31,8 @@ model Shop {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
-  ownerId     Int      
+  ownerId     Int
+  isOpen      Boolean      
   
   // Relations
   user        User    @relation(fields: [ownerId], references: [id])
