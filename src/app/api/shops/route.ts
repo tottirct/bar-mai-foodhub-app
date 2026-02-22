@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
                 select: {
                     id: true,
                     name: true,
+                    isOpen: true,
                     description: true,
 
                     _count: {
@@ -27,6 +28,7 @@ export async function GET(request: NextRequest) {
                 return {
                     id: shop.id,
                     name: shop.name,
+                    isOpen: shop.isOpen,
                     description: shop.description,
                     queueCount: shop._count.orders
                 };
@@ -51,6 +53,7 @@ export async function GET(request: NextRequest) {
                 select: {
                     id: true,
                     name: true,
+                    isOpen: true,
                     description: true,
 
                     _count: {
@@ -67,6 +70,7 @@ export async function GET(request: NextRequest) {
                 return {
                     id: shop.id,
                     name: shop.name,
+                    isOpen: shop.isOpen,
                     description: shop.description,
                     queueCount: shop._count.orders
                 };
