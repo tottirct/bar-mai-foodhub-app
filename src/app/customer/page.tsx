@@ -52,7 +52,7 @@ export default function CustomerMainPage() {
 
     if (loading) {
         return (
-            <main className="main-container flex items-center justify-center min-h-[60vh]">
+            <main className="container mx-auto p-4 md:p-6 flex items-center justify-center min-h-[60vh]">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
                     <p className="text-gray-500 font-medium">Loading restaurants...</p>
@@ -63,13 +63,13 @@ export default function CustomerMainPage() {
 
     if (error) {
         return (
-            <main className="main-container flex items-center justify-center min-h-[60vh]">
+            <main className="container mx-auto p-4 md:p-6 flex items-center justify-center min-h-[60vh]">
                 <div className="text-center">
                     <h2 className="text-2xl font-bold text-red-600 mb-2">Oops!</h2>
                     <p className="text-gray-600 mb-6">{error}</p>
                     <button
                         onClick={() => window.location.reload()}
-                        className="btn-primary px-6 py-2"
+                        className="px-6 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors font-bold"
                     >
                         Try Again
                     </button>
@@ -79,7 +79,7 @@ export default function CustomerMainPage() {
     }
 
     return (
-        <main className="main-container">
+        <main className="container mx-auto p-4 md:p-6 min-h-screen bg-gray-50">
 
             {/* Page header & Search Bar */}
             <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -91,7 +91,7 @@ export default function CustomerMainPage() {
                 </div>
 
                 {/* Search Input Container */}
-                <div className="search-container">
+                <div className="relative w-full md:w-80 group">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500 transition-colors">
                         <span className="text-lg">🔍</span>
                     </div>
@@ -100,23 +100,23 @@ export default function CustomerMainPage() {
                         placeholder="Search restaurants or food..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="search-input"
+                        className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-300 placeholder:text-gray-400 font-medium"
                     />
                 </div>
             </div>
 
             {/* Shop cards grid */}
             {filteredShops.length > 0 ? (
-                <div className="restaurant-grid">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {filteredShops.map((shop) => (
                         <Link
                             key={shop.id}
                             // Only navigate to menu page if the shop is open
                             href={shop.isOpen ? `/customer/${shop.id}` : "#"}
-                            className={`restaurant-card ${!shop.isOpen ? "opacity-60 cursor-not-allowed grayscale-[30%]" : ""}`}
+                            className={`flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 ${!shop.isOpen ? "opacity-60 cursor-not-allowed grayscale-[30%]" : ""}`}
                         >
                             {/* Shop image */}
-                            <div className="card-img-container">
+                            <div className="relative h-48 w-full bg-gray-100">
                                 <Image
                                     src={shop.imageUrl || "/images/default-menu.jpg"}
                                     alt={shop.name}
@@ -126,7 +126,7 @@ export default function CustomerMainPage() {
                                     priority
                                 />
                                 {/* Open/Closed badge */}
-                                <div className={`badge-base ${shop.isOpen ? "badge-open" : "badge-closed"}`}>
+                                <div className={`absolute top-3 right-3 px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-md backdrop-blur-md ${shop.isOpen ? "bg-green-500/90" : "bg-red-500/90"}`}>
                                     {shop.isOpen ? "เปิด" : "ปิด"}
                                 </div>
                                 {shop.isOpen && (
@@ -137,7 +137,7 @@ export default function CustomerMainPage() {
                             </div>
 
                             {/* Shop details */}
-                            <div className="card-content">
+                            <div className="p-5 flex flex-col grow justify-between">
                                 <div>
                                     <h2 className="text-lg font-bold text-gray-800 line-clamp-1 group-hover:text-orange-600 transition-colors">
                                         {shop.name}
@@ -161,7 +161,7 @@ export default function CustomerMainPage() {
                     <p className="text-gray-500 mt-2">Try searching with a different keyword</p>
                     <button
                         onClick={() => setSearchQuery("")}
-                        className="btn-clear"
+                        className="mt-6 text-orange-600 font-bold hover:underline"
                     >
                         Clear search
                     </button>
