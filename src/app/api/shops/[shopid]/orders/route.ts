@@ -4,12 +4,12 @@ import { mongo } from '@/lib/mongo'
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ shopid: string }> }
 ) {
     try{
 
-        const { id } = await params;
-        const shopId = parseInt(id);
+        const { shopid } = await params;
+        const shopId = parseInt(shopid);
 
         const shopsOrder = await prisma.order.findMany({
             where: {
