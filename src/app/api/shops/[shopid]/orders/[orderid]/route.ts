@@ -67,6 +67,7 @@ export async function PATCH(
         });
 
     } catch(error) {
-
+        console.log(error);
+        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ"},{ status: 500 });
     }
 }
