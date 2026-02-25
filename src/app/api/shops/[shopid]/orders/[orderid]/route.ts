@@ -14,7 +14,10 @@ export async function PATCH(
         const { status } = await request.json();
 
         const order = await prisma.order.findUnique({
-            where: { id: orderId }
+            where: { id: orderId },
+            include: {
+                shop: true
+            }
         });
         if(!order || order.shopId !== shopId) {
             return NextResponse.json({
@@ -34,6 +37,7 @@ export async function PATCH(
             await mongo.activityLog.create({
                 data: {
                     userId: order.userId,
+                    shopId: shopId,
                     userRole: "ระบบออโต้หวะ",
                     action: "REFUND_SUCCESS",
                     description: `คืนเงินจำนวน ${order.totalPrice} บาท ยกเลิกออเดอร์ #${orderId}`,
@@ -49,7 +53,8 @@ export async function PATCH(
 
         await mongo.activityLog.create({
             data: {
-                userId: shopId,
+                userId: order.shop.ownerId,
+                shopId: shopId,
                 userRole: "OWNER",
                 action: `ORDER_${status}`,
                 description: `ร้านค้าเปลี่ยนสถานะออเดอร์ #${orderId} เป็น ${status}`,

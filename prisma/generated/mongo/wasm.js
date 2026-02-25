@@ -96,6 +96,7 @@ exports.Prisma.OrderDetailScalarFieldEnum = {
 exports.Prisma.ActivityLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  shopId: 'shopId',
   userRole: 'userRole',
   action: 'action',
   description: 'description',
@@ -129,7 +130,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\generated\\mongo",
+      "value": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\generated\\mongo",
       "fromEnvVar": null
     },
     "config": {
@@ -143,7 +144,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\schema.mongo.prisma",
+    "sourceFilePath": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\schema.mongo.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -157,6 +158,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -165,13 +167,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// 📍 ไฟล์: prisma/schema.mongo.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mongo\" // ป้องกันการทับซ้อนกับ Client ของ MySQL\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"MONGO_DATABASE_URL\")\n}\n\nmodel OrderDetail {\n  id           String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  mysqlOrderId Int      @unique\n  items        Item[]\n  note         String?\n  createdAt    DateTime @default(now())\n}\n\ntype Item {\n  menuId          Int\n  menuName        String\n  price           Float\n  quantity        Int\n  selectedOptions SelectedOption[] // 👈 เพิ่มฟิลด์นี้เพื่อเก็บ Add-on ที่เลือก\n  specialNote     String? // เช่น \"ไม่ใส่ผักชี\", \"เผ็ดน้อย\"\n}\n\ntype SelectedOption {\n  optionId Int\n  name     String\n  price    Float\n}\n\nmodel ActivityLog {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  userId      Int // อ้างอิง User ID จากฝั่ง MySQL\n  userRole    String // เก็บ Role ตอนที่กระทำ (เช่น \"CUSTOMER\", \"OWNER\", \"ADMIN\") เพื่อให้ Query หาง่ายๆ\n  action      String // ประเภทของสิ่งที่ทำ (เช่น \"WALLET_TOPUP\", \"ORDER_PLACED\", \"LOGIN\", \"SHOP_INCOME\")\n  description String // คำอธิบายแบบอ่านรู้เรื่อง เช่น \"เติมเงินเข้าวอลเล็ต 500 บาท\"\n  metadata    Json? // ⭐️ ฟิลด์ทีเด็ด: เก็บข้อมูลแบบยืดหยุ่นเป็น JSON\n  createdAt   DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "cd40d11e929db2b9fc5d0a0a8c15c5e56f7233d865adc73c2b74062c26ed1a21",
+  "inlineSchema": "// 📍 ไฟล์: prisma/schema.mongo.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mongo\" // ป้องกันการทับซ้อนกับ Client ของ MySQL\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"MONGO_DATABASE_URL\")\n}\n\nmodel OrderDetail {\n  id           String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  mysqlOrderId Int      @unique\n  items        Item[]\n  note         String?\n  createdAt    DateTime @default(now())\n}\n\ntype Item {\n  menuId          Int\n  menuName        String\n  price           Float\n  quantity        Int\n  selectedOptions SelectedOption[] // 👈 เพิ่มฟิลด์นี้เพื่อเก็บ Add-on ที่เลือก\n  specialNote     String? // เช่น \"ไม่ใส่ผักชี\", \"เผ็ดน้อย\"\n}\n\ntype SelectedOption {\n  optionId Int\n  name     String\n  price    Float\n}\n\nmodel ActivityLog {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  userId      Int? // อ้างอิง User ID จากฝั่ง MySQL\n  shopId      Int?\n  userRole    String // เก็บ Role ตอนที่กระทำ (เช่น \"CUSTOMER\", \"OWNER\", \"ADMIN\") เพื่อให้ Query หาง่ายๆ\n  action      String // ประเภทของสิ่งที่ทำ (เช่น \"WALLET_TOPUP\", \"ORDER_PLACED\", \"LOGIN\", \"SHOP_INCOME\")\n  description String // คำอธิบายแบบอ่านรู้เรื่อง เช่น \"เติมเงินเข้าวอลเล็ต 500 บาท\"\n  metadata    Json? // ⭐️ ฟิลด์ทีเด็ด: เก็บข้อมูลแบบยืดหยุ่นเป็น JSON\n  createdAt   DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "0694ffca11ae53bb5a5a75c04a0b59d5a3f349e90a55818cd4428b7ba7f422bb",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"OrderDetail\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"mysqlOrderId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"Item\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ActivityLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userRole\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"OrderDetail\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"mysqlOrderId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"Item\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ActivityLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"_id\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userRole\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
