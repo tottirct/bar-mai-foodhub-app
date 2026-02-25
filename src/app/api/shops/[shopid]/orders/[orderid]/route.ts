@@ -53,7 +53,7 @@ export async function PATCH(
                 userRole: "OWNER",
                 action: `ORDER_${status}`,
                 description: `ร้านค้าเปลี่ยนสถานะออเดอร์ #${orderId} เป็น ${status}`,
-                metadata: { orderId: orderId, newStatus: status }
+                metadata: { orderId: orderId, newStatus: status, amount: order.totalPrice }
             }
         });
 
