@@ -58,6 +58,7 @@ export async function POST(
         const log = await mongo.activityLog.create({
             data: {
                 userId: userId,
+                shopId: null,
                 userRole: "CUSTOMER",
                 action: "WALLET_TOPUP",
                 description: "เติมเงินควัฟ",
@@ -72,7 +73,7 @@ export async function POST(
             log: log
         })
     } catch (error) {
-    console.log("🔥 สาเหตุที่พังคือ:", error); 
+    console.log("สาเหตุที่พังคือ:", error); 
 
     return NextResponse.json(
       { success: false, message: "ดึงข้อมูลพลาดหวะ" }, 
