@@ -13,7 +13,8 @@ export async function GET(
             where: { id: userId },
             select: {
                 name: true,
-                username: true
+                username: true,
+                email: true
             }
         });
 
