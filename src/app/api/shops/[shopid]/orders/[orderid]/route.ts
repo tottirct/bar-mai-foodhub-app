@@ -47,20 +47,38 @@ export async function PATCH(
         }
 
         const updatedOrder = await prisma.order.update({
-            where: { id: orderId },
-            data: { status: status }
+                where: { id: orderId },
+                data: { status: status }
         });
 
-        await mongo.activityLog.create({
-            data: {
-                userId: order.shop.ownerId,
-                shopId: shopId,
-                userRole: "OWNER",
-                action: `ORDER_${status}`,
-                description: `ร้านค้าเปลี่ยนสถานะออเดอร์ #${orderId} เป็น ${status}`,
-                metadata: { orderId: orderId, newStatus: status, amount: order.totalPrice }
-            }
-        });
+        if (status === "COMPLETED") {
+            await prisma.shop.update({
+                where: { id: shopId },
+                data: { wallet: { increment: order.totalPrice } }
+            });
+
+            await mongo.activityLog.create({
+                data: {
+                    userId: order.shop.ownerId,
+                    shopId: shopId,
+                    userRole: "OWNER",
+                    action: `ORDER_${status}`,
+                    description: `ร้านค้าเปลี่ยนสถานะออเดอร์ #${orderId} เป็น ${status}`,
+                    metadata: { orderId: orderId, newStatus: status, amount: order.totalPrice }
+                }
+            });
+        } else {
+            await mongo.activityLog.create({
+                data: {
+                    userId: order.shop.ownerId,
+                    shopId: shopId,
+                    userRole: "OWNER",
+                    action: `ORDER_${status}`,
+                    description: `ร้านค้าเปลี่ยนสถานะออเดอร์ #${orderId} เป็น ${status}`,
+                    metadata: { orderId: orderId, newStatus: status }
+                }
+            });
+        }
 
         return NextResponse.json({
             success: true,
