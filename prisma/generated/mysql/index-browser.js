@@ -135,7 +135,8 @@ exports.Prisma.ShopScalarFieldEnum = {
   name: 'name',
   description: 'description',
   ownerId: 'ownerId',
-  isOpen: 'isOpen'
+  isOpen: 'isOpen',
+  wallet: 'wallet'
 };
 
 exports.Prisma.MenuScalarFieldEnum = {
