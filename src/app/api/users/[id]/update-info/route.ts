@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { mongo } from '@/lib/mongo'
 
 export async function GET(
     request: NextRequest,
@@ -44,15 +45,44 @@ export async function PATCH(
                 ...(name && { name }),
                 ...(username && { username }),
                 ...(email && { email })
+            },
+            select: {
+                name: true,
+                username: true,
+                email: true
             }
         });
 
+        try {
+            await mongo.activityLog.create({
+                data: {
+                    userId: userId,
+                    userRole: "USER",
+                    action: "PROFILE_UPDATED",
+                    description: `อัปเดตข้อมูลส่วนตัว`,
+                    metadata: {
+                        updatedFields: Object.keys(body)
+                    }
+                }
+            });
+        } catch(mongoError) {
+            console.error("บันทึก log ไม่สำเร็จ");
+        }
+
         return NextResponse.json({
             success: true,
+            message: "อัปเดตเสร็จ",
             data: updatedUser
         })
-    } catch (error) {
-        console.log(error);
+    } catch (error:any) {
+        console.error(error);
+        if(error.code === 'P2002') {
+            const target = error.meta?.target;
+            return NextResponse.json({
+                success: false,
+                message: `ซ้ำ โปรดใช้ ${target || 'ข้อมูลอื่น'}`
+            })
+        }
         return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 });
     }
 }
