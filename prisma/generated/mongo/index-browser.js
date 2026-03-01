@@ -124,6 +124,7 @@ exports.Prisma.OrderDetailScalarFieldEnum = {
 exports.Prisma.ActivityLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  shopId: 'shopId',
   userRole: 'userRole',
   action: 'action',
   description: 'description',

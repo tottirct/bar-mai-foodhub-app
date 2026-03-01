@@ -2075,15 +2075,18 @@ export namespace Prisma {
 
   export type ActivityLogAvgAggregateOutputType = {
     userId: number | null
+    shopId: number | null
   }
 
   export type ActivityLogSumAggregateOutputType = {
     userId: number | null
+    shopId: number | null
   }
 
   export type ActivityLogMinAggregateOutputType = {
     id: string | null
     userId: number | null
+    shopId: number | null
     userRole: string | null
     action: string | null
     description: string | null
@@ -2093,6 +2096,7 @@ export namespace Prisma {
   export type ActivityLogMaxAggregateOutputType = {
     id: string | null
     userId: number | null
+    shopId: number | null
     userRole: string | null
     action: string | null
     description: string | null
@@ -2102,6 +2106,7 @@ export namespace Prisma {
   export type ActivityLogCountAggregateOutputType = {
     id: number
     userId: number
+    shopId: number
     userRole: number
     action: number
     description: number
@@ -2113,15 +2118,18 @@ export namespace Prisma {
 
   export type ActivityLogAvgAggregateInputType = {
     userId?: true
+    shopId?: true
   }
 
   export type ActivityLogSumAggregateInputType = {
     userId?: true
+    shopId?: true
   }
 
   export type ActivityLogMinAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     userRole?: true
     action?: true
     description?: true
@@ -2131,6 +2139,7 @@ export namespace Prisma {
   export type ActivityLogMaxAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     userRole?: true
     action?: true
     description?: true
@@ -2140,6 +2149,7 @@ export namespace Prisma {
   export type ActivityLogCountAggregateInputType = {
     id?: true
     userId?: true
+    shopId?: true
     userRole?: true
     action?: true
     description?: true
@@ -2236,7 +2246,8 @@ export namespace Prisma {
 
   export type ActivityLogGroupByOutputType = {
     id: string
-    userId: number
+    userId: number | null
+    shopId: number | null
     userRole: string
     action: string
     description: string
@@ -2266,6 +2277,7 @@ export namespace Prisma {
   export type ActivityLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    shopId?: boolean
     userRole?: boolean
     action?: boolean
     description?: boolean
@@ -2278,6 +2290,7 @@ export namespace Prisma {
   export type ActivityLogSelectScalar = {
     id?: boolean
     userId?: boolean
+    shopId?: boolean
     userRole?: boolean
     action?: boolean
     description?: boolean
@@ -2285,14 +2298,15 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type ActivityLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "userRole" | "action" | "description" | "metadata" | "createdAt", ExtArgs["result"]["activityLog"]>
+  export type ActivityLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "shopId" | "userRole" | "action" | "description" | "metadata" | "createdAt", ExtArgs["result"]["activityLog"]>
 
   export type $ActivityLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ActivityLog"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: number
+      userId: number | null
+      shopId: number | null
       userRole: string
       action: string
       description: string
@@ -2692,6 +2706,7 @@ export namespace Prisma {
   interface ActivityLogFieldRefs {
     readonly id: FieldRef<"ActivityLog", 'String'>
     readonly userId: FieldRef<"ActivityLog", 'Int'>
+    readonly shopId: FieldRef<"ActivityLog", 'Int'>
     readonly userRole: FieldRef<"ActivityLog", 'String'>
     readonly action: FieldRef<"ActivityLog", 'String'>
     readonly description: FieldRef<"ActivityLog", 'String'>
@@ -3062,6 +3077,7 @@ export namespace Prisma {
   export const ActivityLogScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    shopId: 'shopId',
     userRole: 'userRole',
     action: 'action',
     description: 'description',
@@ -3216,7 +3232,8 @@ export namespace Prisma {
     OR?: ActivityLogWhereInput[]
     NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
     id?: StringFilter<"ActivityLog"> | string
-    userId?: IntFilter<"ActivityLog"> | number
+    userId?: IntNullableFilter<"ActivityLog"> | number | null
+    shopId?: IntNullableFilter<"ActivityLog"> | number | null
     userRole?: StringFilter<"ActivityLog"> | string
     action?: StringFilter<"ActivityLog"> | string
     description?: StringFilter<"ActivityLog"> | string
@@ -3227,6 +3244,7 @@ export namespace Prisma {
   export type ActivityLogOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     userRole?: SortOrder
     action?: SortOrder
     description?: SortOrder
@@ -3239,7 +3257,8 @@ export namespace Prisma {
     AND?: ActivityLogWhereInput | ActivityLogWhereInput[]
     OR?: ActivityLogWhereInput[]
     NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
-    userId?: IntFilter<"ActivityLog"> | number
+    userId?: IntNullableFilter<"ActivityLog"> | number | null
+    shopId?: IntNullableFilter<"ActivityLog"> | number | null
     userRole?: StringFilter<"ActivityLog"> | string
     action?: StringFilter<"ActivityLog"> | string
     description?: StringFilter<"ActivityLog"> | string
@@ -3250,6 +3269,7 @@ export namespace Prisma {
   export type ActivityLogOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     userRole?: SortOrder
     action?: SortOrder
     description?: SortOrder
@@ -3267,7 +3287,8 @@ export namespace Prisma {
     OR?: ActivityLogScalarWhereWithAggregatesInput[]
     NOT?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ActivityLog"> | string
-    userId?: IntWithAggregatesFilter<"ActivityLog"> | number
+    userId?: IntNullableWithAggregatesFilter<"ActivityLog"> | number | null
+    shopId?: IntNullableWithAggregatesFilter<"ActivityLog"> | number | null
     userRole?: StringWithAggregatesFilter<"ActivityLog"> | string
     action?: StringWithAggregatesFilter<"ActivityLog"> | string
     description?: StringWithAggregatesFilter<"ActivityLog"> | string
@@ -3329,7 +3350,8 @@ export namespace Prisma {
 
   export type ActivityLogCreateInput = {
     id?: string
-    userId: number
+    userId?: number | null
+    shopId?: number | null
     userRole: string
     action: string
     description: string
@@ -3339,7 +3361,8 @@ export namespace Prisma {
 
   export type ActivityLogUncheckedCreateInput = {
     id?: string
-    userId: number
+    userId?: number | null
+    shopId?: number | null
     userRole: string
     action: string
     description: string
@@ -3348,7 +3371,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUpdateInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3357,7 +3381,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUncheckedUpdateInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3367,7 +3392,8 @@ export namespace Prisma {
 
   export type ActivityLogCreateManyInput = {
     id?: string
-    userId: number
+    userId?: number | null
+    shopId?: number | null
     userRole: string
     action: string
     description: string
@@ -3376,7 +3402,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUpdateManyMutationInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3385,7 +3412,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUncheckedUpdateManyInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3563,6 +3591,18 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -3579,6 +3619,7 @@ export namespace Prisma {
   export type ActivityLogCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     userRole?: SortOrder
     action?: SortOrder
     description?: SortOrder
@@ -3588,11 +3629,13 @@ export namespace Prisma {
 
   export type ActivityLogAvgOrderByAggregateInput = {
     userId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type ActivityLogMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     userRole?: SortOrder
     action?: SortOrder
     description?: SortOrder
@@ -3602,6 +3645,7 @@ export namespace Prisma {
   export type ActivityLogMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    shopId?: SortOrder
     userRole?: SortOrder
     action?: SortOrder
     description?: SortOrder
@@ -3610,6 +3654,24 @@ export namespace Prisma {
 
   export type ActivityLogSumOrderByAggregateInput = {
     userId?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -3662,6 +3724,15 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+    unset?: boolean
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3823,6 +3894,35 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<

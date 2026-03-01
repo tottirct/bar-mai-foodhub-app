@@ -81,10 +81,11 @@ export async function POST(request: NextRequest) {
         await mongo.activityLog.create({
             data: {
                 userId,
+                shopId,
                 userRole: user.role,
                 action: "ORDER_PLACED",
                 description: `สั่งอาหารร้าน ID:${shopId} ยอดรวม ${calculatedTotalPrice} บาท (หักเงินแล้ว)`,
-                metadata: { orderId: newOrder.id, totalPrice: calculatedTotalPrice }
+                metadata: { orderId: newOrder.id, totalPrice: calculatedTotalPrice ,shopId: shopId}
             }
         });
 
