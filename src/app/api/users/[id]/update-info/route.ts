@@ -57,7 +57,7 @@ export async function PATCH(
             await mongo.activityLog.create({
                 data: {
                     userId: userId,
-                    userRole: "USER",
+                    userRole: "CUSTOMER",
                     action: "PROFILE_UPDATED",
                     description: `อัปเดตข้อมูลส่วนตัว`,
                     metadata: {
