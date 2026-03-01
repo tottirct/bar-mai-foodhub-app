@@ -1340,6 +1340,7 @@ export namespace Prisma {
     email: string | null
     name: string | null
     username: string | null
+    password: string | null
     wallet: number | null
     role: $Enums.Role | null
   }
@@ -1349,6 +1350,7 @@ export namespace Prisma {
     email: string | null
     name: string | null
     username: string | null
+    password: string | null
     wallet: number | null
     role: $Enums.Role | null
   }
@@ -1358,6 +1360,7 @@ export namespace Prisma {
     email: number
     name: number
     username: number
+    password: number
     wallet: number
     role: number
     _all: number
@@ -1379,6 +1382,7 @@ export namespace Prisma {
     email?: true
     name?: true
     username?: true
+    password?: true
     wallet?: true
     role?: true
   }
@@ -1388,6 +1392,7 @@ export namespace Prisma {
     email?: true
     name?: true
     username?: true
+    password?: true
     wallet?: true
     role?: true
   }
@@ -1397,6 +1402,7 @@ export namespace Prisma {
     email?: true
     name?: true
     username?: true
+    password?: true
     wallet?: true
     role?: true
     _all?: true
@@ -1493,6 +1499,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet: number
     role: $Enums.Role
     _count: UserCountAggregateOutputType | null
@@ -1521,6 +1528,7 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     username?: boolean
+    password?: boolean
     wallet?: boolean
     role?: boolean
     orders?: boolean | User$ordersArgs<ExtArgs>
@@ -1535,11 +1543,12 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     username?: boolean
+    password?: boolean
     wallet?: boolean
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "username" | "wallet" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "username" | "password" | "wallet" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | User$ordersArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
@@ -1557,6 +1566,7 @@ export namespace Prisma {
       email: string
       name: string
       username: string
+      password: string
       wallet: number
       role: $Enums.Role
     }, ExtArgs["result"]["user"]>
@@ -1934,6 +1944,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
     readonly wallet: FieldRef<"User", 'Float'>
     readonly role: FieldRef<"User", 'Role'>
   }
@@ -6355,6 +6366,7 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     username: 'username',
+    password: 'password',
     wallet: 'wallet',
     role: 'role'
   };
@@ -6418,7 +6430,8 @@ export namespace Prisma {
   export const UserOrderByRelevanceFieldEnum: {
     email: 'email',
     name: 'name',
-    username: 'username'
+    username: 'username',
+    password: 'password'
   };
 
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -6520,6 +6533,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
     wallet?: FloatFilter<"User"> | number
     role?: EnumRoleFilter<"User"> | $Enums.Role
     orders?: OrderListRelationFilter
@@ -6531,6 +6545,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
     orders?: OrderOrderByRelationAggregateInput
@@ -6546,6 +6561,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
     wallet?: FloatFilter<"User"> | number
     role?: EnumRoleFilter<"User"> | $Enums.Role
     orders?: OrderListRelationFilter
@@ -6557,6 +6573,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -6574,6 +6591,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
+    password?: StringWithAggregatesFilter<"User"> | string
     wallet?: FloatWithAggregatesFilter<"User"> | number
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   }
@@ -6831,6 +6849,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -6842,6 +6861,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -6852,6 +6872,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -6863,6 +6884,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -6874,6 +6896,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
   }
@@ -6882,6 +6905,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -6891,6 +6915,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -7196,6 +7221,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
   }
@@ -7210,6 +7236,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
   }
@@ -7219,6 +7246,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
   }
@@ -8191,6 +8219,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -8201,6 +8230,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -8276,6 +8306,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -8286,6 +8317,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -8480,6 +8512,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     shops?: ShopCreateNestedManyWithoutUserInput
@@ -8490,6 +8523,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     shops?: ShopUncheckedCreateNestedManyWithoutUserInput
@@ -8539,6 +8573,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     shops?: ShopUpdateManyWithoutUserNestedInput
@@ -8549,6 +8584,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     shops?: ShopUncheckedUpdateManyWithoutUserNestedInput
