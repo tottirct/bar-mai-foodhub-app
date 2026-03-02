@@ -45,11 +45,11 @@ export async function POST(request: NextRequest) {
             };
         });
 
-        const user = await prisma.user.findUnique({ where: { id: userId } });
+        const user = await prisma.user.findUnique({ where: { id: userId } ,include: { wallets: true }});
         if(!user) {
             return NextResponse.json({ success: false, message: "หาผู้ใช้ไม่เจอ"},{status: 404});
         }
-        if(user.wallet < calTotalPrice) {
+        if(!user.wallets || user.wallets.balance < calTotalPrice) {
             return NextResponse.json({success: false, message: "ตังไม่พอ"},{status:400});
         }
         
@@ -63,10 +63,10 @@ export async function POST(request: NextRequest) {
                 }
             });
 
-            await tx.user.update({
-                where: {id:userId},
+            await tx.wallet.update({
+                where: {userId:userId},
                 data:{
-                    wallet: {
+                    balance: {
                         decrement: calTotalPrice
                     }
                 }
