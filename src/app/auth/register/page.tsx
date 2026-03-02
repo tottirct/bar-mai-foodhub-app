@@ -1,5 +1,5 @@
 'use client'
-import React,{useState} from 'react'
+import React,{useState} from 'react';
 import Link from 'next/link';
  
  function RegisterPage() {
@@ -9,13 +9,13 @@ import Link from 'next/link';
     const [name,setname] = useState('');
     const [password,setpassword] = useState('');
     const [confirmPassword,setconfirmPassword] = useState('');
-    const [sccess,setsuccess] = useState('');
+    const [success,setsuccess] = useState('');
 
     const [error,seterror] = useState('');
 
     console.log(username,email,name,password,confirmPassword);
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if(password !== confirmPassword){
@@ -52,7 +52,7 @@ import Link from 'next/link';
             })
 
             if(response.ok){
-                const form = e.target;
+                const form = e.target as HTMLFormElement;
                 seterror('');
                 setsuccess('ลงทะเบียนสําเร็จ');
                 form.reset();
@@ -71,7 +71,7 @@ import Link from 'next/link';
                 <h1 className='mb-2'>ลงทะเบียน</h1>
                 <form onSubmit={handleSubmit}>
                     {error && <p className='text-red-600'>{error}</p>}
-                    {sccess && <p className='text-green-600'>{sccess}</p>}
+                    {success && <p className='text-green-600'>{success}</p>}
                     <input onChange={(e) => setusername(e.target.value)} className='auth-input' type="text" placeholder='ชื่อผู้ใช้'/>
                     <input onChange={(e) => setemail(e.target.value)} className='auth-input' type="email" placeholder='อีเมล'/>
                     <input onChange={(e) => setname(e.target.value)} className='auth-input' type="text" placeholder='ชื่อ-นามสกุล'/>
