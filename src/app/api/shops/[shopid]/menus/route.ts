@@ -19,6 +19,6 @@ export async function GET(
             data: menus
         });
     } catch (error) {
-        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ"}, {status: 500})
+        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 })
     }
 }
