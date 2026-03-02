@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { mongo } from '@/lib/mongo';
 
 export async function GET(
     request: Request,
@@ -28,15 +29,51 @@ export async function POST(
 ) {
     try {
         const body = await request.json();
-        const { shopId, menuName, price, options } = body;
+        const { shopId, menuName, price, options, userId } = body;
 
-        if(!menuName || !price || price < 0) {
+        if(!menuName || !price || !userId || price < 0) {
             return NextResponse.json({sucess: false, message: "เอาดีๆ"},{status: 400});
         }
         if (options && !Array.isArray(options)) {
             return NextResponse.json({ success: false, message: "รูปแบบ options ไม่ถูกต้อง" }, { status: 400 });
         }
+
+        const result = await prisma.menu.create({
+            data: {
+                name: menuName,
+                price: price,
+                shopId: shopId,
+                options: {
+                    create: options.map((opt:any) => ({
+                        name: opt.name,
+                        price: opt.price
+                    }))
+                }
+            },
+            include: {
+                options: true
+                
+            }
+        });
+
+        await mongo.activityLog.create({
+            data: {
+                userId: userId,
+                shopId: shopId,
+                userRole: "OWNER",
+                action: "ADD_MENU",
+                description: `ร้าน ${shopId} เพิ่มเมนูใหม่ ${menuName}`,
+                metadata: {
+                    menuId: result.id,
+                    price: (await result).price,
+                    optinsCount: options.lenght
+                }
+            }
+        });
+
+        return NextResponse.json({success: true,message:"สร้างเมนูแล้ว",data:result},{status:201})
     } catch(error) {
-        
+        console.log(error);
+        return NextResponse.json({success: false , message:"ดึงข้อมูลผลาดหวะ"},{status:500});
     }
 }
