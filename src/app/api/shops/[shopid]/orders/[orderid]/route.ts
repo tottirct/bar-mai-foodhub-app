@@ -33,10 +33,10 @@ export async function PATCH(
             })
 
             if(status === "CANCELLED") {
-                await tx.user.update({
-                    where: {id: order.userId},
+                await tx.wallet.update({
+                    where: {userId: order.userId},
                     data: {
-                        wallet : {
+                        balance : {
                             increment: order.totalPrice
                         }
                     }
