@@ -3,11 +3,11 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
     request: Request,
-    { params }: { params: Promise<{ id: string }> }
+    { params }: { params: Promise<{ shopid: string }> }
 ) {
     try {
-        const { id } = await params;
-        const shopID = parseInt(id);
+        const { shopid } = await params;
+        const shopID = parseInt(shopid);
         const menus = await prisma.menu.findMany({
             where: {
                 shopId: shopID
@@ -19,6 +19,6 @@ export async function GET(
             data: menus
         });
     } catch (error) {
-        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ"}, {status: 500})
+        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 })
     }
 }

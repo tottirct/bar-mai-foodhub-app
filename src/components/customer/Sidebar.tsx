@@ -64,14 +64,6 @@ export default function Sidebar() {
                         Trolley
                         {isActive("/customer/trolley") && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-500" />}
                     </Link>
-                    <Link
-                        href="/customer/waitlist"
-                        className={`nav-item ${isActive("/customer/waitlist") ? "nav-item-active" : "nav-item-inactive"}`}
-                    >
-                        <span className="text-lg group-hover:scale-110 transition-transform">🕒</span>
-                        Wait List
-                        {isActive("/customer/waitlist") && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-500" />}
-                    </Link>
 
                     {/* Map button — opens modal instead of navigating */}
                     <button
