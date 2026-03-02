@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize (credentials: Record<string, string> | undefined,req) {
+            async authorize (credentials,req): Promise<any | null> {
                 if (!credentials?.email || !credentials?.password) return null;
                 const { email, password } = credentials as { email: string; password: string };
                 try{
@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
 
                     if(!passwordMatch) return null;
 
-                    return user
+                    return user as any;
                 }catch (error){
                     console.log(error);
                 }

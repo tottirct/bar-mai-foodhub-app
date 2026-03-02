@@ -7,12 +7,10 @@ export default function CustomerLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex min-h-screen bg-gray-50">
-            {/* Fixed sidebar */}
-            <Sidebar />
+        <div className="flex h-full bg-gray-50">
 
-            {/* Main content area — scrollable */}
-            <div className="flex-1 h-screen overflow-y-auto">
+            <Sidebar />
+            <div className="flex-1 h-full overflow-y-auto">
                 {children}
             </div>
         </div>
