@@ -9,15 +9,15 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: 'credentials',
             credentials: {
-                email: { label: "Email", type: "text" },
+                username: { label: "Username", type: "text" },
                 password: { label: "Password", type: "password" }
             },
             async authorize (credentials,req): Promise<any | null> {
-                if (!credentials?.email || !credentials?.password) return null;
-                const { email, password } = credentials as { email: string; password: string };
+                if (!credentials?.username || !credentials?.password) return null;
+                const { username, password } = credentials as { username: string; password: string };
                 try{
                     const user = await prisma.user.findUnique({
-                        where: {email: email}
+                        where: {username: username}
                     })
                     
                     if(!user) return null;
@@ -33,9 +33,28 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
+
+    callbacks: {
+        jwt: async ({ token, user }) => {
+            if (user) {
+                token.role = user.role;
+                token.id = user.id;
+            }
+            return token;
+        },
+        session: async ({ session, token }) => {
+            if (session.user){ 
+                session.user.id = token.id as string;
+                session.user.role = token.role as string;
+            }
+            return session;
+        }
+    },
+
     session :{
         strategy : 'jwt'
     },
+
     secret : process.env.NEXTAUTH_SECRET,
     pages : {
         signIn : '/auth/login'

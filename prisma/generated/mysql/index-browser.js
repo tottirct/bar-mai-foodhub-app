@@ -127,8 +127,13 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   username: 'username',
   password: 'password',
-  wallet: 'wallet',
   role: 'role'
+};
+
+exports.Prisma.WalletScalarFieldEnum = {
+  id: 'id',
+  balance: 'balance',
+  userId: 'userId'
 };
 
 exports.Prisma.ShopScalarFieldEnum = {
@@ -206,6 +211,7 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Wallet: 'Wallet',
   Shop: 'Shop',
   Menu: 'Menu',
   MenuOption: 'MenuOption',

@@ -13,8 +13,13 @@ export async function POST(request: Request) {
                 email,
                 name,
                 password: hashedPassword,
-                wallet: 0
+                wallets: {
+                    create: {}
+                }
             },
+            include: {
+                wallets: true
+            }
         });
 
         return NextResponse.json({ message: "ลงทะเบียนผู้ใช้ใหม่สำเร็จ", user: newUser }, { status: 201 });

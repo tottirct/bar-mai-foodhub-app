@@ -17,14 +17,14 @@ model User {
   role     Role    @default(CUSTOMER)
   orders   Order[]
   shops    Shop[]
-  wallets  Wallet[]
+  wallets  Wallet?
 }
 
 model Wallet {
   id        Int    @id @default(autoincrement())
   balance   Int    @default(0)
-  userId    Int    
-  user      User   @relation(fields: [userID], references[id])
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id])
 }
 
 enum Role {
