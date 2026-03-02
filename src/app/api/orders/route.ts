@@ -4,26 +4,25 @@ import { mongo } from '@/lib/mongo'
 
 export async function POST(request: NextRequest) {
     try {
+        let calTotalPrice = 0;
         const body = await request.json();
         const { userId, shopId, items, note } = body;
 
-        const menuIds = items.map((i: any) => i.menuId);
+        const menuIds = items.map((i:any) => i.menuId);
         const dbMenus = await prisma.menu.findMany({
-            where: { id: { in: menuIds } },
-            include: { options: true }
+            where: {id: { in: menuIds }},
+            include: { options: true}
         });
-
-        let calculatedTotalPrice = 0;
 
         const processedItems = items.map((item: any) => {
             const menu = dbMenus.find(m => m.id === item.menuId);
-            if (!menu) throw new Error(`ไม่พบเมนูรหัส ${item.menuId} ในระบบ`);
+            if (!menu) throw new Error(`ไม่พบmenu ${item.menuId}`);
 
             let itemPrice = menu.price;
 
             const selectedOptions = (item.selectedOptions || []).map((opt: any) => {
                 const dbOption = menu.options.find(o => o.id === opt.optionId);
-                if (!dbOption) throw new Error(`ตัวเลือกเสริม ${opt.optionId} ไม่มีในเมนู ${menu.name}`);
+                if (!dbOption) throw new Error(`option ${opt.optionId} ไม่มีใน menu ${menu.name}`);
                 
                 itemPrice += dbOption.price;
                 return {
@@ -34,7 +33,7 @@ export async function POST(request: NextRequest) {
             });
 
             const subTotal = itemPrice * item.quantity;
-            calculatedTotalPrice += subTotal;
+            calTotalPrice += subTotal;
 
             return {
                 menuId: menu.id,
@@ -47,61 +46,64 @@ export async function POST(request: NextRequest) {
         });
 
         const user = await prisma.user.findUnique({ where: { id: userId } });
-        if (!user) {
-            return NextResponse.json({ success: false, message: "ไม่พบผู้ใช้งาน" }, { status: 404 });
+        if(!user) {
+            return NextResponse.json({ success: false, message: "หาผู้ใช้ไม่เจอ"},{status: 404});
         }
-        if (user.wallet < calculatedTotalPrice) {
-            return NextResponse.json({ success: false, message: `ตังไม่พอจ้า ขาดอีก ${calculatedTotalPrice - user.wallet} บาท` }, { status: 400 });
+        if(user.wallet < calTotalPrice) {
+            return NextResponse.json({success: false, message: "ตังไม่พอ"},{status:400});
+        }
+        
+        const result = await prisma.$transaction(async (tx) => {
+            const createdOrder = await tx.order.create({
+                data: {
+                    userId,
+                    shopId,
+                    totalPrice: calTotalPrice,
+                    status: "PENDING"
+                }
+            });
+
+            await tx.user.update({
+                where: {id:userId},
+                data:{
+                    wallet: {
+                        decrement: calTotalPrice
+                    }
+                }
+            });
+            return createdOrder;
+        });
+
+        const newOrderId = result.id;
+
+        try {
+            await mongo.orderDetail.create({
+                data: {
+                    mysqlOrderId: newOrderId,
+                    items: processedItems,
+                    note: note || null
+                }
+            });
+
+            await mongo.activityLog.create({
+                data: {
+                    userId,
+                    shopId,
+                    userRole: user.role,
+                    action: "ORDER_PLACED",
+                    description: `สั่งข้าวร้าน ${shopId} รวม ${calTotalPrice}`,
+                    metadata: { orderId: newOrderId, totalPrice: calTotalPrice, shopId: shopId}
+                }
+            });
+        } catch(mongoError) {
+            console.error("บันทึกลง mongo พลาด",mongoError);
         }
 
-        const newOrder = await prisma.order.create({
-            data: {
-                userId,
-                shopId,
-                totalPrice: calculatedTotalPrice, 
-                status: "PENDING"
-            }
-        });
+        return NextResponse.json({success: true, message:"สั่งสำเร็จ",totalPrice: calTotalPrice,orderId: newOrderId});
 
-        await mongo.orderDetail.create({
-            data: {
-                mysqlOrderId: newOrder.id,
-                items: processedItems,
-                note: note || null
-            }
-        });
-
-        await prisma.user.update({
-            where: { id: userId },
-            data: {
-                wallet: { decrement: calculatedTotalPrice }
-            }
-        });
-
-        await mongo.activityLog.create({
-            data: {
-                userId,
-                shopId,
-                userRole: user.role,
-                action: "ORDER_PLACED",
-                description: `สั่งอาหารร้าน ID:${shopId} ยอดรวม ${calculatedTotalPrice} บาท (หักเงินแล้ว)`,
-                metadata: { orderId: newOrder.id, totalPrice: calculatedTotalPrice ,shopId: shopId}
-            }
-        });
-
-        return NextResponse.json({
-            success: true,
-            message: "สั่งซื้อสำเร็จ!",
-            totalPaid: calculatedTotalPrice,
-            orderId: newOrder.id
-        });
-
-    } catch (error: any) {
-        console.error("Order Error:", error);
-        return NextResponse.json({ 
-            success: false, 
-            message: error.message || "เกิดข้อผิดพลาดในการสั่งซื้อ" 
-        }, { status: 500 });
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({success: false, message: "ผิดพลาด"}, {status: 500});
     }
 }
 

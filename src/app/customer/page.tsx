@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 interface Shop {
     id: number;
@@ -17,6 +18,10 @@ interface Shop {
 }
 
 export default function CustomerMainPage() {
+
+    const { data: session } = useSession();
+    console.log(session);
+
     const [shops, setShops] = useState<Shop[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

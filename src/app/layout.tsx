@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Inter, Prompt } from "next/font/google";
+import { AuthProvider } from "./Providers";
 
 export const metadata = {
   title: "bar-mai-app",
@@ -16,10 +17,12 @@ export default function RootLayout({ children }: { children: React.ReactNode;}){
   return (
     <html lang="en" className="h-full">
       <body className={`${prompt.className} flex flex-col h-full`}>
-        <Navbar /> 
-        <main className ="flex-1">
-          {children}
-        </main>
+        <AuthProvider>
+          <Navbar /> 
+          <main className ="flex-1">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

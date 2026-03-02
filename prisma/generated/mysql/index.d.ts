@@ -1340,6 +1340,7 @@ export namespace Prisma {
     email: string | null
     name: string | null
     username: string | null
+    password: string | null
     wallet: number | null
     role: $Enums.Role | null
   }
@@ -1349,6 +1350,7 @@ export namespace Prisma {
     email: string | null
     name: string | null
     username: string | null
+    password: string | null
     wallet: number | null
     role: $Enums.Role | null
   }
@@ -1358,6 +1360,7 @@ export namespace Prisma {
     email: number
     name: number
     username: number
+    password: number
     wallet: number
     role: number
     _all: number
@@ -1379,6 +1382,7 @@ export namespace Prisma {
     email?: true
     name?: true
     username?: true
+    password?: true
     wallet?: true
     role?: true
   }
@@ -1388,6 +1392,7 @@ export namespace Prisma {
     email?: true
     name?: true
     username?: true
+    password?: true
     wallet?: true
     role?: true
   }
@@ -1397,6 +1402,7 @@ export namespace Prisma {
     email?: true
     name?: true
     username?: true
+    password?: true
     wallet?: true
     role?: true
     _all?: true
@@ -1493,6 +1499,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet: number
     role: $Enums.Role
     _count: UserCountAggregateOutputType | null
@@ -1521,6 +1528,7 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     username?: boolean
+    password?: boolean
     wallet?: boolean
     role?: boolean
     orders?: boolean | User$ordersArgs<ExtArgs>
@@ -1535,11 +1543,12 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     username?: boolean
+    password?: boolean
     wallet?: boolean
     role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "username" | "wallet" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "username" | "password" | "wallet" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | User$ordersArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
@@ -1557,6 +1566,7 @@ export namespace Prisma {
       email: string
       name: string
       username: string
+      password: string
       wallet: number
       role: $Enums.Role
     }, ExtArgs["result"]["user"]>
@@ -1934,6 +1944,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
     readonly wallet: FieldRef<"User", 'Float'>
     readonly role: FieldRef<"User", 'Role'>
   }
@@ -2360,11 +2371,13 @@ export namespace Prisma {
   export type ShopAvgAggregateOutputType = {
     id: number | null
     ownerId: number | null
+    wallet: number | null
   }
 
   export type ShopSumAggregateOutputType = {
     id: number | null
     ownerId: number | null
+    wallet: number | null
   }
 
   export type ShopMinAggregateOutputType = {
@@ -2373,6 +2386,7 @@ export namespace Prisma {
     description: string | null
     ownerId: number | null
     isOpen: boolean | null
+    wallet: number | null
   }
 
   export type ShopMaxAggregateOutputType = {
@@ -2381,6 +2395,7 @@ export namespace Prisma {
     description: string | null
     ownerId: number | null
     isOpen: boolean | null
+    wallet: number | null
   }
 
   export type ShopCountAggregateOutputType = {
@@ -2389,6 +2404,7 @@ export namespace Prisma {
     description: number
     ownerId: number
     isOpen: number
+    wallet: number
     _all: number
   }
 
@@ -2396,11 +2412,13 @@ export namespace Prisma {
   export type ShopAvgAggregateInputType = {
     id?: true
     ownerId?: true
+    wallet?: true
   }
 
   export type ShopSumAggregateInputType = {
     id?: true
     ownerId?: true
+    wallet?: true
   }
 
   export type ShopMinAggregateInputType = {
@@ -2409,6 +2427,7 @@ export namespace Prisma {
     description?: true
     ownerId?: true
     isOpen?: true
+    wallet?: true
   }
 
   export type ShopMaxAggregateInputType = {
@@ -2417,6 +2436,7 @@ export namespace Prisma {
     description?: true
     ownerId?: true
     isOpen?: true
+    wallet?: true
   }
 
   export type ShopCountAggregateInputType = {
@@ -2425,6 +2445,7 @@ export namespace Prisma {
     description?: true
     ownerId?: true
     isOpen?: true
+    wallet?: true
     _all?: true
   }
 
@@ -2520,6 +2541,7 @@ export namespace Prisma {
     description: string | null
     ownerId: number
     isOpen: boolean
+    wallet: number
     _count: ShopCountAggregateOutputType | null
     _avg: ShopAvgAggregateOutputType | null
     _sum: ShopSumAggregateOutputType | null
@@ -2547,6 +2569,7 @@ export namespace Prisma {
     description?: boolean
     ownerId?: boolean
     isOpen?: boolean
+    wallet?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     menus?: boolean | Shop$menusArgs<ExtArgs>
     orders?: boolean | Shop$ordersArgs<ExtArgs>
@@ -2561,9 +2584,10 @@ export namespace Prisma {
     description?: boolean
     ownerId?: boolean
     isOpen?: boolean
+    wallet?: boolean
   }
 
-  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "ownerId" | "isOpen", ExtArgs["result"]["shop"]>
+  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "ownerId" | "isOpen" | "wallet", ExtArgs["result"]["shop"]>
   export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     menus?: boolean | Shop$menusArgs<ExtArgs>
@@ -2584,6 +2608,7 @@ export namespace Prisma {
       description: string | null
       ownerId: number
       isOpen: boolean
+      wallet: number
     }, ExtArgs["result"]["shop"]>
     composites: {}
   }
@@ -2961,6 +2986,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Shop", 'String'>
     readonly ownerId: FieldRef<"Shop", 'Int'>
     readonly isOpen: FieldRef<"Shop", 'Boolean'>
+    readonly wallet: FieldRef<"Shop", 'Float'>
   }
     
 
@@ -6340,6 +6366,7 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     username: 'username',
+    password: 'password',
     wallet: 'wallet',
     role: 'role'
   };
@@ -6352,7 +6379,8 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     ownerId: 'ownerId',
-    isOpen: 'isOpen'
+    isOpen: 'isOpen',
+    wallet: 'wallet'
   };
 
   export type ShopScalarFieldEnum = (typeof ShopScalarFieldEnum)[keyof typeof ShopScalarFieldEnum]
@@ -6402,7 +6430,8 @@ export namespace Prisma {
   export const UserOrderByRelevanceFieldEnum: {
     email: 'email',
     name: 'name',
-    username: 'username'
+    username: 'username',
+    password: 'password'
   };
 
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -6504,6 +6533,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
     wallet?: FloatFilter<"User"> | number
     role?: EnumRoleFilter<"User"> | $Enums.Role
     orders?: OrderListRelationFilter
@@ -6515,6 +6545,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
     orders?: OrderOrderByRelationAggregateInput
@@ -6530,6 +6561,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
     wallet?: FloatFilter<"User"> | number
     role?: EnumRoleFilter<"User"> | $Enums.Role
     orders?: OrderListRelationFilter
@@ -6541,6 +6573,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -6558,6 +6591,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
+    password?: StringWithAggregatesFilter<"User"> | string
     wallet?: FloatWithAggregatesFilter<"User"> | number
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   }
@@ -6571,6 +6605,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Shop"> | string | null
     ownerId?: IntFilter<"Shop"> | number
     isOpen?: BoolFilter<"Shop"> | boolean
+    wallet?: FloatFilter<"Shop"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     menus?: MenuListRelationFilter
     orders?: OrderListRelationFilter
@@ -6582,6 +6617,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     ownerId?: SortOrder
     isOpen?: SortOrder
+    wallet?: SortOrder
     user?: UserOrderByWithRelationInput
     menus?: MenuOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
@@ -6597,6 +6633,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Shop"> | string | null
     ownerId?: IntFilter<"Shop"> | number
     isOpen?: BoolFilter<"Shop"> | boolean
+    wallet?: FloatFilter<"Shop"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     menus?: MenuListRelationFilter
     orders?: OrderListRelationFilter
@@ -6608,6 +6645,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     ownerId?: SortOrder
     isOpen?: SortOrder
+    wallet?: SortOrder
     _count?: ShopCountOrderByAggregateInput
     _avg?: ShopAvgOrderByAggregateInput
     _max?: ShopMaxOrderByAggregateInput
@@ -6624,6 +6662,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Shop"> | string | null
     ownerId?: IntWithAggregatesFilter<"Shop"> | number
     isOpen?: BoolWithAggregatesFilter<"Shop"> | boolean
+    wallet?: FloatWithAggregatesFilter<"Shop"> | number
   }
 
   export type MenuWhereInput = {
@@ -6810,6 +6849,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -6821,6 +6861,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -6831,6 +6872,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -6842,6 +6884,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -6853,6 +6896,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
   }
@@ -6861,6 +6905,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -6870,6 +6915,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
@@ -6878,6 +6924,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     isOpen: boolean
+    wallet?: number
     user: UserCreateNestedOneWithoutShopsInput
     menus?: MenuCreateNestedManyWithoutShopInput
     orders?: OrderCreateNestedManyWithoutShopInput
@@ -6889,6 +6936,7 @@ export namespace Prisma {
     description?: string | null
     ownerId: number
     isOpen: boolean
+    wallet?: number
     menus?: MenuUncheckedCreateNestedManyWithoutShopInput
     orders?: OrderUncheckedCreateNestedManyWithoutShopInput
   }
@@ -6897,6 +6945,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutShopsNestedInput
     menus?: MenuUpdateManyWithoutShopNestedInput
     orders?: OrderUpdateManyWithoutShopNestedInput
@@ -6908,6 +6957,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     menus?: MenuUncheckedUpdateManyWithoutShopNestedInput
     orders?: OrderUncheckedUpdateManyWithoutShopNestedInput
   }
@@ -6918,12 +6968,14 @@ export namespace Prisma {
     description?: string | null
     ownerId: number
     isOpen: boolean
+    wallet?: number
   }
 
   export type ShopUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
   }
 
   export type ShopUncheckedUpdateManyInput = {
@@ -6932,6 +6984,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
   }
 
   export type MenuCreateInput = {
@@ -7168,6 +7221,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
   }
@@ -7182,6 +7236,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
   }
@@ -7191,6 +7246,7 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     username?: SortOrder
+    password?: SortOrder
     wallet?: SortOrder
     role?: SortOrder
   }
@@ -7312,11 +7368,13 @@ export namespace Prisma {
     description?: SortOrder
     ownerId?: SortOrder
     isOpen?: SortOrder
+    wallet?: SortOrder
   }
 
   export type ShopAvgOrderByAggregateInput = {
     id?: SortOrder
     ownerId?: SortOrder
+    wallet?: SortOrder
   }
 
   export type ShopMaxOrderByAggregateInput = {
@@ -7325,6 +7383,7 @@ export namespace Prisma {
     description?: SortOrder
     ownerId?: SortOrder
     isOpen?: SortOrder
+    wallet?: SortOrder
   }
 
   export type ShopMinOrderByAggregateInput = {
@@ -7333,11 +7392,13 @@ export namespace Prisma {
     description?: SortOrder
     ownerId?: SortOrder
     isOpen?: SortOrder
+    wallet?: SortOrder
   }
 
   export type ShopSumOrderByAggregateInput = {
     id?: SortOrder
     ownerId?: SortOrder
+    wallet?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8072,6 +8133,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     isOpen: boolean
+    wallet?: number
     menus?: MenuCreateNestedManyWithoutShopInput
     orders?: OrderCreateNestedManyWithoutShopInput
   }
@@ -8081,6 +8143,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     isOpen: boolean
+    wallet?: number
     menus?: MenuUncheckedCreateNestedManyWithoutShopInput
     orders?: OrderUncheckedCreateNestedManyWithoutShopInput
   }
@@ -8149,12 +8212,14 @@ export namespace Prisma {
     description?: StringNullableFilter<"Shop"> | string | null
     ownerId?: IntFilter<"Shop"> | number
     isOpen?: BoolFilter<"Shop"> | boolean
+    wallet?: FloatFilter<"Shop"> | number
   }
 
   export type UserCreateWithoutShopsInput = {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -8165,6 +8230,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -8240,6 +8306,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -8250,6 +8317,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -8301,6 +8369,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     isOpen: boolean
+    wallet?: number
     user: UserCreateNestedOneWithoutShopsInput
     orders?: OrderCreateNestedManyWithoutShopInput
   }
@@ -8311,6 +8380,7 @@ export namespace Prisma {
     description?: string | null
     ownerId: number
     isOpen: boolean
+    wallet?: number
     orders?: OrderUncheckedCreateNestedManyWithoutShopInput
   }
 
@@ -8355,6 +8425,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutShopsNestedInput
     orders?: OrderUpdateManyWithoutShopNestedInput
   }
@@ -8365,6 +8436,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     orders?: OrderUncheckedUpdateManyWithoutShopNestedInput
   }
 
@@ -8440,6 +8512,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     shops?: ShopCreateNestedManyWithoutUserInput
@@ -8450,6 +8523,7 @@ export namespace Prisma {
     email: string
     name: string
     username: string
+    password: string
     wallet?: number
     role?: $Enums.Role
     shops?: ShopUncheckedCreateNestedManyWithoutUserInput
@@ -8464,6 +8538,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     isOpen: boolean
+    wallet?: number
     user: UserCreateNestedOneWithoutShopsInput
     menus?: MenuCreateNestedManyWithoutShopInput
   }
@@ -8474,6 +8549,7 @@ export namespace Prisma {
     description?: string | null
     ownerId: number
     isOpen: boolean
+    wallet?: number
     menus?: MenuUncheckedCreateNestedManyWithoutShopInput
   }
 
@@ -8497,6 +8573,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     shops?: ShopUpdateManyWithoutUserNestedInput
@@ -8507,6 +8584,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     wallet?: FloatFieldUpdateOperationsInput | number
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     shops?: ShopUncheckedUpdateManyWithoutUserNestedInput
@@ -8527,6 +8605,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutShopsNestedInput
     menus?: MenuUpdateManyWithoutShopNestedInput
   }
@@ -8537,6 +8616,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     menus?: MenuUncheckedUpdateManyWithoutShopNestedInput
   }
 
@@ -8554,6 +8634,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     isOpen: boolean
+    wallet?: number
   }
 
   export type OrderUpdateWithoutUserInput = {
@@ -8586,6 +8667,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     menus?: MenuUpdateManyWithoutShopNestedInput
     orders?: OrderUpdateManyWithoutShopNestedInput
   }
@@ -8595,6 +8677,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
     menus?: MenuUncheckedUpdateManyWithoutShopNestedInput
     orders?: OrderUncheckedUpdateManyWithoutShopNestedInput
   }
@@ -8604,6 +8687,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
+    wallet?: FloatFieldUpdateOperationsInput | number
   }
 
   export type MenuCreateManyShopInput = {

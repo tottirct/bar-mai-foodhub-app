@@ -1,5 +1,8 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react';
 
 function Navbar() {
   return (
@@ -15,6 +18,9 @@ function Navbar() {
                 </li>
                 <li className='mx-5'>
                     <Link href="/auth/register">ลงทะเบียน</Link>
+                </li>
+                <li className='mx-5'>
+                    <a onClick={()=>signOut()}>ออกจากระบบ</a>
                 </li>
             </ul>
         </div>
