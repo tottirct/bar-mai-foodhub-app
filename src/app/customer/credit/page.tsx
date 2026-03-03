@@ -1,27 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+
 import { useSession } from "next-auth/react";
-
 import { useRouter } from "next/navigation";
+import { Transaction, WalletData } from "@/types/customer";
 
-interface Transaction {
-    id: string;
-    userId: number;
-    action: string;
-    description: string;
-    metadata: {
-        amount?: number;
-        totalPrice?: number;
-    };
 
-    createdAt: string;
-}
-
-interface WalletData {
-    wallet: number;
-    transactions: Transaction[];
-}
 
 export default function CreditPage() {
     const router = useRouter();

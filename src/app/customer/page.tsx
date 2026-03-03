@@ -1,25 +1,15 @@
 "use client";
 
-// src/app/customer/page.tsx
-import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
-interface Shop {
-    id: number;
-    name: string;
-    description: string | null;
-    isOpen: boolean;
-    queueCount: number;
-    // Fields not currently in DB, using defaults
-    category?: string;
-    imageUrl?: string;
-}
+import { useSession } from "next-auth/react";
+import { Shop } from "@/types/customer";
+import ShopCard from "@/components/customer/ShopCard";
 
 export default function CustomerMainPage() {
 
     const { data: session } = useSession();
+
     console.log(session);
 
     const [shops, setShops] = useState<Shop[]>([]);
@@ -29,8 +19,6 @@ export default function CustomerMainPage() {
 
     useEffect(() => {
         const fetchShops = async () => {
-            // Only set loading true if it's the first time or if query is changing
-            // But to avoid flickering, we could use a specific state for search loading
             try {
                 const url = searchQuery
                     ? `/api/shops?keyword=${encodeURIComponent(searchQuery)}`
@@ -53,7 +41,7 @@ export default function CustomerMainPage() {
 
         const timer = setTimeout(() => {
             fetchShops();
-        }, 300); // 300ms debounce
+        }, 300);
 
         return () => clearTimeout(timer);
     }, [searchQuery]);
@@ -118,50 +106,11 @@ export default function CustomerMainPage() {
             {shops.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {shops.map((shop) => (
-
-                        <Link
-                            key={shop.id}
-                            // Only navigate to menu page if the shop is open
-                            href={shop.isOpen ? `/customer/${shop.id}` : "#"}
-                            className={`flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 ${!shop.isOpen ? "opacity-60 cursor-not-allowed grayscale-[30%]" : ""}`}
-                        >
-                            {/* Shop image */}
-                            <div className="relative h-48 w-full bg-gray-100">
-                                <Image
-                                    src={shop.imageUrl || "/images/default-menu.jpg"}
-                                    alt={shop.name}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                    priority
-                                />
-                                {/* Open/Closed badge */}
-                                <div className={`absolute top-3 right-3 px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-md backdrop-blur-md ${shop.isOpen ? "bg-green-500/90" : "bg-red-500/90"}`}>
-                                    {shop.isOpen ? "เปิด" : "ปิด"}
-                                </div>
-                                {shop.isOpen && (
-                                    <div className="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-1 rounded-lg text-xs font-semibold backdrop-blur-sm">
-                                        คิว: {shop.queueCount}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Shop details */}
-                            <div className="p-5 flex flex-col grow justify-between">
-                                <div>
-                                    <h2 className="text-lg font-bold text-gray-800 line-clamp-1 group-hover:text-orange-600 transition-colors">
-                                        {shop.name}
-                                    </h2>
-                                    <div className="flex items-center gap-2 mt-1.5">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                                        <p className="text-sm font-medium text-gray-500">{shop.description || "General"}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
+                        <ShopCard key={shop.id} shop={shop} />
                     ))}
                 </div>
             ) : (
+
                 /* Empty state */
                 <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-gray-200 shadow-sm">
                     <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-4xl mb-4">

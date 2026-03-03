@@ -4,37 +4,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, use } from "react";
+
+
 import { useSession } from "next-auth/react";
-
 import { useRouter } from "next/navigation";
+import { Shop, Menu, MenuOption, MenuDetail } from "@/types/customer";
 
-interface Shop {
-    id: number;
-    name: string;
-    description: string | null;
-    isOpen: boolean;
-    queueCount: number;
-}
 
-interface Menu {
-    id: number;
-    name: string;
-    price: number;
-    shopId: number;
-    imageUrl?: string;
-}
-
-interface MenuOption {
-    id: number;
-    name: string;
-    price: number;
-    menuId: number;
-}
-
-interface MenuDetail extends Menu {
-    options: MenuOption[];
-    shop: { name: string };
-}
 
 /* ─── Add-to-Cart / Direct Order Modal ─── */
 function AddToCartModal({

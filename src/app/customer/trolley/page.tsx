@@ -1,172 +1,21 @@
 "use client";
 
-// src/app/customer/trolley/page.tsx
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
+import { useSession } from "next-auth/react";
+import { Order } from "@/types/customer";
+import OrderCard from "@/components/customer/OrderCard";
+import EmptyState from "@/components/customer/EmptyState";
 
 type Tab = "cart" | "inProgress" | "history";
 
-interface SelectedOption {
-    optionId: number;
-    name: string;
-    price: number;
-}
 
-interface OrderItem {
-    menuId: number;
-    menuName: string;
-    price: number;
-    quantity: number;
-    selectedOptions: SelectedOption[];
-    specialNote?: string | null;
-}
-
-interface Order {
-    id: number;
-    userId: number;
-    shopId: number;
-    totalPrice: number;
-    status: string;
-    createdAt: string;
-    shop: { name: string };
-    items: OrderItem[];
-    note?: string | null;
-}
-
-const STATUS_CONFIG: Record<string, { label: string; color: string; icon: string }> = {
-    UNPAID: { label: "รอชำระเงิน", color: "bg-orange-100 text-orange-700 border-orange-200", icon: "💳" },
-    PENDING: { label: "เตรียมทำ", color: "bg-yellow-100 text-yellow-700 border-yellow-200", icon: "⏳" },
-    PREPARING: { label: "กำลังทำ", color: "bg-blue-100 text-blue-700 border-blue-200", icon: "👨‍🍳" },
-    READY: { label: "พร้อมเสิร์ฟ", color: "bg-green-100 text-green-700 border-green-200", icon: "✅" },
-    COMPLETED: { label: "เสร็จแล้ว", color: "bg-gray-100 text-gray-600 border-gray-200", icon: "🎉" },
-    CANCELLED: { label: "ยกเลิก", color: "bg-red-100 text-red-600 border-red-200", icon: "❌" },
-};
 
 const TABS: { key: Tab; label: string; icon: string }[] = [
     { key: "cart", label: "รอชำระเงิน", icon: "💳" },
     { key: "inProgress", label: "กำลังทำ", icon: "🔥" },
     { key: "history", label: "ประวัติ", icon: "📋" },
 ];
-
-function formatDate(iso: string) {
-    const d = new Date(iso);
-    return d.toLocaleDateString("th-TH", {
-        day: "numeric",
-        month: "short",
-        year: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-}
-
-/* ─── Order Card ─── */
-function OrderCard({
-    order,
-    onRemove
-}: {
-    order: Order;
-    onRemove?: (id: number) => void;
-}) {
-    const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.PENDING;
-    const isLocal = order.status === "UNPAID";
-
-    return (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col h-full">
-            {/* Header */}
-            <div className="px-5 pt-5 pb-3 flex items-center justify-between">
-                <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-lg shrink-0">
-                        🏪
-                    </div>
-                    <div className="min-w-0">
-                        <h3 className="font-bold text-gray-800 truncate">{order.shop.name}</h3>
-                        <p className="text-xs text-gray-400 font-medium">{formatDate(order.createdAt)}</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-2">
-                    {isLocal && onRemove && (
-                        <button
-                            onClick={() => onRemove(order.id)}
-                            className="p-1.5 text-gray-300 hover:text-red-500 transition-colors"
-                            title="ลบรายการ"
-                        >
-                            🗑️
-                        </button>
-                    )}
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold border whitespace-nowrap ${cfg.color}`}>
-                        {cfg.icon} {cfg.label}
-                    </span>
-                </div>
-            </div>
-
-            {/* Divider */}
-            <div className="mx-5 border-t border-dashed border-gray-100" />
-
-            {/* Items list */}
-            <div className="px-5 py-3 space-y-2 flex-grow">
-                {order.items.map((item, idx) => (
-                    <div key={idx} className="space-y-1">
-                        <div className="flex items-start justify-between gap-4">
-                            <div className="min-w-0 flex-1">
-                                <p className="font-semibold text-gray-700 text-sm truncate">
-                                    {item.menuName}
-                                    <span className="text-gray-400 font-medium ml-1">×{item.quantity}</span>
-                                </p>
-                            </div>
-                            <span className="text-sm font-bold text-gray-600 shrink-0">
-                                ฿{(item.price * item.quantity).toFixed(0)}
-                            </span>
-                        </div>
-
-                        {item.selectedOptions.map((o, optIdx) => (
-                            <div key={optIdx} className="flex items-center justify-between gap-4 text-xs text-gray-400">
-                                <span className="truncate flex-1 pl-3">+ {o.name}</span>
-                                <span className="shrink-0 font-medium text-gray-400">+฿{(o.price * item.quantity).toFixed(0)}</span>
-
-                            </div>
-                        ))}
-
-                        {item.specialNote && (
-                            <p className="text-xs text-orange-500 mt-0.5 truncate pl-3">📝 {item.specialNote}</p>
-                        )}
-                    </div>
-                ))}
-
-            </div>
-
-            {/* Note */}
-            {order.note && (
-                <div className="mx-5 px-3 py-2 bg-orange-50/60 rounded-xl mb-3">
-                    <p className="text-xs text-orange-600 font-medium">💬 {order.note}</p>
-                </div>
-            )}
-
-            {/* Footer — Total */}
-            <div className="px-5 py-4 bg-gray-50/80 flex items-center justify-between border-t border-gray-100 mt-auto">
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">รวมทั้งหมด</span>
-                <span className="text-lg font-bold text-orange-600">฿{order.totalPrice.toFixed(0)}</span>
-            </div>
-        </div>
-    );
-}
-
-/* ─── Empty State ─── */
-function EmptyState({ tab }: { tab: Tab }) {
-    const msg: Record<Tab, { icon: string; title: string; desc: string }> = {
-        cart: { icon: "💳", title: "ไม่มีรายการค้างจ่าย", desc: "เลือกเมนูที่ชอบแล้วมากดจ่ายเงินที่นี่" },
-        inProgress: { icon: "🍳", title: "ไม่มีออร์เดอร์กำลังทำ", desc: "ออร์เดอร์ที่จ่ายเงินแล้วจะแสดงที่นี่" },
-        history: { icon: "📋", title: "ยังไม่มีประวัติ", desc: "ออร์เดอร์ที่เสร็จแล้วหรือถูกยกเลิกจะแสดงที่นี่" },
-    };
-    const s = msg[tab];
-    return (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-gray-200 shadow-sm w-full">
-            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-4xl mb-4">{s.icon}</div>
-            <h3 className="text-xl font-bold text-gray-800">{s.title}</h3>
-            <p className="text-gray-500 mt-2">{s.desc}</p>
-        </div>
-    );
-}
 
 /* ─── Main Page ─── */
 export default function TrolleyPage() {
