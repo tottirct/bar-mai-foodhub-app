@@ -52,6 +52,7 @@ model Menu {
   name    String
   price   Int
   shopId  Int
+  deletedAt DateTime?
   shop    Shop   @relation(fields: [shopId], references: [id])
   options MenuOption[]
 }
@@ -61,6 +62,7 @@ model MenuOption {
   name    String 
   price   Int
   menuId  Int
+  deletedAt DateTime?
 
   menu    Menu   @relation(fields: [menuId], references: [id])
 }
