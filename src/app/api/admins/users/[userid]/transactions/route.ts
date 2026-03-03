@@ -54,9 +54,23 @@ export async function GET(
         }
 
         else if(userCheck.role === "OWNER") {
+
+            const shop = await prisma.shop.findFirst({
+                where: {
+                    ownerId: userId
+                }
+            });
+
+            if (!shop) {
+                return NextResponse.json({ 
+                    success: false, 
+                    message: "หาข้อมูลร้านไม่เจอ" 
+                }, { status: 404 });
+            }
+
             result.shop_wallet_history = await mongo.activityLog.findMany({
                 where: {
-                    userId: userId,
+                    shopId: shop.id,
                     action: {
                         in : ['COMPLETED','REFUND_SUCCESS','WITHDRAW']
                     }
@@ -68,7 +82,7 @@ export async function GET(
 
             result.update_history = await mongo.activityLog.findMany({
                 where: {
-                    userId: userId,
+                    shopId: shop.id,
                     action: {
                         in: ['ADD_MENU','DELETE_MENU']
                     }
