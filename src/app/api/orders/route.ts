@@ -10,7 +10,10 @@ export async function POST(request: NextRequest) {
 
         const menuIds = items.map((i: any) => i.menuId);
         const dbMenus = await prisma.menu.findMany({
-            where: { id: { in: menuIds } },
+            where: { 
+                id: { in: menuIds },
+                deletedAt: null
+            },
             include: { options: true }
         });
 
@@ -45,7 +48,14 @@ export async function POST(request: NextRequest) {
             };
         });
 
-        const user = await prisma.user.findUnique({ where: { id: userId }, include: { wallets: true } });
+        const user = await prisma.user.findFirst({
+                where: {
+                    id: userId,
+                    deletedAt: null
+                },
+                include: { wallets: true } 
+            });
+
         if (!user) {
             return NextResponse.json({ success: false, message: "หาผู้ใช้ไม่เจอ" }, { status: 404 });
         }
@@ -64,7 +74,9 @@ export async function POST(request: NextRequest) {
             });
 
             await tx.wallet.update({
-                where: { userId: userId },
+                where: {
+                    userId: userId,
+                },
                 data: {
                     balance: {
                         decrement: calTotalPrice
@@ -123,7 +135,9 @@ export async function GET(
         const userId = parseInt(userIdParam);
 
         const allOrders = await prisma.order.findMany({
-            where: { userId: userId },
+            where: {
+                userId: userId,
+            },
             orderBy: { createdAt: 'desc' },
             include: {
                 shop: {
