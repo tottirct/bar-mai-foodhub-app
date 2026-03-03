@@ -10,8 +10,11 @@ export async function GET(
         const { shopid } = await params;
         const shopId = parseInt(shopid);
         
-        const shop = await prisma.shop.findUnique({
-            where: { id: shopId },
+        const shop = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            },
         });
 
         if(!shop) {
@@ -22,7 +25,7 @@ export async function GET(
             where:{
                 shopId: shopId,
                 action: {
-                    in: ['ORDER_COMPLETED', 'WITHDRAW', 'REFUND_SUCCESS']
+                    in: ['COMPLETED', 'WITHDRAW', 'REFUND_SUCCESS']
                 }
             },
             orderBy: {createdAt: 'desc'}
@@ -30,6 +33,7 @@ export async function GET(
 
         let income = 0;
         let withdraw = 0;
+        let refund = 0;
 
         const formattedTransaction = transaction.map(log => {
             const meta = log.metadata as { amount?: number, orderId?: number } | null;
@@ -41,6 +45,9 @@ export async function GET(
             else if(log.action === 'WITHDRAW') {
                 withdraw += amount;
             }
+            else if(log.action === "REFUND_SUCCESS") {
+                refund += amount;
+            }
 
             return {
                 id: log.id,
@@ -51,13 +58,14 @@ export async function GET(
                 orderId: meta?.orderId || null
             };
         });
-        const net = income - withdraw;
+        const net = income - withdraw - refund;
 
         return NextResponse.json({
             success: true,
             summary: {
                 income: income,
                 withdraw: withdraw,
+                refund: refund,
                 net: net
             },
             transactions: formattedTransaction
