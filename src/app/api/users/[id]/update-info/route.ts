@@ -10,8 +10,11 @@ export async function GET(
         const { id } = await params;
         const userId = parseInt(id);
 
-        const userInfo = await prisma.user.findUnique({
-            where: { id: userId },
+        const userInfo = await prisma.user.findFirst({
+            where: {
+                id: userId,
+                deletedAt: null 
+            },
             select: {
                 name: true,
                 username: true,
@@ -39,8 +42,21 @@ export async function PATCH(
         const body = await request.json();
         const { name, username, email } = body;
 
+        const userCheck = await prisma.user.findFirst({
+            where: {
+                id: userId,
+                deletedAt: null
+            }
+        });
+
+        if(!userCheck) {
+            return NextResponse.json({success: false,message: "ไม่พบผู้ใช้"},{status:404});
+        }
+
         const updatedUser = await prisma.user.update({
-            where: { id: userId },
+            where: {
+                id: userId
+            },
             data: {
                 ...(name && { name }),
                 ...(username && { username }),

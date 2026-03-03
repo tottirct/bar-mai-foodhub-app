@@ -9,8 +9,14 @@ export async function GET(
         const { id } = await params;
         const menuId = parseInt(id);
 
-        const menu = await prisma.menu.findUnique({
-            where: { id: menuId },
+        const menu = await prisma.menu.findFirst({
+            where: { 
+                id: menuId,
+                deletedAt: null,
+                shop: {
+                    deletedAt: null
+                }
+            },
             include: {
                 options: true,
                 shop: {

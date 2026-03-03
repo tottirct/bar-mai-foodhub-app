@@ -4487,6 +4487,7 @@ export namespace Prisma {
     name: string | null
     price: number | null
     shopId: number | null
+    deletedAt: Date | null
   }
 
   export type MenuMaxAggregateOutputType = {
@@ -4494,6 +4495,7 @@ export namespace Prisma {
     name: string | null
     price: number | null
     shopId: number | null
+    deletedAt: Date | null
   }
 
   export type MenuCountAggregateOutputType = {
@@ -4501,6 +4503,7 @@ export namespace Prisma {
     name: number
     price: number
     shopId: number
+    deletedAt: number
     _all: number
   }
 
@@ -4522,6 +4525,7 @@ export namespace Prisma {
     name?: true
     price?: true
     shopId?: true
+    deletedAt?: true
   }
 
   export type MenuMaxAggregateInputType = {
@@ -4529,6 +4533,7 @@ export namespace Prisma {
     name?: true
     price?: true
     shopId?: true
+    deletedAt?: true
   }
 
   export type MenuCountAggregateInputType = {
@@ -4536,6 +4541,7 @@ export namespace Prisma {
     name?: true
     price?: true
     shopId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -4630,6 +4636,7 @@ export namespace Prisma {
     name: string
     price: number
     shopId: number
+    deletedAt: Date | null
     _count: MenuCountAggregateOutputType | null
     _avg: MenuAvgAggregateOutputType | null
     _sum: MenuSumAggregateOutputType | null
@@ -4656,6 +4663,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     shopId?: boolean
+    deletedAt?: boolean
     shop?: boolean | ShopDefaultArgs<ExtArgs>
     options?: boolean | Menu$optionsArgs<ExtArgs>
     _count?: boolean | MenuCountOutputTypeDefaultArgs<ExtArgs>
@@ -4668,9 +4676,10 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     shopId?: boolean
+    deletedAt?: boolean
   }
 
-  export type MenuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "shopId", ExtArgs["result"]["menu"]>
+  export type MenuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "shopId" | "deletedAt", ExtArgs["result"]["menu"]>
   export type MenuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | ShopDefaultArgs<ExtArgs>
     options?: boolean | Menu$optionsArgs<ExtArgs>
@@ -4688,6 +4697,7 @@ export namespace Prisma {
       name: string
       price: number
       shopId: number
+      deletedAt: Date | null
     }, ExtArgs["result"]["menu"]>
     composites: {}
   }
@@ -5063,6 +5073,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Menu", 'String'>
     readonly price: FieldRef<"Menu", 'Int'>
     readonly shopId: FieldRef<"Menu", 'Int'>
+    readonly deletedAt: FieldRef<"Menu", 'DateTime'>
   }
     
 
@@ -5477,6 +5488,7 @@ export namespace Prisma {
     name: string | null
     price: number | null
     menuId: number | null
+    deletedAt: Date | null
   }
 
   export type MenuOptionMaxAggregateOutputType = {
@@ -5484,6 +5496,7 @@ export namespace Prisma {
     name: string | null
     price: number | null
     menuId: number | null
+    deletedAt: Date | null
   }
 
   export type MenuOptionCountAggregateOutputType = {
@@ -5491,6 +5504,7 @@ export namespace Prisma {
     name: number
     price: number
     menuId: number
+    deletedAt: number
     _all: number
   }
 
@@ -5512,6 +5526,7 @@ export namespace Prisma {
     name?: true
     price?: true
     menuId?: true
+    deletedAt?: true
   }
 
   export type MenuOptionMaxAggregateInputType = {
@@ -5519,6 +5534,7 @@ export namespace Prisma {
     name?: true
     price?: true
     menuId?: true
+    deletedAt?: true
   }
 
   export type MenuOptionCountAggregateInputType = {
@@ -5526,6 +5542,7 @@ export namespace Prisma {
     name?: true
     price?: true
     menuId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -5620,6 +5637,7 @@ export namespace Prisma {
     name: string
     price: number
     menuId: number
+    deletedAt: Date | null
     _count: MenuOptionCountAggregateOutputType | null
     _avg: MenuOptionAvgAggregateOutputType | null
     _sum: MenuOptionSumAggregateOutputType | null
@@ -5646,6 +5664,7 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     menuId?: boolean
+    deletedAt?: boolean
     menu?: boolean | MenuDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["menuOption"]>
 
@@ -5656,9 +5675,10 @@ export namespace Prisma {
     name?: boolean
     price?: boolean
     menuId?: boolean
+    deletedAt?: boolean
   }
 
-  export type MenuOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "menuId", ExtArgs["result"]["menuOption"]>
+  export type MenuOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "menuId" | "deletedAt", ExtArgs["result"]["menuOption"]>
   export type MenuOptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     menu?: boolean | MenuDefaultArgs<ExtArgs>
   }
@@ -5673,6 +5693,7 @@ export namespace Prisma {
       name: string
       price: number
       menuId: number
+      deletedAt: Date | null
     }, ExtArgs["result"]["menuOption"]>
     composites: {}
   }
@@ -6047,6 +6068,7 @@ export namespace Prisma {
     readonly name: FieldRef<"MenuOption", 'String'>
     readonly price: FieldRef<"MenuOption", 'Int'>
     readonly menuId: FieldRef<"MenuOption", 'Int'>
+    readonly deletedAt: FieldRef<"MenuOption", 'DateTime'>
   }
     
 
@@ -7462,7 +7484,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     price: 'price',
-    shopId: 'shopId'
+    shopId: 'shopId',
+    deletedAt: 'deletedAt'
   };
 
   export type MenuScalarFieldEnum = (typeof MenuScalarFieldEnum)[keyof typeof MenuScalarFieldEnum]
@@ -7472,7 +7495,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     price: 'price',
-    menuId: 'menuId'
+    menuId: 'menuId',
+    deletedAt: 'deletedAt'
   };
 
   export type MenuOptionScalarFieldEnum = (typeof MenuOptionScalarFieldEnum)[keyof typeof MenuOptionScalarFieldEnum]
@@ -7800,6 +7824,7 @@ export namespace Prisma {
     name?: StringFilter<"Menu"> | string
     price?: IntFilter<"Menu"> | number
     shopId?: IntFilter<"Menu"> | number
+    deletedAt?: DateTimeNullableFilter<"Menu"> | Date | string | null
     shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
     options?: MenuOptionListRelationFilter
   }
@@ -7809,6 +7834,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     shopId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     shop?: ShopOrderByWithRelationInput
     options?: MenuOptionOrderByRelationAggregateInput
     _relevance?: MenuOrderByRelevanceInput
@@ -7822,6 +7848,7 @@ export namespace Prisma {
     name?: StringFilter<"Menu"> | string
     price?: IntFilter<"Menu"> | number
     shopId?: IntFilter<"Menu"> | number
+    deletedAt?: DateTimeNullableFilter<"Menu"> | Date | string | null
     shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
     options?: MenuOptionListRelationFilter
   }, "id">
@@ -7831,6 +7858,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     shopId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: MenuCountOrderByAggregateInput
     _avg?: MenuAvgOrderByAggregateInput
     _max?: MenuMaxOrderByAggregateInput
@@ -7846,6 +7874,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Menu"> | string
     price?: IntWithAggregatesFilter<"Menu"> | number
     shopId?: IntWithAggregatesFilter<"Menu"> | number
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Menu"> | Date | string | null
   }
 
   export type MenuOptionWhereInput = {
@@ -7856,6 +7885,7 @@ export namespace Prisma {
     name?: StringFilter<"MenuOption"> | string
     price?: IntFilter<"MenuOption"> | number
     menuId?: IntFilter<"MenuOption"> | number
+    deletedAt?: DateTimeNullableFilter<"MenuOption"> | Date | string | null
     menu?: XOR<MenuScalarRelationFilter, MenuWhereInput>
   }
 
@@ -7864,6 +7894,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     menuId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     menu?: MenuOrderByWithRelationInput
     _relevance?: MenuOptionOrderByRelevanceInput
   }
@@ -7876,6 +7907,7 @@ export namespace Prisma {
     name?: StringFilter<"MenuOption"> | string
     price?: IntFilter<"MenuOption"> | number
     menuId?: IntFilter<"MenuOption"> | number
+    deletedAt?: DateTimeNullableFilter<"MenuOption"> | Date | string | null
     menu?: XOR<MenuScalarRelationFilter, MenuWhereInput>
   }, "id">
 
@@ -7884,6 +7916,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     menuId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: MenuOptionCountOrderByAggregateInput
     _avg?: MenuOptionAvgOrderByAggregateInput
     _max?: MenuOptionMaxOrderByAggregateInput
@@ -7899,6 +7932,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"MenuOption"> | string
     price?: IntWithAggregatesFilter<"MenuOption"> | number
     menuId?: IntWithAggregatesFilter<"MenuOption"> | number
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"MenuOption"> | Date | string | null
   }
 
   export type OrderWhereInput = {
@@ -8166,6 +8200,7 @@ export namespace Prisma {
   export type MenuCreateInput = {
     name: string
     price: number
+    deletedAt?: Date | string | null
     shop: ShopCreateNestedOneWithoutMenusInput
     options?: MenuOptionCreateNestedManyWithoutMenuInput
   }
@@ -8175,12 +8210,14 @@ export namespace Prisma {
     name: string
     price: number
     shopId: number
+    deletedAt?: Date | string | null
     options?: MenuOptionUncheckedCreateNestedManyWithoutMenuInput
   }
 
   export type MenuUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shop?: ShopUpdateOneRequiredWithoutMenusNestedInput
     options?: MenuOptionUpdateManyWithoutMenuNestedInput
   }
@@ -8190,6 +8227,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     options?: MenuOptionUncheckedUpdateManyWithoutMenuNestedInput
   }
 
@@ -8198,11 +8236,13 @@ export namespace Prisma {
     name: string
     price: number
     shopId: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuUncheckedUpdateManyInput = {
@@ -8210,11 +8250,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionCreateInput = {
     name: string
     price: number
+    deletedAt?: Date | string | null
     menu: MenuCreateNestedOneWithoutOptionsInput
   }
 
@@ -8223,11 +8265,13 @@ export namespace Prisma {
     name: string
     price: number
     menuId: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuOptionUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     menu?: MenuUpdateOneRequiredWithoutOptionsNestedInput
   }
 
@@ -8236,6 +8280,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     menuId?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionCreateManyInput = {
@@ -8243,11 +8288,13 @@ export namespace Prisma {
     name: string
     price: number
     menuId: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuOptionUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionUncheckedUpdateManyInput = {
@@ -8255,6 +8302,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     menuId?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderCreateInput = {
@@ -8663,6 +8711,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     shopId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MenuAvgOrderByAggregateInput = {
@@ -8676,6 +8725,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     shopId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MenuMinOrderByAggregateInput = {
@@ -8683,6 +8733,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     shopId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MenuSumOrderByAggregateInput = {
@@ -8707,6 +8758,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     menuId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MenuOptionAvgOrderByAggregateInput = {
@@ -8720,6 +8772,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     menuId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MenuOptionMinOrderByAggregateInput = {
@@ -8727,6 +8780,7 @@ export namespace Prisma {
     name?: SortOrder
     price?: SortOrder
     menuId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type MenuOptionSumOrderByAggregateInput = {
@@ -9606,6 +9660,7 @@ export namespace Prisma {
   export type MenuCreateWithoutShopInput = {
     name: string
     price: number
+    deletedAt?: Date | string | null
     options?: MenuOptionCreateNestedManyWithoutMenuInput
   }
 
@@ -9613,6 +9668,7 @@ export namespace Prisma {
     id?: number
     name: string
     price: number
+    deletedAt?: Date | string | null
     options?: MenuOptionUncheckedCreateNestedManyWithoutMenuInput
   }
 
@@ -9711,6 +9767,7 @@ export namespace Prisma {
     name?: StringFilter<"Menu"> | string
     price?: IntFilter<"Menu"> | number
     shopId?: IntFilter<"Menu"> | number
+    deletedAt?: DateTimeNullableFilter<"Menu"> | Date | string | null
   }
 
   export type OrderUpsertWithWhereUniqueWithoutShopInput = {
@@ -9758,12 +9815,14 @@ export namespace Prisma {
   export type MenuOptionCreateWithoutMenuInput = {
     name: string
     price: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuOptionUncheckedCreateWithoutMenuInput = {
     id?: number
     name: string
     price: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuOptionCreateOrConnectWithoutMenuInput = {
@@ -9832,11 +9891,13 @@ export namespace Prisma {
     name?: StringFilter<"MenuOption"> | string
     price?: IntFilter<"MenuOption"> | number
     menuId?: IntFilter<"MenuOption"> | number
+    deletedAt?: DateTimeNullableFilter<"MenuOption"> | Date | string | null
   }
 
   export type MenuCreateWithoutOptionsInput = {
     name: string
     price: number
+    deletedAt?: Date | string | null
     shop: ShopCreateNestedOneWithoutMenusInput
   }
 
@@ -9845,6 +9906,7 @@ export namespace Prisma {
     name: string
     price: number
     shopId: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuCreateOrConnectWithoutOptionsInput = {
@@ -9866,6 +9928,7 @@ export namespace Prisma {
   export type MenuUpdateWithoutOptionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shop?: ShopUpdateOneRequiredWithoutMenusNestedInput
   }
 
@@ -9874,6 +9937,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateWithoutOrdersInput = {
@@ -10074,6 +10138,7 @@ export namespace Prisma {
     id?: number
     name: string
     price: number
+    deletedAt?: Date | string | null
   }
 
   export type OrderCreateManyShopInput = {
@@ -10088,6 +10153,7 @@ export namespace Prisma {
   export type MenuUpdateWithoutShopInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     options?: MenuOptionUpdateManyWithoutMenuNestedInput
   }
 
@@ -10095,6 +10161,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     options?: MenuOptionUncheckedUpdateManyWithoutMenuNestedInput
   }
 
@@ -10102,6 +10169,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderUpdateWithoutShopInput = {
@@ -10134,23 +10202,27 @@ export namespace Prisma {
     id?: number
     name: string
     price: number
+    deletedAt?: Date | string | null
   }
 
   export type MenuOptionUpdateWithoutMenuInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionUncheckedUpdateWithoutMenuInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionUncheckedUpdateManyWithoutMenuInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

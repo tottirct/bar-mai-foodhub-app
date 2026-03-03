@@ -13,8 +13,13 @@ export async function PATCH(
 
         const { status } = await request.json();
 
-        const order = await prisma.order.findUnique({
-            where: { id: orderId },
+        const order = await prisma.order.findFirst({
+            where: {
+                id: orderId,
+                shop: {
+                    deletedAt: null
+                }
+            },
             include: { shop: true }
         });
 
@@ -28,13 +33,17 @@ export async function PATCH(
 
         const updatedOrder = await prisma.$transaction(async(tx) => {
             const newOrder = await tx.order.update({
-                where: {id : orderId},
+                where: {
+                    id : orderId
+                },
                 data: {status: status}
             })
 
             if(status === "CANCELLED") {
                 await tx.wallet.update({
-                    where: {userId: order.userId},
+                    where: {
+                        userId: order.userId
+                    },
                     data: {
                         balance : {
                             increment: order.totalPrice
@@ -43,7 +52,9 @@ export async function PATCH(
                 });
             } else if (status === "COMPLETED") {
                 await tx.shop.update({
-                    where: {id: shopId},
+                    where: {
+                        id: shopId
+                    },
                     data: {
                         wallet: {
                             increment: order.totalPrice

@@ -7,20 +7,30 @@ export async function GET(
     request: Request,
 ) {
     try {
+        const { searchParams } = new URL(request.url);
+        const limit = parseInt(searchParams.get('limit') || '50');
+        const page = parseInt(searchParams.get('page') || '1');
+        const skip = (page - 1) * limit;
+
         const users = await prisma.user.findMany({
+            where: {
+                deletedAt: null
+            },
+            take: limit,
+            skip: skip,
             select: {
                 id: true,
                 email: true,
                 name: true,
                 username: true,
                 role: true,
-                isBanned: true,
                 wallets: {
                     select: {
                         balance: true
                     }
                 }
-            }
+            },
+            orderBy: {id: 'desc'}
         });
 
         const formattedUserData = users.map((user) => {
@@ -30,7 +40,6 @@ export async function GET(
                 name: user.name,
                 username: user.username,
                 role: user.role,
-                isBanned: user.isBanned,
                 balance: user.wallets?.balance || null
             }
         });

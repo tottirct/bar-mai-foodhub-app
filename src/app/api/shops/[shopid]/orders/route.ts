@@ -14,6 +14,9 @@ export async function GET(
         const shopsOrder = await prisma.order.findMany({
             where: {
                 shopId: shopId,
+                shop:{
+                    deletedAt: null
+                },
                 status: {
                     in: ['PENDING','PREPARING','READY']
                 }

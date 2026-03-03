@@ -10,8 +10,13 @@ export async function GET(
         const { id } = await params;
         const userId = parseInt(id);
         
-        const userWallet = await prisma.wallet.findUnique({
-            where: { userId: userId },
+        const userWallet = await prisma.wallet.findFirst({
+            where: {
+                userId: userId,
+                user: {
+                    deletedAt: null
+                }
+            },
             select: { balance: true }
         });
 
@@ -49,6 +54,17 @@ export async function POST(
 
         if(!amount || amount <= 0) {
             return NextResponse.json({success: false, message:"ไหวป่าววะ วรุปจะเติมมั้ย"},{status:400});
+        }
+
+        const userCheck = await prisma.user.findFirst({
+            where: {
+                id: userId,
+                deletedAt: null
+            }
+        });
+
+        if(!userCheck) {
+            return NextResponse.json({success: false,message: "ไม่พบผู้ใช้"},{status:404});
         }
 
         const updatedWallet = await prisma.wallet.upsert({
