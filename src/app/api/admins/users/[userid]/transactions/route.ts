@@ -84,7 +84,7 @@ export async function GET(
                 where: {
                     shopId: shop.id,
                     action: {
-                        in: ['ADD_MENU','DELETE_MENU']
+                        in: ['ADD_MENU','DELETE_MENU','ADD_OPTION']
                     }
                 },
                 orderBy: {createdAt: 'desc'},
