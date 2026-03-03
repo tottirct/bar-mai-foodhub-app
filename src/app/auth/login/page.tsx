@@ -3,7 +3,9 @@ import React,{useState,useEffect} from 'react'
 import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { get } from 'http';
+import { AuthBox } from '@/components/auth/AuthBox';
+import { AuthButton } from '@/components/auth/AuthBotton';
+import { AuthInput } from '@/components/auth/AuthInput';
  
  function LoginPage() {
 
@@ -12,7 +14,6 @@ import { get } from 'http';
    const [error,seterror] = useState('');
 
    const router = useRouter();
-
    const { data: session, status } = useSession();
 
    useEffect(() => {
@@ -47,17 +48,17 @@ import { get } from 'http';
     }
 
    return (
-        <div className="auth-container">
-            <div className="auth-box">
+        <div className="min-h-full flex items-center justify-center px-4">
+            <AuthBox>
                 <h1 className='mb-2'>เข้าสู่ระบบ</h1>
                 <form onSubmit={handlerSubmit}>
                     {error && <p className='text-red-600'>{error}</p>}
-                    <input onChange={(e) => setusername(e.target.value)} className='auth-input' type="username" placeholder='ชื่อผู้ใช้'/>
-                    <input onChange={(e) => setpassword(e.target.value)} className='auth-input' type="password" placeholder='รหัสผ่าน'/>
-                    <button type='submit' className='auth-button'>เข้าสู่ระบบ</button>
+                    <AuthInput type="text" placeholder="ชื่อผู้ใช้" onChange={(e) => setusername(e.target.value)} />
+                    <AuthInput type="password" placeholder="รหัสผ่าน" onChange={(e) => setpassword(e.target.value)} />
+                    <AuthButton type="submit" text="เข้าสู่ระบบ"/>
                 </form>
                 <p>ยังไม่มีบัญชี? <Link href="/auth/register" className='text-green-600'>ลงทะเบียน</Link></p>
-            </div>
+            </AuthBox>
         </div>
    )
  }
