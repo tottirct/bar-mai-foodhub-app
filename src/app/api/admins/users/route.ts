@@ -38,8 +38,9 @@ export async function GET(
         return NextResponse.json({
             success: true,
             data: formattedUserData
-        })
+        },{status: 200})
     } catch(error) {
-
+        console.log(error)
+        return NextResponse.json({success: false,message:"ดึงข้อมูลพลาด"},{status: 500});
     }
 }
