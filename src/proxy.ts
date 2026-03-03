@@ -2,7 +2,7 @@ import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     const { pathname } = req.nextUrl;
 
@@ -23,15 +23,15 @@ export default async function middleware(req: NextRequest) {
 
     console.log(`User Accessing: ${pathname}, Role: ${role}`);
 
-    if (pathname.startsWith('/admin') && role !== 'admin') {
+    if (pathname.startsWith('/admin') && role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
 
-    if (pathname.startsWith('/user') && role !== 'owner') {
+    if (pathname.startsWith('/user') && role !== 'OWNER') {
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
 
-    if (pathname.startsWith('/customer') && role !== 'customer') {
+    if (pathname.startsWith('/customer') && role !== 'CUSTOMER') {
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
 

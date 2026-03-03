@@ -1,6 +1,9 @@
 'use client'
 import React,{useState} from 'react';
 import Link from 'next/link';
+import { AuthBox } from '@/components/auth/AuthBox';
+import { AuthButton } from '@/components/auth/AuthBotton';
+import { AuthInput } from '@/components/auth/AuthInput';
  
  function RegisterPage() {
 
@@ -12,8 +15,6 @@ import Link from 'next/link';
     const [success,setsuccess] = useState('');
 
     const [error,seterror] = useState('');
-
-    console.log(username,email,name,password,confirmPassword);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -66,21 +67,21 @@ import Link from 'next/link';
     }
 
    return (
-        <div className="auth-container">
-            <div className="auth-box">
+        <div className="min-h-full flex items-center justify-center px-4">
+            <AuthBox>
                 <h1 className='mb-2'>ลงทะเบียน</h1>
                 <form onSubmit={handleSubmit}>
                     {error && <p className='text-red-600'>{error}</p>}
                     {success && <p className='text-green-600'>{success}</p>}
-                    <input onChange={(e) => setusername(e.target.value)} className='auth-input' type="text" placeholder='ชื่อผู้ใช้'/>
-                    <input onChange={(e) => setemail(e.target.value)} className='auth-input' type="email" placeholder='อีเมล'/>
-                    <input onChange={(e) => setname(e.target.value)} className='auth-input' type="text" placeholder='ชื่อ-นามสกุล'/>
-                    <input onChange={(e) => setpassword(e.target.value)} className='auth-input' type="password" placeholder='รหัสผ่าน'/>
-                    <input onChange={(e) => setconfirmPassword(e.target.value)} className='auth-input' type="password" placeholder='ยืนยันรหัสผ่าน'/>
-                    <button type='submit' className='auth-button'>ลงทะเบียน</button>
+                    <AuthInput type='text' placeholder='ชื่อผู้ใช้' onChange={(e) => setusername(e.target.value)}/>
+                    <AuthInput type='email' placeholder='อีเมล' onChange={(e) => setemail(e.target.value)}/>
+                    <AuthInput type='text' placeholder='ชื่อ' onChange={(e) => setname(e.target.value)}/>
+                    <AuthInput type='password' placeholder='รหัสผ่าน' onChange={(e) => setpassword(e.target.value)}/>
+                    <AuthInput type='password' placeholder='ยืนยันรหัสผ่าน' onChange={(e) => setconfirmPassword(e.target.value)}/>
+                    <AuthButton text='ลงทะเบียน' type='submit'/>
                 </form>
                 <p>มีบัญชีแล้ว? <Link href="/auth/login" className='text-green-600'>เข้าสู่ระบบ</Link></p>
-            </div>
+            </AuthBox>
         </div>
    )
  }
