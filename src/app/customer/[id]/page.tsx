@@ -415,43 +415,61 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
             {/* Menu Grid */}
             {filteredMenus.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {filteredMenus.map((menu) => (
-                        <div
-                            key={menu.id}
-                            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all duration-300 flex flex-col"
-                        >
-                            <div className="aspect-square relative flex items-center justify-center bg-gray-50 overflow-hidden">
-                                <Image
-                                    src={menu.imageUrl || "/images/default-menu.jpg"}
-                                    alt={menu.name}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                                />
-                                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg shadow-sm text-orange-600 font-bold">
-                                    ฿{menu.price}
+                    {filteredMenus.map((menu) => {
+                        const isAvailable = menu.isAvailable !== false; // Handle optional/null as true
+                        const canOrder = shop.isOpen && isAvailable;
+
+                        return (
+                            <div
+                                key={menu.id}
+                                className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all duration-300 flex flex-col ${!isAvailable ? "opacity-75" : ""}`}
+                            >
+                                <div className={`aspect-square relative flex items-center justify-center bg-gray-50 overflow-hidden ${!isAvailable ? "grayscale" : ""}`}>
+                                    <Image
+                                        src={menu.imageUrl || "/images/default-menu.jpg"}
+                                        alt={menu.name}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                    />
+                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg shadow-sm text-orange-600 font-bold">
+                                        ฿{menu.price}
+                                    </div>
+                                    {!isAvailable && (
+                                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[2px]">
+                                            <span className="bg-red-600 text-white px-4 py-2 rounded-xl font-black text-sm tracking-widest shadow-lg shadow-red-900/20 uppercase">
+                                                หมด (Sold Out)
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-4 flex flex-col grow justify-between">
+                                    <div>
+                                        <h3 className={`text-lg font-bold line-clamp-1 mb-1 ${isAvailable ? "text-gray-800" : "text-gray-400 italic"}`}>
+                                            {menu.name}
+                                        </h3>
+                                        <p className="text-sm text-gray-500 line-clamp-2 mb-4 h-10">
+                                            อร่อย สด ใหม่ พร้อมเสิร์ฟถึงที่
+                                        </p>
+                                    </div>
+                                    <button
+                                        className={`w-full py-2.5 font-bold rounded-xl transition-all flex items-center justify-center gap-2 group/btn ${canOrder
+                                            ? "bg-gray-900 text-white hover:bg-orange-600"
+                                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                            }`}
+                                        disabled={!canOrder}
+                                        onClick={() => canOrder && openOrderModal(menu)}
+                                    >
+                                        <span className={canOrder ? "group-hover/btn:scale-110 transition-transform" : ""}>
+                                            {isAvailable ? "🛍️" : "🚫"}
+                                        </span>
+                                        {!isAvailable ? "หมดชั่วคราว" : shop.isOpen ? "Order Now" : "Shop Closed"}
+                                    </button>
                                 </div>
                             </div>
-                            <div className="p-4 flex flex-col grow justify-between">
-                                <div>
-                                    <h3 className="text-lg font-bold text-gray-800 line-clamp-1 mb-1">
-                                        {menu.name}
-                                    </h3>
-                                    <p className="text-sm text-gray-500 line-clamp-2 mb-4 h-10">
-                                        อร่อย สด ใหม่ พร้อมเสิร์ฟถึงที่
-                                    </p>
-                                </div>
-                                <button
-                                    className="w-full py-2.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 group/btn"
-                                    disabled={!shop.isOpen}
-                                    onClick={() => shop.isOpen && openOrderModal(menu)}
-                                >
-                                    <span className="group-hover/btn:scale-110 transition-transform">🛍️</span>
-                                    {shop.isOpen ? "Order Now" : "Shop Closed"}
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
+
                 </div>
             ) : (
                 <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
