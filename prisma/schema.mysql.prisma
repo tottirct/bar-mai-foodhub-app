@@ -42,6 +42,7 @@ model Shop {
   isOpen      Boolean
   wallet      Int     @default(0)
   user        User    @relation(fields: [ownerId], references: [id])
+  deletedAt   DateTime?
   menus       Menu[]
   orders      Order[]
 }
