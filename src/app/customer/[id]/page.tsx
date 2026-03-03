@@ -4,6 +4,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, use } from "react";
+import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 
 interface Shop {
@@ -41,6 +43,7 @@ function AddToCartModal({
     loadingDetail,
     shopId,
     shopName,
+    userId,
     onClose,
 }: {
     menu: Menu;
@@ -48,8 +51,10 @@ function AddToCartModal({
     loadingDetail: boolean;
     shopId: number;
     shopName: string;
+    userId: number | null;
     onClose: () => void;
 }) {
+
     const router = useRouter();
     const [quantity, setQuantity] = useState(1);
     const [selectedOptionIds, setSelectedOptionIds] = useState<Set<number>>(new Set());
@@ -83,8 +88,9 @@ function AddToCartModal({
             // สร้างออร์เดอร์ใหม่ (โครงสร้างตามที่ API ต้องการ)
             const newOrder = {
                 id: Date.now(), // ใช้ timestamp เป็น id ชั่วคราวสำหรับการแสดงผลในตะกร้า
-                userId: 1,
+                userId: userId || 0,
                 shopId,
+
                 shopName, // เก็บชื่อร้านไว้แสดงผลในหน้า Trolley
                 totalPrice,
                 createdAt: new Date().toISOString(),
@@ -282,6 +288,8 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
     const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
     const [menuDetail, setMenuDetail] = useState<MenuDetail | null>(null);
     const [loadingDetail, setLoadingDetail] = useState(false);
+    const { data: session } = useSession();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -483,7 +491,10 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                     loadingDetail={loadingDetail}
                     shopId={shop.id}
                     shopName={shop.name}
+                    userId={parseInt(session?.user?.id || "0")}
                     onClose={() => {
+
+
                         setSelectedMenu(null);
                         setMenuDetail(null);
                     }}

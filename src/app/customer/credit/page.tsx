@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 
 interface Transaction {
@@ -9,8 +11,10 @@ interface Transaction {
     action: string;
     description: string;
     metadata: {
-        amount: number;
+        amount?: number;
+        totalPrice?: number;
     };
+
     createdAt: string;
 }
 
@@ -26,8 +30,9 @@ export default function CreditPage() {
     const [topupLoading, setTopupLoading] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-    // Hardcoded userId for now, should be fetched from session or params
-    const userId = 1;
+    const { data: session, status } = useSession();
+    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+
 
     const fetchWalletData = async () => {
         try {
@@ -44,8 +49,14 @@ export default function CreditPage() {
     };
 
     useEffect(() => {
-        fetchWalletData();
-    }, []);
+        if (status === "authenticated" && userId) {
+            fetchWalletData();
+        } else if (status === "unauthenticated") {
+            setLoading(false);
+            setMessage({ type: "error", text: "กรุณาเข้าสู่ระบบเพื่อดูข้อมูลเครดิต" });
+        }
+    }, [status, userId]);
+
 
     const handleTopup = async (amount: number) => {
         setTopupLoading(true);
@@ -150,7 +161,8 @@ export default function CreditPage() {
 
                     <div className="overflow-y-auto flex-1 p-2 space-y-1">
                         {walletData?.transactions && walletData.transactions.length > 0 ? (
-                            walletData.transactions.slice().reverse().map((tx) => (
+                            walletData.transactions.slice().map((tx) => (
+
                                 <div key={tx.id} className="p-4 rounded-2xl hover:bg-gray-50 transition-colors flex items-center gap-4 group">
                                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${tx.action === 'WALLET_TOPUP' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600'}`}>
                                         {tx.action === 'WALLET_TOPUP' ? '➕' : '🛒'}
@@ -168,7 +180,8 @@ export default function CreditPage() {
                                         </p>
                                     </div>
                                     <div className={`text-sm font-black whitespace-nowrap ${tx.action === 'WALLET_TOPUP' ? 'text-green-600' : 'text-orange-600'}`}>
-                                        {tx.action === 'WALLET_TOPUP' ? '+' : '-'}{tx.metadata?.amount || 0}
+                                        {tx.action === 'WALLET_TOPUP' ? '+' : '-'}{tx.metadata?.amount || tx.metadata?.totalPrice || 0}
+
                                     </div>
                                 </div>
                             ))

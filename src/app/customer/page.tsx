@@ -29,11 +29,17 @@ export default function CustomerMainPage() {
 
     useEffect(() => {
         const fetchShops = async () => {
+            // Only set loading true if it's the first time or if query is changing
+            // But to avoid flickering, we could use a specific state for search loading
             try {
-                const response = await fetch("/api/shops");
+                const url = searchQuery
+                    ? `/api/shops?keyword=${encodeURIComponent(searchQuery)}`
+                    : "/api/shops";
+                const response = await fetch(url);
                 const result = await response.json();
                 if (result.success) {
                     setShops(result.data);
+                    setError(null);
                 } else {
                     setError(result.message || "Failed to fetch shops");
                 }
@@ -45,15 +51,13 @@ export default function CustomerMainPage() {
             }
         };
 
-        fetchShops();
-    }, []);
+        const timer = setTimeout(() => {
+            fetchShops();
+        }, 300); // 300ms debounce
 
-    // Filter shops based on search query (name or description)
-    const filteredShops = shops.filter(
-        (shop) =>
-            shop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (shop.description && shop.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
 
     if (loading) {
         return (
@@ -111,9 +115,10 @@ export default function CustomerMainPage() {
             </div>
 
             {/* Shop cards grid */}
-            {filteredShops.length > 0 ? (
+            {shops.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {filteredShops.map((shop) => (
+                    {shops.map((shop) => (
+
                         <Link
                             key={shop.id}
                             // Only navigate to menu page if the shop is open

@@ -2,6 +2,8 @@
 
 // src/app/customer/trolley/page.tsx
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+
 
 type Tab = "cart" | "inProgress" | "history";
 
@@ -104,26 +106,33 @@ function OrderCard({
             {/* Items list */}
             <div className="px-5 py-3 space-y-2 flex-grow">
                 {order.items.map((item, idx) => (
-                    <div key={idx} className="flex items-start justify-between gap-4">
-                        <div className="min-w-0 flex-1">
-                            <p className="font-semibold text-gray-700 text-sm truncate">
-                                {item.menuName}
-                                <span className="text-gray-400 font-medium ml-1">×{item.quantity}</span>
-                            </p>
-                            {item.selectedOptions.length > 0 && (
-                                <p className="text-xs text-gray-400 mt-0.5 truncate">
-                                    + {item.selectedOptions.map((o) => o.name).join(", ")}
+                    <div key={idx} className="space-y-1">
+                        <div className="flex items-start justify-between gap-4">
+                            <div className="min-w-0 flex-1">
+                                <p className="font-semibold text-gray-700 text-sm truncate">
+                                    {item.menuName}
+                                    <span className="text-gray-400 font-medium ml-1">×{item.quantity}</span>
                                 </p>
-                            )}
-                            {item.specialNote && (
-                                <p className="text-xs text-orange-500 mt-0.5 truncate">📝 {item.specialNote}</p>
-                            )}
+                            </div>
+                            <span className="text-sm font-bold text-gray-600 shrink-0">
+                                ฿{(item.price * item.quantity).toFixed(0)}
+                            </span>
                         </div>
-                        <span className="text-sm font-bold text-gray-600 shrink-0">
-                            ฿{(item.price * item.quantity).toFixed(0)}
-                        </span>
+
+                        {item.selectedOptions.map((o, optIdx) => (
+                            <div key={optIdx} className="flex items-center justify-between gap-4 text-xs text-gray-400">
+                                <span className="truncate flex-1 pl-3">+ {o.name}</span>
+                                <span className="shrink-0 font-medium text-gray-400">+฿{(o.price * item.quantity).toFixed(0)}</span>
+
+                            </div>
+                        ))}
+
+                        {item.specialNote && (
+                            <p className="text-xs text-orange-500 mt-0.5 truncate pl-3">📝 {item.specialNote}</p>
+                        )}
                     </div>
                 ))}
+
             </div>
 
             {/* Note */}
@@ -169,7 +178,9 @@ export default function TrolleyPage() {
     const [paying, setPaying] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const userId = 1;
+    const { data: session, status } = useSession();
+    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+
 
     const fetchOrders = async () => {
         try {
@@ -206,13 +217,19 @@ export default function TrolleyPage() {
             console.error("Error parsing local orders", e);
         }
 
-        const init = async () => {
-            setLoading(true);
-            await fetchOrders();
+        if (status === "authenticated" && userId) {
+            const init = async () => {
+                setLoading(true);
+                await fetchOrders();
+                setLoading(false);
+            };
+            init();
+        } else if (status === "unauthenticated") {
             setLoading(false);
-        };
-        init();
-    }, []);
+            setError("กรุณาเข้าสู่ระบบเพื่อดูตะกร้าสินค้า");
+        }
+    }, [status, userId]);
+
 
     const removeLocalOrder = (id: number) => {
         const next = localOrders.filter(o => o.id !== id);
@@ -227,16 +244,14 @@ export default function TrolleyPage() {
         setError(null);
 
         try {
-            // เพื่อให้ง่าย เราจะส่งออร์เดอร์เข้า API ทีละรายการตามที่เก็บไว้
-            // หมายเหตุ: จริงๆ ถ้าอยู่ร้านเดียวกันควร Group ไปทีเดียว แต่เพื่อให้ Flow ชัดเจน 
-            // และรองรับหลายร้านพร้อมกัน เราจะยิงแยกตามก้อนที่เก็บมา
             for (const order of localOrders) {
                 const res = await fetch("/api/orders", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        userId: order.userId,
+                        userId: userId,
                         shopId: order.shopId,
+
                         items: order.items,
                         note: order.note
                     })
@@ -247,12 +262,10 @@ export default function TrolleyPage() {
                 }
             }
 
-            // จ่ายครบแล้ว ล้างคลัง
             localStorage.setItem("barmai_local_orders", "[]");
             setLocalOrders([]);
             alert("ชำระเงินสำเร็จแล้ว! รายการของคุณย้ายไปที่แถบ 'กำลังทำ' ครับ");
 
-            // รีโหลดข้อมูลจาก DB
             await fetchOrders();
             setActiveTab("inProgress");
         } catch (err: any) {
@@ -266,7 +279,6 @@ export default function TrolleyPage() {
     const currentOrders = ordersMap[activeTab];
     const totalToPay = localOrders.reduce((sum, o) => sum + o.totalPrice, 0);
 
-    /* ─── Loading ─── */
     if (loading) {
         return (
             <main className="container mx-auto p-4 md:p-6 flex items-center justify-center min-h-[60vh]">
@@ -278,7 +290,6 @@ export default function TrolleyPage() {
         );
     }
 
-    /* ─── Error ─── */
     if (error) {
         return (
             <main className="container mx-auto p-4 md:p-6 flex items-center justify-center min-h-[60vh]">
