@@ -8,6 +8,9 @@ export async function GET(request: NextRequest) {
 
         if (!keyword) { // ไม่มี search หวะ
             const shops = await prisma.shop.findMany({
+                where: {
+                    deletedAt: null
+                },
                 select: {
                     id: true,
                     name: true,
@@ -42,11 +45,13 @@ export async function GET(request: NextRequest) {
         } else { // มี search หวะ
             const shops = await prisma.shop.findMany({
                 where: {
+                    deletedAt: null,
                     menus: {
                         some: {
                             name: {
                                 contains: keyword,
-                            }
+                            },
+                            deletedAt: null
                         }
                     }
                 },
