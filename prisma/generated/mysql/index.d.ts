@@ -1423,6 +1423,7 @@ export namespace Prisma {
     username: string | null
     password: string | null
     role: $Enums.Role | null
+    isBanned: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1432,6 +1433,7 @@ export namespace Prisma {
     username: string | null
     password: string | null
     role: $Enums.Role | null
+    isBanned: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1441,6 +1443,7 @@ export namespace Prisma {
     username: number
     password: number
     role: number
+    isBanned: number
     _all: number
   }
 
@@ -1460,6 +1463,7 @@ export namespace Prisma {
     username?: true
     password?: true
     role?: true
+    isBanned?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1469,6 +1473,7 @@ export namespace Prisma {
     username?: true
     password?: true
     role?: true
+    isBanned?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1478,6 +1483,7 @@ export namespace Prisma {
     username?: true
     password?: true
     role?: true
+    isBanned?: true
     _all?: true
   }
 
@@ -1574,6 +1580,7 @@ export namespace Prisma {
     username: string
     password: string
     role: $Enums.Role
+    isBanned: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1602,6 +1609,7 @@ export namespace Prisma {
     username?: boolean
     password?: boolean
     role?: boolean
+    isBanned?: boolean
     orders?: boolean | User$ordersArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
     wallets?: boolean | User$walletsArgs<ExtArgs>
@@ -1617,9 +1625,10 @@ export namespace Prisma {
     username?: boolean
     password?: boolean
     role?: boolean
+    isBanned?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "username" | "password" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "username" | "password" | "role" | "isBanned", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | User$ordersArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
@@ -1641,6 +1650,7 @@ export namespace Prisma {
       username: string
       password: string
       role: $Enums.Role
+      isBanned: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2019,6 +2029,7 @@ export namespace Prisma {
     readonly username: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly isBanned: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -7407,7 +7418,8 @@ export namespace Prisma {
     name: 'name',
     username: 'username',
     password: 'password',
-    role: 'role'
+    role: 'role',
+    isBanned: 'isBanned'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7583,6 +7595,7 @@ export namespace Prisma {
     username?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isBanned?: BoolFilter<"User"> | boolean
     orders?: OrderListRelationFilter
     shops?: ShopListRelationFilter
     wallets?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
@@ -7595,6 +7608,7 @@ export namespace Prisma {
     username?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isBanned?: SortOrder
     orders?: OrderOrderByRelationAggregateInput
     shops?: ShopOrderByRelationAggregateInput
     wallets?: WalletOrderByWithRelationInput
@@ -7611,6 +7625,7 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isBanned?: BoolFilter<"User"> | boolean
     orders?: OrderListRelationFilter
     shops?: ShopListRelationFilter
     wallets?: XOR<WalletNullableScalarRelationFilter, WalletWhereInput> | null
@@ -7623,6 +7638,7 @@ export namespace Prisma {
     username?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isBanned?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -7640,6 +7656,7 @@ export namespace Prisma {
     username?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    isBanned?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type WalletWhereInput = {
@@ -7944,6 +7961,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     orders?: OrderCreateNestedManyWithoutUserInput
     shops?: ShopCreateNestedManyWithoutUserInput
     wallets?: WalletCreateNestedOneWithoutUserInput
@@ -7956,6 +7974,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     shops?: ShopUncheckedCreateNestedManyWithoutUserInput
     wallets?: WalletUncheckedCreateNestedOneWithoutUserInput
@@ -7967,6 +7986,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     orders?: OrderUpdateManyWithoutUserNestedInput
     shops?: ShopUpdateManyWithoutUserNestedInput
     wallets?: WalletUpdateOneWithoutUserNestedInput
@@ -7979,6 +7999,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     shops?: ShopUncheckedUpdateManyWithoutUserNestedInput
     wallets?: WalletUncheckedUpdateOneWithoutUserNestedInput
@@ -7991,6 +8012,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -7999,6 +8021,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -8008,6 +8031,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WalletCreateInput = {
@@ -8307,6 +8331,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type OrderListRelationFilter = {
     every?: OrderWhereInput
     some?: OrderWhereInput
@@ -8345,6 +8374,7 @@ export namespace Prisma {
     username?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isBanned?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -8358,6 +8388,7 @@ export namespace Prisma {
     username?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isBanned?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -8367,6 +8398,7 @@ export namespace Prisma {
     username?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isBanned?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -8417,6 +8449,14 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -8465,11 +8505,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type MenuListRelationFilter = {
@@ -8548,14 +8583,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ShopScalarRelationFilter = {
@@ -8779,6 +8806,10 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type OrderUpdateManyWithoutUserNestedInput = {
     create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
@@ -8913,10 +8944,6 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutShopsNestedInput = {
@@ -9118,6 +9145,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -9173,6 +9205,14 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -9186,11 +9226,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -9220,14 +9255,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -9408,6 +9435,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     orders?: OrderCreateNestedManyWithoutUserInput
     shops?: ShopCreateNestedManyWithoutUserInput
   }
@@ -9419,6 +9447,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     shops?: ShopUncheckedCreateNestedManyWithoutUserInput
   }
@@ -9445,6 +9474,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     orders?: OrderUpdateManyWithoutUserNestedInput
     shops?: ShopUpdateManyWithoutUserNestedInput
   }
@@ -9456,6 +9486,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     shops?: ShopUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -9466,6 +9497,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     orders?: OrderCreateNestedManyWithoutUserInput
     wallets?: WalletCreateNestedOneWithoutUserInput
   }
@@ -9477,6 +9509,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
     wallets?: WalletUncheckedCreateNestedOneWithoutUserInput
   }
@@ -9553,6 +9586,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     orders?: OrderUpdateManyWithoutUserNestedInput
     wallets?: WalletUpdateOneWithoutUserNestedInput
   }
@@ -9564,6 +9598,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
     wallets?: WalletUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -9759,6 +9794,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     shops?: ShopCreateNestedManyWithoutUserInput
     wallets?: WalletCreateNestedOneWithoutUserInput
   }
@@ -9770,6 +9806,7 @@ export namespace Prisma {
     username: string
     password: string
     role?: $Enums.Role
+    isBanned?: boolean
     shops?: ShopUncheckedCreateNestedManyWithoutUserInput
     wallets?: WalletUncheckedCreateNestedOneWithoutUserInput
   }
@@ -9820,6 +9857,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     shops?: ShopUpdateManyWithoutUserNestedInput
     wallets?: WalletUpdateOneWithoutUserNestedInput
   }
@@ -9831,6 +9869,7 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
     shops?: ShopUncheckedUpdateManyWithoutUserNestedInput
     wallets?: WalletUncheckedUpdateOneWithoutUserNestedInput
   }

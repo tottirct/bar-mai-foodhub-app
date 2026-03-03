@@ -127,7 +127,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   username: 'username',
   password: 'password',
-  role: 'role'
+  role: 'role',
+  isBanned: 'isBanned'
 };
 
 exports.Prisma.WalletScalarFieldEnum = {
