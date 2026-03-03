@@ -8,10 +8,10 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const { userId, shopId, items, note } = body;
 
-        const menuIds = items.map((i:any) => i.menuId);
+        const menuIds = items.map((i: any) => i.menuId);
         const dbMenus = await prisma.menu.findMany({
-            where: {id: { in: menuIds }},
-            include: { options: true}
+            where: { id: { in: menuIds } },
+            include: { options: true }
         });
 
         const processedItems = items.map((item: any) => {
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
             const selectedOptions = (item.selectedOptions || []).map((opt: any) => {
                 const dbOption = menu.options.find(o => o.id === opt.optionId);
                 if (!dbOption) throw new Error(`option ${opt.optionId} ไม่มีใน menu ${menu.name}`);
-                
+
                 itemPrice += dbOption.price;
                 return {
                     optionId: dbOption.id,
@@ -45,14 +45,14 @@ export async function POST(request: NextRequest) {
             };
         });
 
-        const user = await prisma.user.findUnique({ where: { id: userId } ,include: { wallets: true }});
-        if(!user) {
-            return NextResponse.json({ success: false, message: "หาผู้ใช้ไม่เจอ"},{status: 404});
+        const user = await prisma.user.findUnique({ where: { id: userId }, include: { wallets: true } });
+        if (!user) {
+            return NextResponse.json({ success: false, message: "หาผู้ใช้ไม่เจอ" }, { status: 404 });
         }
-        if(!user.wallets || user.wallets.balance < calTotalPrice) {
-            return NextResponse.json({success: false, message: "ตังไม่พอ"},{status:400});
+        if (!user.wallets || user.wallets.balance < calTotalPrice) {
+            return NextResponse.json({ success: false, message: "ตังไม่พอ" }, { status: 400 });
         }
-        
+
         const result = await prisma.$transaction(async (tx) => {
             const createdOrder = await tx.order.create({
                 data: {
@@ -64,8 +64,8 @@ export async function POST(request: NextRequest) {
             });
 
             await tx.wallet.update({
-                where: {userId:userId},
-                data:{
+                where: { userId: userId },
+                data: {
                     balance: {
                         decrement: calTotalPrice
                     }
@@ -92,18 +92,20 @@ export async function POST(request: NextRequest) {
                     userRole: user.role,
                     action: "ORDER_PLACED",
                     description: `สั่งข้าวร้าน ${shopId} รวม ${calTotalPrice}`,
-                    metadata: { orderId: newOrderId, totalPrice: calTotalPrice, shopId: shopId}
+                    metadata: { orderId: newOrderId, totalPrice: calTotalPrice, shopId: shopId }
                 }
             });
-        } catch(mongoError) {
-            console.error("บันทึกลง mongo พลาด",mongoError);
+
+
+        } catch (mongoError) {
+            console.error("บันทึกลง mongo พลาด", mongoError);
         }
 
-        return NextResponse.json({success: true, message:"สั่งสำเร็จ",totalPrice: calTotalPrice,orderId: newOrderId});
+        return NextResponse.json({ success: true, message: "สั่งสำเร็จ", totalPrice: calTotalPrice, orderId: newOrderId });
 
     } catch (error) {
         console.log(error);
-        return NextResponse.json({success: false, message: "ผิดพลาด"}, {status: 500});
+        return NextResponse.json({ success: false, message: "ผิดพลาด" }, { status: 500 });
     }
 }
 
@@ -125,37 +127,37 @@ export async function GET(
             orderBy: { createdAt: 'desc' },
             include: {
                 shop: {
-                    select:{
+                    select: {
                         name: true
                     }
                 }
             }
         });
 
-        if(allOrders.length === 0){
+        if (allOrders.length === 0) {
             return NextResponse.json({
                 success: true,
-                data: { cart: [], history: []}
+                data: { cart: [], history: [] }
             });
         }
 
         const orderIds = allOrders.map(order => order.id);
         const allDetails = await mongo.orderDetail.findMany({
-            where: { mysqlOrderId: { in: orderIds }}
+            where: { mysqlOrderId: { in: orderIds } }
         });
-        
+
         const formattedOrders = allOrders.map(order => {
             const detail = allDetails.find(d => d.mysqlOrderId === order.id);
             return {
                 ...order,
-                items: detail?.items || [],       
+                items: detail?.items || [],
                 note: detail?.note || null
             };
         });
 
         const currentCart = formattedOrders.filter(order => order.status === "PENDING");
         const orderHistory = formattedOrders.filter(order => order.status === "COMPLETED" || order.status === "CANCELLED");
-        const inProgress =  formattedOrders.filter(order => order.status === "PREPARING" || order.status === "READY");
+        const inProgress = formattedOrders.filter(order => order.status === "PREPARING" || order.status === "READY");
         return NextResponse.json({
             success: true,
             data: {

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+
 
 interface UserInfo {
     name: string;
@@ -16,8 +18,9 @@ export default function InformationPage() {
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-    // Hardcoded userId for now
-    const userId = 1;
+    const { data: session, status } = useSession();
+    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+
 
     const fetchUserInfo = async () => {
         try {
@@ -35,8 +38,14 @@ export default function InformationPage() {
     };
 
     useEffect(() => {
-        fetchUserInfo();
-    }, []);
+        if (status === "authenticated" && userId) {
+            fetchUserInfo();
+        } else if (status === "unauthenticated") {
+            setLoading(false);
+            setMessage({ type: "error", text: "กรุณาเข้าสู่ระบบเพื่อดูข้อมูลส่วนตัว" });
+        }
+    }, [status, userId]);
+
 
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
