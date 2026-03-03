@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         if (category === 'finance') {
             actionFilter = { in: ['WALLET_TOPUP', 'WITHDRAW','REFUND_SUCCESS','ORDER_PLACED','COMPLETED'] };
         } else if (category === 'account') { // user_register / user_loging ยังไม่มี รอต็อดจด mongo
-            actionFilter = { in: ['USER_REGISTER', 'USER_LOGIN', 'DELETE_CUSTOMER', 'DELETE_OWNER_CASCADE'] };
+            actionFilter = { in: ['USER_REGISTER', 'USER_LOGIN', 'DELETE_CUSTOMER', 'DELETE_OWNER_CASCADE','PROFILE_UPDATED'] };
         } else if (category === 'menu') {
             actionFilter = { in: ['ADD_MENU', 'DELETE_MENU', 'ADD_OPTION', 'DELETE_OPTION'] };
         }
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
             }),
             mongo.activityLog.count({
                 where: whereClause
-            })
+            }),
         ]);
 
         return NextResponse.json({
