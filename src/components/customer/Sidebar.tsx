@@ -32,14 +32,23 @@ export default function Sidebar() {
 
                 {/* Nav links */}
                 <nav className="flex flex-col space-y-1 flex-1">
+
+
+
+
                     <Link
                         href="/customer"
                         className={`nav-item ${isActive("/customer") ? "nav-item-active" : "nav-item-inactive"}`}
                     >
-                        <span className="text-lg group-hover:scale-110 transition-transform">🏠</span>
+                    <span className="text-lg group-hover:scale-110 transition-transform">🏠</span>
                         Main
                         {isActive("/customer") && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-500" />}
                     </Link>
+
+
+
+
+
                     <Link
                         href="/customer/credit"
                         className={`nav-item ${isActive("/customer/credit") ? "nav-item-active" : "nav-item-inactive"}`}

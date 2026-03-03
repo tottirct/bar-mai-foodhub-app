@@ -9,16 +9,16 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String
-  username String  @unique
-  password String
-  role     Role    @default(CUSTOMER)
-  isBanned Boolean @default(false)
-  orders   Order[]
-  shops    Shop[]
-  wallets  Wallet?
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String
+  username  String    @unique
+  password  String
+  role      Role      @default(CUSTOMER)
+  deletedAt DateTime?
+  orders    Order[]
+  shops     Shop[]
+  wallets   Wallet?
 }
 
 model Wallet {
@@ -35,13 +35,14 @@ enum Role {
 }
 
 model Shop {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String?
   ownerId     Int
   isOpen      Boolean
-  wallet      Int     @default(0)
-  user        User    @relation(fields: [ownerId], references: [id])
+  wallet      Int       @default(0)
+  user        User      @relation(fields: [ownerId], references: [id])
+  deletedAt   DateTime?
   menus       Menu[]
   orders      Order[]
 }

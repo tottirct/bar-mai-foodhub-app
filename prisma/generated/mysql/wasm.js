@@ -100,7 +100,7 @@ exports.Prisma.UserScalarFieldEnum = {
   username: 'username',
   password: 'password',
   role: 'role',
-  isBanned: 'isBanned'
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.WalletScalarFieldEnum = {
@@ -115,7 +115,8 @@ exports.Prisma.ShopScalarFieldEnum = {
   description: 'description',
   ownerId: 'ownerId',
   isOpen: 'isOpen',
-  wallet: 'wallet'
+  wallet: 'wallet',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.MenuScalarFieldEnum = {
@@ -147,16 +148,16 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
   email: 'email',
   name: 'name',
   username: 'username',
   password: 'password'
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
 };
 
 exports.Prisma.ShopOrderByRelevanceFieldEnum = {
@@ -201,7 +202,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\generated\\mysql",
+      "value": "C:\\Work\\database\\bar-mai-app\\prisma\\generated\\mysql",
       "fromEnvVar": null
     },
     "config": {
@@ -215,7 +216,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\schema.mysql.prisma",
+    "sourceFilePath": "C:\\Work\\database\\bar-mai-app\\prisma\\schema.mysql.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -237,13 +238,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mysql\" // ป้องกันการทับซ้อนกับ Client ของ MongoDB\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"MYSQL_DATABASE_URL\")\n}\n\nmodel User {\n  id       Int     @id @default(autoincrement())\n  email    String  @unique\n  name     String\n  username String  @unique\n  password String\n  role     Role    @default(CUSTOMER)\n  isBanned Boolean @default(false)\n  orders   Order[]\n  shops    Shop[]\n  wallets  Wallet?\n}\n\nmodel Wallet {\n  id      Int  @id @default(autoincrement())\n  balance Int  @default(0)\n  userId  Int  @unique\n  user    User @relation(fields: [userId], references: [id])\n}\n\nenum Role {\n  CUSTOMER\n  OWNER\n  ADMIN\n}\n\nmodel Shop {\n  id          Int     @id @default(autoincrement())\n  name        String\n  description String?\n  ownerId     Int\n  isOpen      Boolean\n  wallet      Int     @default(0)\n  user        User    @relation(fields: [ownerId], references: [id])\n  menus       Menu[]\n  orders      Order[]\n}\n\nmodel Menu {\n  id      Int          @id @default(autoincrement())\n  name    String\n  price   Int\n  shopId  Int\n  shop    Shop         @relation(fields: [shopId], references: [id])\n  options MenuOption[]\n}\n\nmodel MenuOption {\n  id     Int    @id @default(autoincrement())\n  name   String\n  price  Int\n  menuId Int\n\n  menu Menu @relation(fields: [menuId], references: [id])\n}\n\nmodel Order {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  shopId       Int\n  totalPrice   Int\n  status       String   @default(\"PENDING\")\n  createdAt    DateTime @default(now())\n  mongoOrderId String?\n  user         User     @relation(fields: [userId], references: [id])\n  shop         Shop     @relation(fields: [shopId], references: [id])\n}\n",
-  "inlineSchemaHash": "75cda1362addd3e6b833daa39cbc64f44c791ac87ad59e06279ffa27f369aa20",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mysql\" // ป้องกันการทับซ้อนกับ Client ของ MongoDB\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"MYSQL_DATABASE_URL\")\n}\n\nmodel User {\n  id        Int       @id @default(autoincrement())\n  email     String    @unique\n  name      String\n  username  String    @unique\n  password  String\n  role      Role      @default(CUSTOMER)\n  deletedAt DateTime?\n  orders    Order[]\n  shops     Shop[]\n  wallets   Wallet?\n}\n\nmodel Wallet {\n  id      Int  @id @default(autoincrement())\n  balance Int  @default(0)\n  userId  Int  @unique\n  user    User @relation(fields: [userId], references: [id])\n}\n\nenum Role {\n  CUSTOMER\n  OWNER\n  ADMIN\n}\n\nmodel Shop {\n  id          Int       @id @default(autoincrement())\n  name        String\n  description String?\n  ownerId     Int\n  isOpen      Boolean\n  wallet      Int       @default(0)\n  user        User      @relation(fields: [ownerId], references: [id])\n  deletedAt   DateTime?\n  menus       Menu[]\n  orders      Order[]\n}\n\nmodel Menu {\n  id      Int          @id @default(autoincrement())\n  name    String\n  price   Int\n  shopId  Int\n  shop    Shop         @relation(fields: [shopId], references: [id])\n  options MenuOption[]\n}\n\nmodel MenuOption {\n  id     Int    @id @default(autoincrement())\n  name   String\n  price  Int\n  menuId Int\n\n  menu Menu @relation(fields: [menuId], references: [id])\n}\n\nmodel Order {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  shopId       Int\n  totalPrice   Int\n  status       String   @default(\"PENDING\")\n  createdAt    DateTime @default(now())\n  mongoOrderId String?\n  user         User     @relation(fields: [userId], references: [id])\n  shop         Shop     @relation(fields: [shopId], references: [id])\n}\n",
+  "inlineSchemaHash": "5033e3e5488650671fec39246dd38ac0d5de48e0cb41679ff60f7f40c3382dc5",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"isBanned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToUser\"},{\"name\":\"shops\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToUser\"},{\"name\":\"wallets\",\"kind\":\"object\",\"type\":\"Wallet\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Wallet\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"balance\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Shop\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isOpen\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"wallet\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShopToUser\"},{\"name\":\"menus\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToShop\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToShop\"}],\"dbName\":null},\"Menu\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"MenuToShop\"},{\"name\":\"options\",\"kind\":\"object\",\"type\":\"MenuOption\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"MenuOption\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"menuId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"menu\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"mongoOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrderToUser\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"OrderToShop\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToUser\"},{\"name\":\"shops\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToUser\"},{\"name\":\"wallets\",\"kind\":\"object\",\"type\":\"Wallet\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Wallet\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"balance\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Shop\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isOpen\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"wallet\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShopToUser\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"menus\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToShop\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToShop\"}],\"dbName\":null},\"Menu\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"MenuToShop\"},{\"name\":\"options\",\"kind\":\"object\",\"type\":\"MenuOption\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"MenuOption\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"menuId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"menu\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"mongoOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrderToUser\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"OrderToShop\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

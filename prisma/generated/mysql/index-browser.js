@@ -128,7 +128,7 @@ exports.Prisma.UserScalarFieldEnum = {
   username: 'username',
   password: 'password',
   role: 'role',
-  isBanned: 'isBanned'
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.WalletScalarFieldEnum = {
@@ -143,7 +143,8 @@ exports.Prisma.ShopScalarFieldEnum = {
   description: 'description',
   ownerId: 'ownerId',
   isOpen: 'isOpen',
-  wallet: 'wallet'
+  wallet: 'wallet',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.MenuScalarFieldEnum = {
@@ -175,16 +176,16 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
   email: 'email',
   name: 'name',
   username: 'username',
   password: 'password'
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
 };
 
 exports.Prisma.ShopOrderByRelevanceFieldEnum = {
