@@ -16,9 +16,6 @@ export async function GET(
                 shop: {
                     deletedAt: null
                 }
-            },
-            include: {
-                isAvailable: true
             }
         });
 
