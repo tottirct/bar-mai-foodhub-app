@@ -16,7 +16,11 @@ export async function GET(
         });
 
         const history = await mongo.activityLog.findMany({
-            where: { userId: userId },
+            where: { userId: userId ,
+                action: {
+                    in: ['WALLET_TOPUP','ORDER_PLACED','REFUND_SUCCESS']
+                }
+            },
             orderBy: { createdAt: 'desc'}
         });
 
