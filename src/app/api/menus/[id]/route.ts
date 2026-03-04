@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { mongo } from '@/lib/mongo'
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
     request: Request,
@@ -59,6 +61,10 @@ export async function POST(
             return NextResponse.json({ success: false, message: "ไม่พบเมนู" }, { status: 404 });
         }
 
+        if (!userId || userId !== menu.shop.ownerId) {
+            return NextResponse.json({success: false,message: "ไม่ใช่เจ้าของร้านนะมึงอะ"},{status: 404});
+        }
+
         const newOption = await prisma.menuOption.create({
             data: {
                 name,
@@ -89,6 +95,14 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const userId = parseInt(session.user.id);
+
         const { id } = await params;
         const menuId = parseInt(id);
         
@@ -99,15 +113,22 @@ export async function DELETE(
             where: {
                 id: menuId,
                 deletedAt: null
+            },
+            include: {
+                shop: true
             }
         })
 
         if(!checkMenu) {
-            return NextResponse.json({ success: false, message: "เมนูหาไม่เจอ"},{status:404})
+            return NextResponse.json({ success: false, message: "เมนูหาไม่เจอ"},{status:404});
         }
 
         if (!optionId) {
             return NextResponse.json({ success: false, message: "หาoptionไม่เจอ" }, { status: 404 });
+        }
+
+        if(checkMenu.shop.ownerId !== userId) {
+            return NextResponse.json({success: false,message: "มึงไม่ใช่เจ้าของร้านหนิ"},{status: 403});
         }
 
         const optId = parseInt(optionId);
