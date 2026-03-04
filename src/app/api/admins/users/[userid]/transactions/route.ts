@@ -51,6 +51,19 @@ export async function GET(
                 orderBy: { createdAt: 'desc'},
                 take: 10
             });
+
+            result.login_register_history = await mongo.activityLog.findMany({
+                where: {
+                    userId: userId,
+                    action: {
+                        in: ['USER_REGISTER', 'USER_LOGIN']
+                    }
+                },
+                orderBy: { createdAt: 'desc'},
+                take: limit,
+                skip: skip
+            });
+
         }
 
         else if(userCheck.role === "OWNER") {
@@ -90,6 +103,19 @@ export async function GET(
                 orderBy: {createdAt: 'desc'},
                 take: limit
             });
+
+            result.login_register_history = await mongo.activityLog.findMany({
+                where: {
+                    userId: userId,
+                    action: {
+                        in: ['USER_REGISTER', 'USER_LOGIN']
+                    }
+                },
+                orderBy: { createdAt: 'desc'},
+                take: limit,
+                skip: skip
+            });
+
         }
 
         else if(userCheck.role === 'ADMIN') {
@@ -104,6 +130,19 @@ export async function GET(
                 take: limit,
                 skip: skip
             });
+
+            result.login_register_history = await mongo.activityLog.findMany({
+                where: {
+                    userId: userId,
+                    action: {
+                        in: ['USER_REGISTER', 'USER_LOGIN']
+                    }
+                },
+                orderBy: { createdAt: 'desc'},
+                take: limit,
+                skip: skip
+            });
+            
         }
 
         return NextResponse.json({
