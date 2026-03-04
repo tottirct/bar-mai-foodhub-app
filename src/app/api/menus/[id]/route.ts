@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { mongo } from '@/lib/mongo'
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { del } from '@vercel/blob';
 
 export async function GET(
     request: Request,
@@ -18,10 +19,14 @@ export async function GET(
                 deletedAt: null,
                 shop: {
                     deletedAt: null
-                }
+                },
             },
             include: {
-                options: true,
+                options: {
+                    where: {
+                        deletedAt: null
+                    }
+                },
                 shop: {
                     select: {
                         name: true
@@ -50,7 +55,7 @@ export async function POST(
     try {
         const { id } = await params;
         const menuId = parseInt(id);
-        const { name, price, userId } = await request.json();
+        const { name, price } = await request.json();
 
         const menu = await prisma.menu.findFirst({
             where: { id: menuId, deletedAt: null },
@@ -59,10 +64,6 @@ export async function POST(
 
         if (!menu) {
             return NextResponse.json({ success: false, message: "ไม่พบเมนู" }, { status: 404 });
-        }
-
-        if (!userId || userId !== menu.shop.ownerId) {
-            return NextResponse.json({success: false,message: "ไม่ใช่เจ้าของร้านนะมึงอะ"},{status: 404});
         }
 
         const newOption = await prisma.menuOption.create({
@@ -75,7 +76,6 @@ export async function POST(
 
         await mongo.activityLog.create({
             data: {
-                userId,
                 shopId: menu.shopId,
                 userRole: "OWNER",
                 action: "ADD_OPTION",
@@ -95,16 +95,6 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        // const session = await getServerSession(authOptions);
-
-        // if (!session?.user?.id) {
-        //     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        // }
-
-        // const userId = parseInt(session.user.id);
-        
-        const userId = 1; // MOCK!!!!!!
-
         
         const { id } = await params;
         const menuId = parseInt(id);
@@ -128,10 +118,6 @@ export async function DELETE(
 
         if (!optionId) {
             return NextResponse.json({ success: false, message: "หาoptionไม่เจอ" }, { status: 404 });
-        }
-
-        if(checkMenu.shop.ownerId !== userId) {
-            return NextResponse.json({success: false,message: "มึงไม่ใช่เจ้าของร้านหนิ"},{status: 403});
         }
 
         const optId = parseInt(optionId);

@@ -1,6 +1,7 @@
 import { Edit, X} from "lucide-react";
 import React, { useState } from "react";
-import MenuFormPopUp from "@/components/owner/MenuFormPopUp";
+import MenuFormPopUpMain from "@/components/owner/MenuFormPopUp_main";
+import MenuFormPopUpOption from "@/components/owner/MenuFormPopUp_option";
 
 interface MenuCardProps {
   id : number
@@ -8,12 +9,19 @@ interface MenuCardProps {
   price: number;
   status: boolean;
   image?: string;
+  shopId: number
+  onSaveSuccess?: () => Promise<void>;
 }
 
-
-
-export default function MenuCard({ id, name, price, status }: MenuCardProps) {
+export default function MenuCard({ id, name, price, status, shopId, onSaveSuccess }: MenuCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [view, setView] = useState('main');
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setView('main');
+  };
+
+  console.log(status);
 
   return (
     <>
@@ -46,11 +54,25 @@ export default function MenuCard({ id, name, price, status }: MenuCardProps) {
         </div>
       </div>
     </div>
-    <MenuFormPopUp
+
+    {view === 'main' && (
+      <MenuFormPopUpMain
         isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
-        menu={{ id, name, price , isAvailable: status }}
-    />
+        onClose={handleClose} 
+        shopId={shopId}
+        menu={{id, name, price, isAvailable: status}}
+        onEditOptions={() => setView('options')}
+        onSaveSuccess={onSaveSuccess} 
+      />
+    )}
+
+    {view === 'options' && (
+      <MenuFormPopUpOption
+        isOpen={isModalOpen} 
+        onClose={() => setView('main')}
+        menuId={id} 
+      />
+    )}
     </>
   );
 }

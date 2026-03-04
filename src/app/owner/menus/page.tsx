@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { put } from '@vercel/blob';
 import { Button } from '@/components/owner/Button';
 import MenuCard from '@/components/owner/MenuCard';
@@ -9,11 +9,12 @@ interface Menu {
   id: number;
   name: string;
   price: number;
-  status: boolean;
+  isAvailable: boolean;
 }
 
 export default function OwnerMenusPage() {
   const [menus, setMenus] = useState<Menu[]>([]);
+  const [shopId, setShopId] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function OwnerMenusPage() {
         console.log(result);
         
         setMenus(result.data);
+        setShopId(shopData.shopId);
       } catch (err) {
         console.error("Error fetching data:", err);
       } finally {
@@ -39,6 +41,16 @@ export default function OwnerMenusPage() {
 
     fetchData();
   }, []);
+
+  const refreshMenus = async () => {
+    console.log("กำลังดึงข้อมูลเมนูใหม่...");
+    const res = await fetch(`/api/shops/${shopId}/menus?t=${Date.now()}`, { 
+    cache: 'no-store'
+  });
+  const result = await res.json();
+  console.log("ข้อมูลใหม่ที่ได้รับ:", result.data);
+  setMenus(result.data);
+  };
    
   if (loading) return <div>กำลังโหลด...</div>;
 
@@ -52,7 +64,7 @@ export default function OwnerMenusPage() {
         {/* Table Section */}
         <div className="flex flex-col w-full overflow-hidden">
             {menus.map((menu) => (
-              <MenuCard id={menu.id} name={menu.name} price={menu.price} status={menu.status} />
+              <MenuCard key={menu.id} id={menu.id} name={menu.name} price={menu.price} status={menu.isAvailable} shopId={shopId} onSaveSuccess={refreshMenus} />
             ))}
         </div>
       </div>
