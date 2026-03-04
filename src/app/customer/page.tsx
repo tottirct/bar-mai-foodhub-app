@@ -1,17 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-import { useSession } from "next-auth/react";
 import { Shop } from "@/types/customer";
 import ShopCard from "@/components/customer/ShopCard";
 
 export default function CustomerMainPage() {
-
-    const { data: session } = useSession();
-
-    console.log(session);
-
     const [shops, setShops] = useState<Shop[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
