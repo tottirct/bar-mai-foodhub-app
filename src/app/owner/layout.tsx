@@ -1,19 +1,21 @@
 import Sidebar from "@/components/Sidebar";
 import { Banknote, BookOpenText, ScrollText } from "lucide-react";
 
-export default function OwnerLayout({children,}: {children: React.ReactNode;}) {
+export default function OwnerLayout({ children, }: { children: React.ReactNode; }) {
 
     const menuItems = [
-    { label: "ออเดอร์", href: "/owner", icon: "ScrollText" },
-    { label: "ธุรกรรม", href: "/owner/transactions", icon: "Banknote" },
-    { label: "เมนู", href: "/owner/menus", icon: "BookOpenText" },
+        { label: "ออเดอร์", href: "/owner", icon: "ScrollText" },
+        { label: "ธุรกรรม", href: "/owner/transactions", icon: "Banknote" },
+        { label: "เมนู", href: "/owner/menus", icon: "BookOpenText" },
     ];
 
     return (
-        <div className="flex h-full bg-gray-50">
+        <div className="flex h-screen bg-gray-50 overflow-hidden">
             <Sidebar items={menuItems} />
             <div className="flex-1 h-full overflow-y-auto">
-                {children}
+                <div className="p-8 md:p-12 max-w-7xl mx-auto">
+                    {children}
+                </div>
             </div>
         </div>
     );

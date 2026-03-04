@@ -7,7 +7,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
     request: NextRequest,
-    { params }: { params : Promise<{ shopid : string }>}
+    { params }: { params: Promise<{ shopid: string }> }
 ) {
     try {
         const session = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export async function GET(
 
         const { shopid } = await params;
         const shopId = parseInt(shopid);
-        
+
         const shop = await prisma.shop.findFirst({
             where: {
                 id: shopId,
@@ -28,22 +28,22 @@ export async function GET(
             },
         });
 
-        if(ownerId !== shop?.ownerId) {
-            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านนี้"},{status:403});
+        if (ownerId !== shop?.ownerId) {
+            return NextResponse.json({ success: false, message: "ไม่ใช่เจ้าของร้านนี้" }, { status: 403 });
         }
 
-        if(!shop) {
-            return NextResponse.json({ success: false, message: "หาร้านไม่เจอ" }, {status: 404});
+        if (!shop) {
+            return NextResponse.json({ success: false, message: "หาร้านไม่เจอ" }, { status: 404 });
         }
 
         const transaction = await mongo.activityLog.findMany({
-            where:{
+            where: {
                 shopId: shopId,
                 action: {
                     in: ['COMPLETED', 'WITHDRAW', 'REFUND_SUCCESS']
                 }
             },
-            orderBy: {createdAt: 'desc'}
+            orderBy: { createdAt: 'desc' }
         });
 
         let income = 0;
@@ -54,13 +54,13 @@ export async function GET(
             const meta = log.metadata as { amount?: number, orderId?: number } | null;
             const amount = meta?.amount || 0;
 
-            if(log.action === 'ORDER_COMPLETED') {
+            if (log.action === 'COMPLETED') {
                 income += amount;
             }
-            else if(log.action === 'WITHDRAW') {
+            else if (log.action === 'WITHDRAW') {
                 withdraw += amount;
             }
-            else if(log.action === "REFUND_SUCCESS") {
+            else if (log.action === "REFUND_SUCCESS") {
                 refund += amount;
             }
 
@@ -86,8 +86,8 @@ export async function GET(
             transactions: formattedTransaction
         });
 
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        return NextResponse.json({ success: false, message: "ดึงไม่ไหวจริง"}, {status: 500});
+        return NextResponse.json({ success: false, message: "ดึงไม่ไหวจริง" }, { status: 500 });
     }
 }

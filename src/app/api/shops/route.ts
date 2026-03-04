@@ -16,6 +16,8 @@ export async function GET(request: NextRequest) {
                     name: true,
                     isOpen: true,
                     description: true,
+                    wallet: true,
+                    ownerId: true,
 
                     _count: {
                         select: {
@@ -33,7 +35,9 @@ export async function GET(request: NextRequest) {
                     name: shop.name,
                     isOpen: shop.isOpen,
                     description: shop.description,
-                    queueCount: shop._count.orders
+                    queueCount: shop._count.orders,
+                    wallet: shop.wallet,
+                    ownerId: shop.ownerId
                 };
             });
 
@@ -60,6 +64,8 @@ export async function GET(request: NextRequest) {
                     name: true,
                     isOpen: true,
                     description: true,
+                    wallet: true,
+                    ownerId: true,
 
                     _count: {
                         select: {
@@ -77,7 +83,9 @@ export async function GET(request: NextRequest) {
                     name: shop.name,
                     isOpen: shop.isOpen,
                     description: shop.description,
-                    queueCount: shop._count.orders
+                    queueCount: shop._count.orders,
+                    wallet: shop.wallet,
+                    ownerId: shop.ownerId
                 };
             });
 

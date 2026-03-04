@@ -6,7 +6,7 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ shopid: string }> }
 ) {
-    try{
+    try {
 
         const { shopid } = await params;
         const shopId = parseInt(shopid);
@@ -14,11 +14,11 @@ export async function GET(
         const shopsOrder = await prisma.order.findMany({
             where: {
                 shopId: shopId,
-                shop:{
+                shop: {
                     deletedAt: null
                 },
                 status: {
-                    in: ['PENDING','PREPARING','READY']
+                    in: ['PENDING', 'PREPARING', 'READY']
                 }
             },
             orderBy: { createdAt: 'desc' },
@@ -31,8 +31,8 @@ export async function GET(
             }
         });
 
-        if(shopsOrder.length === 0){
-            return NextResponse.json({ success: true,orders: []});
+        if (shopsOrder.length === 0) {
+            return NextResponse.json({ success: true, orders: [] });
         }
 
         const orderId = shopsOrder.map(order => order.id);
@@ -43,7 +43,7 @@ export async function GET(
         const formattedOrder = shopsOrder.map(order => {
             const detail = orderDetail.find(d => d.mysqlOrderId === order.id);
             return {
-                orderId: orderId,
+                orderId: order.id,
                 customerName: order.user.name,
                 totalPrice: order.totalPrice,
                 status: order.status,
@@ -60,6 +60,6 @@ export async function GET(
 
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ"}, {status: 500});
+        return NextResponse.json({ success: false, message: "ดึงข้อมูลพลาดหวะ" }, { status: 500 });
     }
 }
