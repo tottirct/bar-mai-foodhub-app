@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { User, Sparkles, CheckCircle, XCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 
@@ -61,7 +62,7 @@ export default function InformationPage() {
             if (result.success) {
                 setUserInfo(result.data);
                 setIsEditing(false);
-                setMessage({ type: "success", text: "อัปเดตข้อมูลสำเร็จแล้ว! ✨" });
+                setMessage({ type: "success", text: "อัปเดตข้อมูลสำเร็จแล้ว! " });
             } else {
                 setMessage({ type: "error", text: result.message || "อัปเดตไม่สำเร็จ ลองใหม่อีกครั้ง" });
             }
@@ -75,7 +76,7 @@ export default function InformationPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -84,13 +85,15 @@ export default function InformationPage() {
         <main className="container mx-auto p-4 md:p-8 max-w-2xl">
             {/* Header */}
             <div className="mb-10">
-                <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">ข้อมูลส่วนตัว 👤</h1>
+                <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-3">
+                    ข้อมูลส่วนตัว <User className="text-green-500" size={32} />
+                </h1>
                 <p className="text-gray-500 font-medium">จัดการข้อมูลและโปรไฟล์ของคุณ</p>
             </div>
 
             {message && (
                 <div className={`mb-6 p-4 rounded-2xl flex items-center gap-3 font-bold text-sm animate-in fade-in slide-in-from-top-4 ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
-                    <span>{message.type === 'success' ? '✅' : '❌'}</span>
+                    {message.type === 'success' ? <CheckCircle size={18} /> : <XCircle size={18} />}
                     {message.text}
                 </div>
             )}
@@ -104,7 +107,7 @@ export default function InformationPage() {
                                 <h2 className="text-xl font-bold text-gray-800">โปรไฟล์ของคุณ</h2>
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="px-4 py-2 bg-orange-50 text-orange-600 rounded-xl font-bold text-sm hover:bg-orange-100 transition-colors"
+                                    className="px-4 py-2 bg-green-50 text-green-600 rounded-xl font-bold text-sm hover:bg-green-100 transition-colors"
                                 >
                                     แก้ไขข้อมูล
                                 </button>
@@ -139,7 +142,7 @@ export default function InformationPage() {
                                         type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-bold text-gray-800 transition-all"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-gray-800 transition-all"
                                         placeholder="ระบุชื่อของคุณ"
                                         required
                                     />
@@ -152,7 +155,7 @@ export default function InformationPage() {
                                         type="text"
                                         value={formData.username}
                                         onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-bold text-gray-800 transition-all"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-gray-800 transition-all"
                                         placeholder="ระบุชื่อผู้ใช้"
                                         required
                                     />
@@ -165,7 +168,7 @@ export default function InformationPage() {
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-bold text-gray-800 transition-all"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 font-bold text-gray-800 transition-all"
                                         placeholder="ระบุอีเมล"
                                         required
                                     />
@@ -176,7 +179,7 @@ export default function InformationPage() {
                                 <button
                                     type="submit"
                                     disabled={saving}
-                                    className="flex-1 py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors disabled:opacity-50"
+                                    className="flex-1 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-colors disabled:opacity-50"
                                 >
                                     {saving ? "กำลังบันทึก..." : "บันทึกข้อมูล"}
                                 </button>

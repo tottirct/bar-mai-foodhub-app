@@ -27,7 +27,7 @@ export default async function proxy(req: NextRequest) {
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
 
-    if (pathname.startsWith('/user') && role !== 'OWNER') {
+    if (pathname.startsWith('/owner') && role !== 'OWNER') {
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
 
@@ -39,5 +39,5 @@ export default async function proxy(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/admin/:path*', '/user/:path*', '/customer/:path*'],
+    matcher: ['/admin/:path*', '/owner/:path*', '/customer/:path*'],
 };

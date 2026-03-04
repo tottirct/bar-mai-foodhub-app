@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, use } from "react";
+import { XCircle, ShoppingBag, Timer, Search, ShoppingCart, ArrowLeft } from "lucide-react";
 
 
 import { useSession } from "next-auth/react";
@@ -57,22 +58,20 @@ function AddToCartModal({
     const handleOrder = () => {
         setSubmitting(true);
         try {
-            // ดึงข้อมูลตะกร้าปัจจุบันจาก localStorage
             const localCartStr = localStorage.getItem("barmai_local_orders") || "[]";
             const currentLocalOrders = JSON.parse(localCartStr);
 
-            // สร้างออร์เดอร์ใหม่ (โครงสร้างตามที่ API ต้องการ)
             const newOrder = {
-                id: Date.now(), // ใช้ timestamp เป็น id ชั่วคราวสำหรับการแสดงผลในตะกร้า
+                id: Date.now(),
                 userId: userId || 0,
                 shopId,
 
-                shopName, // เก็บชื่อร้านไว้แสดงผลในหน้า Trolley
+                shopName,
                 totalPrice,
                 createdAt: new Date().toISOString(),
                 items: [{
                     menuId: menu.id,
-                    menuName: menu.name, // เก็บชื่อเมนูไว้แสดงผล
+                    menuName: menu.name,
                     price: menu.price,
                     quantity,
                     selectedOptions: options
@@ -87,11 +86,9 @@ function AddToCartModal({
                 note: null,
             };
 
-            // บันทึกลง localStorage
             currentLocalOrders.push(newOrder);
             localStorage.setItem("barmai_local_orders", JSON.stringify(currentLocalOrders));
 
-            // Redirect ไปที่หน้า Trolley
             router.push("/customer/trolley");
         } catch (err) {
             console.error("Error saving to localStorage:", err);
@@ -120,9 +117,9 @@ function AddToCartModal({
                     />
                     <button
                         onClick={onClose}
-                        className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md text-gray-500 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors shadow-sm text-sm font-bold"
+                        className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md text-gray-500 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors shadow-sm"
                     >
-                        ✕
+                        <XCircle size={20} />
                     </button>
                 </div>
 
@@ -130,7 +127,7 @@ function AddToCartModal({
                     {/* Error Display */}
                     {error && (
                         <div className="p-3 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-bold flex items-center gap-2">
-                            <span>❌</span> {error}
+                            <XCircle size={18} /> {error}
                         </div>
                     )}
 
@@ -240,7 +237,7 @@ function AddToCartModal({
                             </>
                         ) : (
                             <>
-                                <span>🛍️</span>
+                                <ShoppingCart size={20} />
                                 สั่งทันที — ฿{totalPrice.toFixed(0)}
                             </>
                         )}
@@ -358,7 +355,7 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                     href="/customer"
                     className="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-orange-600 transition-colors gap-1 group"
                 >
-                    <span className="group-hover:-translate-x-1 transition-transform">←</span> Back to Shops
+                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Shops
                 </Link>
             </div>
 
@@ -385,7 +382,7 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                         </p>
                         <div className="flex items-center gap-4 mt-4">
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-xl border border-gray-100">
-                                <span className="text-orange-500 font-bold">⏱️</span>
+                                <Timer size={16} className="text-orange-500" />
                                 <span className="text-sm font-semibold text-gray-700">
                                     คิวปัจจุบัน: {shop.queueCount}
                                 </span>
@@ -400,7 +397,7 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                 <h2 className="text-xl font-bold text-gray-800 mb-0">Menu Items</h2>
                 <div className="relative w-full md:w-80 group">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                        <span className="text-lg">🔍</span>
+                        <Search size={18} />
                     </div>
                     <input
                         type="text"
@@ -454,14 +451,14 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                                     </div>
                                     <button
                                         className={`w-full py-2.5 font-bold rounded-xl transition-all flex items-center justify-center gap-2 group/btn ${canOrder
-                                            ? "bg-gray-900 text-white hover:bg-orange-600"
+                                            ? "bg-green-600 text-white hover:bg-green-700"
                                             : "bg-gray-100 text-gray-400 cursor-not-allowed"
                                             }`}
                                         disabled={!canOrder}
                                         onClick={() => canOrder && openOrderModal(menu)}
                                     >
                                         <span className={canOrder ? "group-hover/btn:scale-110 transition-transform" : ""}>
-                                            {isAvailable ? "🛍️" : "🚫"}
+                                            {isAvailable ? <ShoppingBag size={18} /> : <XCircle size={18} />}
                                         </span>
                                         {!isAvailable ? "หมดชั่วคราว" : shop.isOpen ? "Order Now" : "Shop Closed"}
                                     </button>

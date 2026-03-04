@@ -1,6 +1,7 @@
 import React from 'react';
 import StatusBadge from './StatusBadge';
 import { Order } from '@/types/customer';
+import { Store, Trash2, FileText, MessageSquare } from 'lucide-react';
 
 interface OrderCardProps {
     order: Order;
@@ -26,8 +27,8 @@ export default function OrderCard({ order, onRemove }: OrderCardProps) {
             {/* Header */}
             <div className="px-5 pt-5 pb-3 flex items-center justify-between">
                 <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-lg shrink-0">
-                        🏪
+                    <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0 text-green-500">
+                        <Store size={20} />
                     </div>
                     <div className="min-w-0">
                         <h3 className="font-bold text-gray-800 truncate">{order.shop.name}</h3>
@@ -41,7 +42,7 @@ export default function OrderCard({ order, onRemove }: OrderCardProps) {
                             className="p-1.5 text-gray-300 hover:text-red-500 transition-colors"
                             title="ลบรายการ"
                         >
-                            🗑️
+                            <Trash2 size={18} />
                         </button>
                     )}
                     <StatusBadge status={order.status} />
@@ -76,7 +77,9 @@ export default function OrderCard({ order, onRemove }: OrderCardProps) {
                         ))}
 
                         {item.specialNote && (
-                            <p className="text-xs text-orange-500 mt-0.5 truncate pl-3">📝 {item.specialNote}</p>
+                            <p className="text-xs text-green-500 mt-0.5 truncate pl-3 flex items-center gap-1.5">
+                                <FileText size={12} /> {item.specialNote}
+                            </p>
                         )}
                     </div>
                 ))}
@@ -84,15 +87,16 @@ export default function OrderCard({ order, onRemove }: OrderCardProps) {
 
             {/* Note */}
             {order.note && (
-                <div className="mx-5 px-3 py-2 bg-orange-50/60 rounded-xl mb-3">
-                    <p className="text-xs text-orange-600 font-medium">💬 {order.note}</p>
+                <div className="mx-5 px-3 py-2 bg-green-50/60 rounded-xl mb-3 flex items-center gap-2">
+                    <MessageSquare size={14} className="text-green-500 shrink-0" />
+                    <p className="text-xs text-green-600 font-medium">{order.note}</p>
                 </div>
             )}
 
             {/* Footer — Total */}
             <div className="px-5 py-4 bg-gray-50/80 flex items-center justify-between border-t border-gray-100 mt-auto">
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">รวมทั้งหมด</span>
-                <span className="text-lg font-bold text-orange-600">฿{order.totalPrice.toFixed(0)}</span>
+                <span className="text-lg font-bold text-green-600">฿{order.totalPrice.toFixed(0)}</span>
             </div>
         </div>
     );

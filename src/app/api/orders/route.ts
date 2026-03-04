@@ -14,8 +14,25 @@ export async function POST(request: NextRequest) {
                 id: { in: menuIds },
                 deletedAt: null
             },
-            include: { options: true }
+            include: {
+                options: true,
+            }
         });
+
+        const userRoleCheck = await prisma.user.findFirst({
+            where: {
+                id: userId,
+                deletedAt: null
+            }
+        });
+
+        if(!userRoleCheck) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status: 404});
+        }
+
+        if(userRoleCheck.role !== "CUSTOMER") {
+            return NextResponse.json({success: false,message:"มึงไม่ใช่ customer ไม่ต้องสั่งข้าวเห้ย"},{status: 403});
+        }
 
         const processedItems = items.map((item: any) => {
             const menu = dbMenus.find(m => m.id === item.menuId);

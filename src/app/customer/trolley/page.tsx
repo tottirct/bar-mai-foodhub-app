@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ShoppingCart, CreditCard, Flame, ClipboardList, Wallet } from "lucide-react";
 
 import { useSession } from "next-auth/react";
 import { Order } from "@/types/customer";
@@ -11,10 +12,10 @@ type Tab = "cart" | "inProgress" | "history";
 
 
 
-const TABS: { key: Tab; label: string; icon: string }[] = [
-    { key: "cart", label: "รอชำระเงิน", icon: "💳" },
-    { key: "inProgress", label: "กำลังทำ", icon: "🔥" },
-    { key: "history", label: "ประวัติ", icon: "📋" },
+const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
+    { key: "cart", label: "รอชำระเงิน", icon: CreditCard },
+    { key: "inProgress", label: "กำลังทำ", icon: Flame },
+    { key: "history", label: "ประวัติ", icon: ClipboardList },
 ];
 
 /* ─── Main Page ─── */
@@ -132,7 +133,7 @@ export default function TrolleyPage() {
         return (
             <main className="container mx-auto p-4 md:p-6 flex items-center justify-center min-h-[60vh]">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
                     <p className="text-gray-500 font-medium">กำลังโหลดออร์เดอร์...</p>
                 </div>
             </main>
@@ -147,7 +148,7 @@ export default function TrolleyPage() {
                     <p className="text-gray-600 mb-6">{error}</p>
                     <button
                         onClick={() => window.location.reload()}
-                        className="px-6 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors font-bold"
+                        className="px-6 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors font-bold"
                     >
                         ลองใหม่อีกครั้ง
                     </button>
@@ -160,7 +161,9 @@ export default function TrolleyPage() {
         <main className="container mx-auto p-4 md:p-6 min-h-screen bg-gray-50">
             {/* Page Header */}
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Trolley 🛒</h1>
+                <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2 flex items-center gap-3">
+                    Trolley <ShoppingCart className="text-green-500" size={32} />
+                </h1>
                 <p className="text-gray-500 font-medium">จัดการออร์เดอร์และดูประวัติการสั่งของคุณ</p>
             </div>
 
@@ -174,11 +177,11 @@ export default function TrolleyPage() {
                             key={tab.key}
                             onClick={() => setActiveTab(tab.key)}
                             className={`px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 ${isActive
-                                ? "bg-orange-500 text-white shadow-md shadow-orange-200"
+                                ? "bg-green-500 text-white shadow-md shadow-green-200"
                                 : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                                 }`}
                         >
-                            <span>{tab.icon}</span>
+                            <tab.icon size={18} />
                             {tab.label}
                             {count > 0 && (
                                 <span
@@ -195,29 +198,29 @@ export default function TrolleyPage() {
 
             {/* Order Cards */}
             {activeTab === "cart" && localOrders.length > 0 && (
-                <div className="mb-6 p-6 bg-orange-500 rounded-3xl shadow-lg shadow-orange-200 text-white flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="mb-6 p-6 bg-green-500 rounded-3xl shadow-lg shadow-green-200 text-white flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl">
-                            💰
+                        <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+                            <Wallet size={28} />
                         </div>
                         <div>
-                            <p className="text-orange-100 text-sm font-bold uppercase tracking-wider">ยอดรวมที่ต้องชำระ</p>
+                            <p className="text-green-100 text-sm font-bold uppercase tracking-wider">ยอดรวมที่ต้องชำระ</p>
                             <h2 className="text-3xl font-bold">฿{totalToPay.toFixed(0)}</h2>
                         </div>
                     </div>
                     <button
                         onClick={handlePayAll}
                         disabled={paying}
-                        className="w-full md:w-auto px-10 py-4 bg-white text-orange-600 font-extrabold rounded-2xl shadow-sm hover:scale-105 transition-all text-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full md:w-auto px-10 py-4 bg-white text-green-600 font-extrabold rounded-2xl shadow-sm hover:scale-105 transition-all text-lg flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                         {paying ? (
                             <>
-                                <div className="w-5 h-5 border-2 border-orange-600 border-t-transparent rounded-full animate-spin" />
+                                <div className="w-5 h-5 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
                                 กำลังจ่าย...
                             </>
                         ) : (
                             <>
-                                <span>💳</span> จ่ายเงินทั้งหมด
+                                <CreditCard size={20} /> จ่ายเงินทั้งหมด
                             </>
                         )}
                     </button>

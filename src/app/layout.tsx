@@ -11,6 +11,7 @@ export const metadata = {
 const prompt = Prompt({
   subsets: ["thai", "latin"], 
   weight: ["300", "400", "500", "700"] 
+  //light normal medium bold
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode;}){

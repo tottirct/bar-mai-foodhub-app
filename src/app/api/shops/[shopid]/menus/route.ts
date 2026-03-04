@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { mongo } from '@/lib/mongo';
+import { now } from 'next-auth/client/_utils';
 
 export async function GET(
     request: Request,
@@ -81,12 +82,62 @@ export async function POST(
                 metadata: {
                     menuId: result.id,
                     price: (await result).price,
-                    optinsCount: options.lenght
+                    optinsCount: options.length
                 }
             }
         });
 
         return NextResponse.json({success: true,message:"สร้างเมนูแล้ว",data:result},{status:201})
+    } catch(error) {
+        console.log(error);
+        return NextResponse.json({success: false , message:"ดึงข้อมูลผลาดหวะ"},{status:500});
+    }
+}
+
+export async function DELETE(
+    request: Request,
+) {
+    try {
+        const body = await request.json();
+        const { shopId, menuId } = body;
+
+        const targetShop = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            }
+        });
+
+        if(!targetShop) {
+            return NextResponse.json({ success: false, message: "ร้านค้าปิดไปแล้วหรือหาไม่เจอ" }, { status: 404 });
+        }
+        const now = new Date();
+        const result = await prisma.$transaction(async (tx) => {
+            await tx.menuOption.updateMany({
+                where: { menuId: menuId },
+                data: { deletedAt: now }
+            });
+
+            return await tx.menu.update({
+                where: { id: menuId },
+                data: { deletedAt: now }
+            });
+        });
+
+        await mongo.activityLog.create({
+            data: {
+                userId: targetShop.ownerId,
+                shopId: shopId,
+                userRole: "OWNER",
+                action: "DELETE_MENU",
+                description: `ร้าน ${shopId} ลบเมนู ${result.name} และ addon`,
+                metadata: {
+                    menuId: result.id
+                }
+            }
+        });
+
+        return NextResponse.json({success: true,message:"ลบเมนูแล้ว",data:result},{status:201})
     } catch(error) {
         console.log(error);
         return NextResponse.json({success: false , message:"ดึงข้อมูลผลาดหวะ"},{status:500});
