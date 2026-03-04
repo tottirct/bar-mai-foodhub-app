@@ -76,16 +76,16 @@ export default function CreditPage() {
     }
 
     return (
-        <main className="container mx-auto p-4 md:p-8 max-w-4xl">
+        <main className="container mx-auto p-4 md:p-8 max-w-6xl">
             {/* Header Section */}
             <div className="mb-10">
                 <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">เครดิตของฉัน 💰</h1>
                 <p className="text-gray-500 font-medium">จัดการยอดเงินและดูประวัติการใช้งานของคุณ</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
                 {/* Left Column: Balance & Top-up */}
-                <div className="lg:col-span-2 space-y-8">
+                <div className="lg:col-span-3 space-y-8">
                     {/* Balance Card */}
                     <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-8 text-white shadow-xl shadow-orange-200 relative overflow-hidden group">
                         <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
@@ -139,36 +139,33 @@ export default function CreditPage() {
                 </div>
 
                 {/* Right Column: Transaction History */}
-                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col h-fit lg:max-h-[700px]">
-                    <div className="p-6 border-b border-gray-50 flex items-center justify-between">
-                        <h2 className="text-lg font-bold text-gray-800">ประวัติการทำรายการ</h2>
-                        <span className="bg-gray-100 text-gray-500 text-[10px] px-2 py-1 rounded-full font-black">LATEST</span>
+                <div className="lg:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col h-[700px]">
+                    <div className="p-8 border-b border-gray-50 flex items-center justify-between">
+                        <h2 className="text-xl font-black text-gray-900 tracking-tight">ประวัติการทำรายการ</h2>
+                        <span className="bg-gray-100 text-gray-500 text-[10px] px-3 py-1 rounded-full font-black tracking-widest leading-none">LATEST</span>
                     </div>
 
-                    <div className="overflow-y-auto flex-1 p-2 space-y-1">
+                    <div className="overflow-y-auto flex-1 p-4 space-y-2">
+
                         {walletData?.transactions && walletData.transactions.length > 0 ? (
                             walletData.transactions.slice().map((tx) => (
 
-                                <div key={tx.id} className="p-4 rounded-2xl hover:bg-gray-50 transition-colors flex items-center gap-4 group">
-                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${tx.action === 'WALLET_TOPUP' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600'}`}>
-                                        {tx.action === 'WALLET_TOPUP' ? '➕' : '🛒'}
+                                <div key={tx.id} className="p-4 rounded-2xl hover:bg-surface-100 transition-colors flex items-center gap-4 group">
+                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${tx.action === 'WALLET_TOPUP' || tx.action === 'REFUND_SUCCESS' ? 'bg-green-50 text-green-600' : 'bg-brand-secondary text-brand-primary'}`}>
+                                        {tx.action === 'WALLET_TOPUP' ? '➕' : tx.action === 'REFUND_SUCCESS' ? '↩️' : '🛒'}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-sm font-bold text-gray-800 truncate text-wrap">{tx.description}</h3>
-                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">
-                                            {new Date(tx.createdAt).toLocaleDateString('th-TH', {
-                                                day: 'numeric',
-                                                month: 'short',
-                                                year: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit'
-                                            })}
+                                        <p className="font-bold text-gray-900 group-hover:text-brand-primary transition-colors leading-tight">
+                                            {tx.description}{tx.action === 'ORDER_PLACED' ? ' บาท' : ''}
+                                        </p>
+                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-tight">{new Date(tx.createdAt).toLocaleDateString()}</p>
+                                    </div>
+                                    <div className="text-right shrink-0">
+                                        <p className={`font-black text-lg ${tx.action === 'WALLET_TOPUP' || tx.action === 'REFUND_SUCCESS' ? 'text-green-600' : 'text-red-500'}`}>
+                                            {tx.action === 'WALLET_TOPUP' || tx.action === 'REFUND_SUCCESS' ? '+' : '-'}฿{(tx.metadata.amount || tx.metadata.totalPrice || 0).toFixed(0)}
                                         </p>
                                     </div>
-                                    <div className={`text-sm font-black whitespace-nowrap ${tx.action === 'WALLET_TOPUP' ? 'text-green-600' : 'text-orange-600'}`}>
-                                        {tx.action === 'WALLET_TOPUP' ? '+' : '-'}{tx.metadata?.amount || tx.metadata?.totalPrice || 0}
 
-                                    </div>
                                 </div>
                             ))
                         ) : (

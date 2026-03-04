@@ -48,13 +48,14 @@ model Shop {
 }
 
 model Menu {
-  id        Int          @id @default(autoincrement())
-  name      String
-  price     Int
-  shopId    Int
-  deletedAt DateTime?
-  shop      Shop         @relation(fields: [shopId], references: [id])
-  options   MenuOption[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  price       Int
+  shopId      Int
+  deletedAt   DateTime?
+  isAvailable Boolean      @default(true)
+  shop        Shop         @relation(fields: [shopId], references: [id])
+  options     MenuOption[]
 }
 
 model MenuOption {

@@ -152,7 +152,8 @@ exports.Prisma.MenuScalarFieldEnum = {
   name: 'name',
   price: 'price',
   shopId: 'shopId',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  isAvailable: 'isAvailable'
 };
 
 exports.Prisma.MenuOptionScalarFieldEnum = {

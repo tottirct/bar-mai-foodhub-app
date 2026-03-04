@@ -61,7 +61,9 @@ export interface Menu {
     price: number;
     shopId: number;
     imageUrl?: string;
+    isAvailable: boolean;
 }
+
 
 export interface MenuOption {
     id: number;
