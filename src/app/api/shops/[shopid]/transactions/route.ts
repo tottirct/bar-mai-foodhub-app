@@ -1,12 +1,23 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { mongo } from '@/lib/mongo';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 export async function GET(
     request: NextRequest,
     { params }: { params : Promise<{ shopid : string }>}
 ) {
     try {
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const ownerId = parseInt(session.user.id);
+
         const { shopid } = await params;
         const shopId = parseInt(shopid);
         
@@ -16,6 +27,10 @@ export async function GET(
                 deletedAt: null
             },
         });
+
+        if(ownerId !== shop?.ownerId) {
+            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านนี้"},{status:403});
+        }
 
         if(!shop) {
             return NextResponse.json({ success: false, message: "หาร้านไม่เจอ" }, {status: 404});

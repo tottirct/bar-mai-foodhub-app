@@ -12,7 +12,7 @@ export async function PATCH(
         const menuId = parseInt(menuid);
 
         const body = await request.json();
-        const { isAvailable } = body;
+        const { name,price,isAvailable } = body;
 
         const checkShop = await prisma.shop.findFirst({
             where: {
@@ -42,7 +42,15 @@ export async function PATCH(
                 id: menuId
             },
             data: {
-                isAvailable: isAvailable
+                ...(name !== undefined && {name}),
+                ...(price !== undefined && {price}),
+                ...(isAvailable !== undefined && {isAvailable})
+            },
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                isAvailable: true
             }
         });
 
@@ -52,9 +60,14 @@ export async function PATCH(
                     userId: checkShop.ownerId,
                     shopId: shopId,
                     userRole: "OWNER",
-                    action: "CHANGE_MENU_STATUS",
-                    description: `เจ้าของร้านปรับเมนู ${updatedMenu.name} เป็น ${isAvailable ? 'พร้อม' : 'ไม่พร้อม'}`,
-                    metadata: { menuId: (await updatedMenu).id, status: isAvailable }
+                    action: "UPDATE_MENU",
+                    description: `เจ้าของร้านปรับเมนู ${updatedMenu.name}`,
+                    metadata: { 
+                        menuId: (await updatedMenu).id,
+                        name: name,
+                        price: price,
+                        status: isAvailable
+                    }
 
                     }
             });

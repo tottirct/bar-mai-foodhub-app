@@ -36,6 +36,20 @@ export async function POST(
         const body = await request.json();
         const { shopId, menuName, price, options, userId } = body;
 
+        const checkRole = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            }
+        })
+
+        if(!checkRole) {
+            return NextResponse.json({success: false,message:"หาร้านไม่เจอ"},{status:404});
+        }
+        if(checkRole.ownerId !== userId) {
+            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านนิ"},{status:403});
+        }
+
         if(!menuName || price === undefined || !userId || price < 0) {
             return NextResponse.json({sucess: false, message: "เอาดีๆ"},{status: 400});
         }
@@ -99,7 +113,21 @@ export async function DELETE(
 ) {
     try {
         const body = await request.json();
-        const { shopId, menuId } = body;
+        const { shopId, menuId, userId} = body;
+
+        const checkRole = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            }
+        })
+
+        if(!checkRole) {
+            return NextResponse.json({success: false,message:"หาร้านไม่เจอ"},{status:404});
+        }
+        if(checkRole.ownerId !== userId) {
+            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านนิ"},{status:403});
+        }
 
         const targetShop = await prisma.shop.findFirst({
             where: {
@@ -139,7 +167,7 @@ export async function DELETE(
 
         return NextResponse.json({success: true,message:"ลบเมนูแล้ว",data:result},{status:201})
     } catch(error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json({success: false , message:"ดึงข้อมูลผลาดหวะ"},{status:500});
     }
 }
