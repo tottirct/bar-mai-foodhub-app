@@ -95,14 +95,17 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const session = await getServerSession(authOptions);
+        // const session = await getServerSession(authOptions);
 
-        if (!session?.user?.id) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
+        // if (!session?.user?.id) {
+        //     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        // }
 
-        const userId = parseInt(session.user.id);
+        // const userId = parseInt(session.user.id);
+        
+        const userId = 1; // MOCK!!!!!!
 
+        
         const { id } = await params;
         const menuId = parseInt(id);
         
