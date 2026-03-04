@@ -6,7 +6,7 @@ export default function OwnerLayout({children,}: {children: React.ReactNode;}) {
     const menuItems = [
     { label: "ออเดอร์", href: "/owner", icon: "ScrollText" },
     { label: "ธุรกรรม", href: "/owner/transactions", icon: "Banknote" },
-    { label: "เมนู", href: "owner/menus", icon: "BookOpenText" },
+    { label: "เมนู", href: "/owner/menus", icon: "BookOpenText" },
     ];
 
     return (

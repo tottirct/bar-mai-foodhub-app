@@ -7,6 +7,9 @@
   h2{
     @apply text-xl font-medium;
   }
+  sub{
+    @apply text-xs font-thin;
+  }
 }
 
 @layer components {
