@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { mongo } from '@/lib/mongo'
+import { mongo } from '@/lib/mongo';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
     request: NextRequest,
@@ -10,6 +12,13 @@ export async function GET(
 
         const { shopid } = await params;
         const shopId = parseInt(shopid);
+
+        const findShop = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            }
+        })
 
         const shopsOrder = await prisma.order.findMany({
             where: {
@@ -30,6 +39,29 @@ export async function GET(
                 }
             }
         });
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const userId = parseInt(session.user.id);
+
+        const isAdmin = await prisma.user.findFirst({
+            where: {
+                id: userId,
+                deletedAt: null
+            }
+        })
+
+        if(!isAdmin) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status: 404});
+        }
+
+        if((findShop?.ownerId !== userId) && (isAdmin.role !== "ADMIN")) {
+            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านและไม่ใช่ admin"},{status:403});
+        }
 
         if (shopsOrder.length === 0) {
             return NextResponse.json({ success: true, orders: [] });

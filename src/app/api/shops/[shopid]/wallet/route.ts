@@ -18,6 +18,29 @@ export async function POST(
             return NextResponse.json({ success: false, message: "จะถอนมั้ยเนี่ย" }, { status: 400 });
         }
 
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const ownerId = parseInt(session.user.id);
+
+        const checkShop = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            }
+        })
+
+        if(!checkShop) {
+            return NextResponse.json({success: false,message: "หาร้านไม่เจอ ( จาก shopId )"},{status:404});
+        }
+
+        if(ownerId !== checkShop.ownerId) {
+            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านเห้ย"},{status:403});
+        }
+
         const result = await prisma.$transaction(async (tx) => {
             const shop = await tx.shop.findFirst({
                 where: { id: shopId, deletedAt: null }

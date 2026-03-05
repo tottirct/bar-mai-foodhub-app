@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { mongo } from '@/lib/mongo'
+import { mongo } from '@/lib/mongo';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function PATCH(
     request: NextRequest,
@@ -23,10 +25,25 @@ export async function PATCH(
             include: { shop: true }
         });
 
-        if(!order || order.shopId !== shopId) {
-            return NextResponse.json({ success: false, message: "ไม่พบออเดอร์ || ร้านไม่ตรงใน order"}, {status: 404});
+        if(!order) {
+            return NextResponse.json({success: false,message:"หา order ไม่เจอ"},{status:404});
+        }
+        if(order.shopId !== shopId) {
+            return NextResponse.json({success: false,message:"ร้านที่ส่งมากับร้านในออเดอร์ไม่ตรงกัน"},{status:400});
         }
 
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const ownerId = parseInt(session.user.id);
+
+        if(ownerId !== order?.shop.ownerId) {
+            return NextResponse.json({success:false,message:"ไม่ใช่เจ้าของร้าน"},{status:403});
+        }
+        
         if(status === "CANCELLED" && order.status === "CANCELLED") {
             return NextResponse.json({ success: false, message: "ยกเลิกไปแล้ว"},{status:400});
         }

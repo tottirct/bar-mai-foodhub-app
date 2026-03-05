@@ -62,6 +62,28 @@ export async function POST(
             include: { shop: true }
         });
 
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const ownerId = parseInt(session.user.id);
+
+        const checkOwner = await prisma.user.findFirst({
+            where: {
+                id: ownerId,
+                deletedAt: null
+            }
+        });
+
+        if(!checkOwner) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status:404});
+        }
+        if(checkOwner.id !== menu?.shop.ownerId) {
+            return NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้านนี้หนิ"},{status:403});
+        }
+
         if (!menu) {
             return NextResponse.json({ success: false, message: "ไม่พบเมนู" }, { status: 404 });
         }
@@ -118,6 +140,28 @@ export async function DELETE(
 
         if (!optionId) {
             return NextResponse.json({ success: false, message: "หาoptionไม่เจอ" }, { status: 404 });
+        }
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const ownerId = parseInt(session.user.id);
+
+        const checkOwner = await prisma.user.findFirst({
+            where: {
+                id: ownerId,
+                deletedAt: null
+            }
+        });
+
+        if(!checkOwner) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status:404});
+        }
+        if(checkOwner.id !== checkMenu?.shop.ownerId) {
+            return  NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้าน"},{status:403});
         }
 
         const optId = parseInt(optionId);

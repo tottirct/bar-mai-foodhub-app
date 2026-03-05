@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { mongo } from '@/lib/mongo';
+import { mongo } from '@/lib/mongo'
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
     request: Request,
@@ -19,6 +21,28 @@ export async function GET(
             },
             select: { balance: true }
         });
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const checkUserId = parseInt(session.user.id);
+        
+        const isAdmin = await prisma.user.findFirst({
+            where: {
+                id: checkUserId,
+                deletedAt: null
+            }
+        });
+
+        if(!isAdmin) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status:404});
+        }
+        if((checkUserId !== userId) && (isAdmin.role !== "ADMIN")) {
+            return NextResponse.json({success:false,message:"ไม่ใช่ id คุณและคุณไม่ใช่ admin"},{status:403});
+        }
 
         const history = await mongo.activityLog.findMany({
             where: { userId: userId ,
@@ -65,6 +89,18 @@ export async function POST(
 
         if(!userCheck) {
             return NextResponse.json({success: false,message: "ไม่พบผู้ใช้"},{status:404});
+        }
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const checkUserId = parseInt(session.user.id);
+
+        if(checkUserId !== userId) {
+            return NextResponse.json({success:false,message:"ไม่ใช่ไอดีคุณ อย่าไปเติมเงินให้เขาเลย"},{status:403});
         }
 
         const updatedWallet = await prisma.wallet.upsert({

@@ -2,6 +2,8 @@
 
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
     request: Request,
@@ -11,6 +13,28 @@ export async function GET(
         const limit = parseInt(searchParams.get('limit') || '50');
         const page = parseInt(searchParams.get('page') || '1');
         const skip = (page - 1) * limit;
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const adminId = parseInt(session.user.id);
+
+        const checkAdmin = await prisma.user.findFirst({
+            where: {
+                id: adminId,
+                deletedAt: null
+            }
+        });
+
+        if(!checkAdmin) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status:404});
+        }
+        if(checkAdmin.role !== "ADMIN") {
+            return NextResponse.json({success: false,message:"ไม่ใช่ admin หนิ"},{status:403});
+        }
 
         const users = await prisma.user.findMany({
             where: {
