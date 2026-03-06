@@ -36,7 +36,7 @@ export async function POST(
 ) {
     try {
         const body = await request.json();
-        const { shopId, menuName, price, options, userId } = body;
+        const { shopId, menuName, price, imageUrl, options, userId } = body;
 
         const checkRole = await prisma.shop.findFirst({
             where: {
@@ -75,6 +75,7 @@ export async function POST(
                 name: menuName,
                 price: price,
                 shopId: shopId,
+                imageUrl: imageUrl,
                 options: {
                     create: options.map((opt:any) => ({
                         name: opt.name,

@@ -3,6 +3,25 @@ import { prisma } from '@/lib/prisma';
 import { mongo } from '@/lib/mongo';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const extractPublicId = (url: string) => {
+    try {
+        const parts = url.split('/upload/');
+        if (parts.length !== 2) return null;
+        const pathWithVersion = parts[1];
+        const pathWithoutVersion = pathWithVersion.replace(/^v\d+\//, '');
+        return pathWithoutVersion.substring(0, pathWithoutVersion.lastIndexOf('.'));
+    } catch (e) {
+        return null;
+    }
+};
 
 export async function PATCH(
     request: Request,
@@ -14,7 +33,7 @@ export async function PATCH(
         const menuId = parseInt(menuid);
 
         const body = await request.json();
-        const { name,price,isAvailable } = body;
+        const { name,price,isAvailable, imageUrl} = body;
 
         const checkShop = await prisma.shop.findFirst({
             where: {
@@ -51,6 +70,15 @@ export async function PATCH(
             return NextResponse.json({success: false, message:"คุณไม่ใช่เจ้าของร้านนี้"},{status:403});
         }
 
+        if (imageUrl && imageUrl !== checkMenu.imageUrl && checkMenu.imageUrl) {
+            const oldPublicId = extractPublicId(checkMenu.imageUrl);
+            if (oldPublicId) {
+                await cloudinary.uploader.destroy(oldPublicId).catch(err => {
+                    console.error("ลบรูปเก่าไม่สำเร็จ:", err);
+                });
+            }
+        }
+
         const updatedMenu = await prisma.menu.update({
             where: {
                 id: menuId
@@ -58,13 +86,15 @@ export async function PATCH(
             data: {
                 ...(name !== undefined && {name}),
                 ...(price !== undefined && {price}),
-                ...(isAvailable !== undefined && {isAvailable})
+                ...(isAvailable !== undefined && {isAvailable}),
+                ...(imageUrl !== undefined && {imageUrl})
             },
             select: {
                 id: true,
                 name: true,
                 price: true,
-                isAvailable: true
+                isAvailable: true,
+                imageUrl: true
             }
         });
 

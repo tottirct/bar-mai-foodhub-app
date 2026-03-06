@@ -143,6 +143,7 @@ exports.Prisma.ShopScalarFieldEnum = {
   description: 'description',
   ownerId: 'ownerId',
   isOpen: 'isOpen',
+  imageUrl: 'imageUrl',
   wallet: 'wallet',
   deletedAt: 'deletedAt'
 };
@@ -152,6 +153,7 @@ exports.Prisma.MenuScalarFieldEnum = {
   name: 'name',
   price: 'price',
   shopId: 'shopId',
+  imageUrl: 'imageUrl',
   deletedAt: 'deletedAt',
   isAvailable: 'isAvailable'
 };
@@ -193,11 +195,13 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ShopOrderByRelevanceFieldEnum = {
   name: 'name',
-  description: 'description'
+  description: 'description',
+  imageUrl: 'imageUrl'
 };
 
 exports.Prisma.MenuOrderByRelevanceFieldEnum = {
-  name: 'name'
+  name: 'name',
+  imageUrl: 'imageUrl'
 };
 
 exports.Prisma.MenuOptionOrderByRelevanceFieldEnum = {

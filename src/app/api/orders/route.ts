@@ -79,6 +79,17 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: false, message: "ตังไม่พอ" }, { status: 400 });
         }
 
+        const shopName = await prisma.shop.findFirst({
+            where: {
+                id: shopId,
+                deletedAt: null
+            }
+        });
+
+        if(!shopName) {
+            return NextResponse.json({success:false,message:"หาร้านไม่เจอ"},{status:404});
+        }
+
         const result = await prisma.$transaction(async (tx) => {
             const createdOrder = await tx.order.create({
                 data: {
@@ -119,7 +130,7 @@ export async function POST(request: NextRequest) {
                     shopId,
                     userRole: user.role,
                     action: "ORDER_PLACED",
-                    description: `สั่งข้าวร้าน ${shopId} รวม ${calTotalPrice}`,
+                    description: `สั่งข้าวร้าน ${shopName.name} รวม ${calTotalPrice}`,
                     metadata: { orderId: newOrderId, totalPrice: calTotalPrice, shopId: shopId }
                 }
             });
