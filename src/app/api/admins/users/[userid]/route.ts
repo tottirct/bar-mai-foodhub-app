@@ -8,7 +8,7 @@ export async function DELETE(
 ) {
     try {
         const { userid } = await params;
-        const userId = parseInt(userid);
+        const userId = userid;
         const { adminId, reason } = await request.json();
 
         const adminCheck = await prisma.user.findFirst({

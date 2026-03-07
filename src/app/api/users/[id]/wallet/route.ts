@@ -10,7 +10,7 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
-        const userId = parseInt(id);
+        const userId = id;
         
         const userWallet = await prisma.wallet.findFirst({
             where: {
@@ -28,7 +28,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkUserId = parseInt(session.user.id);
+        const checkUserId = session.user.id;
         
         const isAdmin = await prisma.user.findFirst({
             where: {
@@ -71,7 +71,7 @@ export async function POST(
 ) {
     try {
         const { id } = await params;
-        const userId = parseInt(id);
+        const userId = id;
 
         const body = await request.json();
         const {amount} = body;
@@ -97,7 +97,7 @@ export async function POST(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkUserId = parseInt(session.user.id);
+        const checkUserId = session.user.id;
 
         if(checkUserId !== userId) {
             return NextResponse.json({success:false,message:"ไม่ใช่ไอดีคุณ อย่าไปเติมเงินให้เขาเลย"},{status:403});

@@ -40,7 +40,7 @@ export default function OwnerTransactionsPage() {
     const [error, setError] = useState<string | null>(null);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [shopBalance, setShopBalance] = useState<number>(0);
-    const [shopId, setShopId] = useState<number | null>(null);
+    const [shopId, setShopId] = useState<string | null>(null);
     const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -52,7 +52,7 @@ export default function OwnerTransactionsPage() {
             const shopData = await shopRes.json();
             if (!shopData.success) throw new Error("Failed to fetch shops");
 
-            const myShop = shopData.data.find((s: any) => s.ownerId === parseInt(session.user.id));
+            const myShop = shopData.data.find((s: any) => s.ownerId === session.user?.id);
             if (!myShop) {
                 setError("No shop linked to this account");
                 setLoading(false);

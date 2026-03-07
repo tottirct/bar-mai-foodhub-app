@@ -187,28 +187,43 @@ exports.Prisma.NullsOrder = {
 };
 
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
   email: 'email',
   name: 'name',
   username: 'username',
   password: 'password'
 };
 
+exports.Prisma.WalletOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId'
+};
+
 exports.Prisma.ShopOrderByRelevanceFieldEnum = {
+  id: 'id',
   name: 'name',
   description: 'description',
+  ownerId: 'ownerId',
   imageUrl: 'imageUrl'
 };
 
 exports.Prisma.MenuOrderByRelevanceFieldEnum = {
+  id: 'id',
   name: 'name',
+  shopId: 'shopId',
   imageUrl: 'imageUrl'
 };
 
 exports.Prisma.MenuOptionOrderByRelevanceFieldEnum = {
-  name: 'name'
+  id: 'id',
+  name: 'name',
+  menuId: 'menuId'
 };
 
 exports.Prisma.OrderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  shopId: 'shopId',
   status: 'status',
   mongoOrderId: 'mongoOrderId'
 };

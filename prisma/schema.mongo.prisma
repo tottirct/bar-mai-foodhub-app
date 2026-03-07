@@ -12,14 +12,14 @@ datasource db {
 
 model OrderDetail {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  mysqlOrderId Int      @unique 
+  mysqlOrderId String      @unique 
   items       Item[]   
   note        String?  
   createdAt   DateTime @default(now())
 }
 
 type Item {
-  menuId          Int
+  menuId          String
   menuName        String
   price           Float
   quantity        Int
@@ -28,15 +28,15 @@ type Item {
 }
 
 type SelectedOption {
-  optionId   Int
+  optionId   String
   name       String
   price      Float
 }
 
 model ActivityLog {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId      Int?     // อ้างอิง User ID จากฝั่ง MySQL
-  shopId      Int?
+  userId      String?     // อ้างอิง User ID จากฝั่ง MySQL
+  shopId      String?
   userRole    String   // เก็บ Role ตอนที่กระทำ (เช่น "CUSTOMER", "OWNER", "ADMIN") เพื่อให้ Query หาง่ายๆ
   action      String   // ประเภทของสิ่งที่ทำ (เช่น "WALLET_TOPUP", "ORDER_PLACED", "LOGIN", "SHOP_INCOME")
   description String   // คำอธิบายแบบอ่านรู้เรื่อง เช่น "เติมเงินเข้าวอลเล็ต 500 บาท"

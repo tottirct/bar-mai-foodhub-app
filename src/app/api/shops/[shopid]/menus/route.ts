@@ -11,7 +11,7 @@ export async function GET(
 ) {
     try {
         const { shopid } = await params;
-        const shopID = parseInt(shopid);
+        const shopID = shopid;
         const menus = await prisma.menu.findMany({
             where: {
                 shopId: shopID,

@@ -15,8 +15,7 @@ export default function CustomerLayout({
         { label: "หน้าแรก", href: "/customer", icon: "Home" },
         { label: "เครดิต", href: "/customer/credit", icon: "Wallet" },
         { label: "ข้อมูล", href: "/customer/information", icon: "Info" },
-        { label: "รถเข็น", href: "/customer/trolley", icon: "ShoppingCart" },
-        { label: "แผนที่", href: "#", icon: "Map", onClick: () => setIsMapOpen(true) },
+        { label: "รถเข็น", href: "/customer/trolley", icon: "ShoppingCart" }
     ];
 
     return (

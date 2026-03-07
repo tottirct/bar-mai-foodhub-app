@@ -21,13 +21,13 @@ import AddShopModal from "@/components/admin/AddShopModal";
 import BanShopModal from "@/components/admin/BanShopModal";
 
 interface ShopData {
-    id: number;
+    id: string;
     name: string;
     description: string | null;
     isOpen: boolean;
     queueCount: number;
     wallet: number;
-    ownerId: number;
+    ownerId: string;
 }
 
 interface TransactionData {
@@ -130,7 +130,7 @@ export default function AdminShopsPage() {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    adminId: parseInt((session.user as any).id),
+                    adminId: (session.user as any).id,
                     reason: banReason
                 })
             });

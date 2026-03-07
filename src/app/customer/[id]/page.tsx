@@ -26,20 +26,20 @@ function AddToCartModal({
     menu: Menu;
     menuDetail: MenuDetail | null;
     loadingDetail: boolean;
-    shopId: number;
+    shopId: string;
     shopName: string;
-    userId: number | null;
+    userId: string | null;
     onClose: () => void;
 }) {
 
     const router = useRouter();
     const [quantity, setQuantity] = useState(1);
-    const [selectedOptionIds, setSelectedOptionIds] = useState<Set<number>>(new Set());
+    const [selectedOptionIds, setSelectedOptionIds] = useState<Set<string>>(new Set());
     const [specialNote, setSpecialNote] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const toggleOption = (id: number) => {
+    const toggleOption = (id: string) => {
         setSelectedOptionIds((prev) => {
             const next = new Set(prev);
             if (next.has(id)) next.delete(id);
@@ -63,7 +63,7 @@ function AddToCartModal({
 
             const newOrder = {
                 id: Date.now(),
-                userId: userId || 0,
+                userId: userId || "",
                 shopId,
 
                 shopName,
@@ -276,7 +276,7 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                 const menuData = await menuRes.json();
 
                 if (shopsData.success && menuData.success) {
-                    const foundShop = shopsData.data.find((s: Shop) => s.id === parseInt(id));
+                    const foundShop = shopsData.data.find((s: Shop) => s.id === id);
                     if (foundShop) {
                         setShop(foundShop);
                     } else {
@@ -484,7 +484,7 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                         loadingDetail={loadingDetail}
                         shopId={shop.id}
                         shopName={shop.name}
-                        userId={parseInt(session?.user?.id || "0")}
+                        userId={session?.user?.id || null}
                         onClose={() => {
 
 

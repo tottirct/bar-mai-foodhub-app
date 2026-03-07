@@ -20,7 +20,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const adminId = parseInt(session.user.id);
+        const adminId = session.user.id;
 
         const checkAdmin = await prisma.user.findFirst({
             where: {

@@ -11,7 +11,7 @@ export async function GET(
     try {
 
         const { shopid } = await params;
-        const shopId = parseInt(shopid);
+        const shopId = shopid;
 
         const findShop = await prisma.shop.findFirst({
             where: {
@@ -46,7 +46,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const userId = parseInt(session.user.id);
+        const userId = session.user.id;
 
         const isAdmin = await prisma.user.findFirst({
             where: {

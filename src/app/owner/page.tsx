@@ -7,7 +7,7 @@ import OrderList from "@/components/owner/OrderList";
 
 export default function OwnerDashboard() {
   const { data: session } = useSession();
-  const [shopId, setShopId] = useState<number | null>(null);
+  const [shopId, setShopId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function OwnerDashboard() {
         const data = await res.json();
         if (data.success) {
           // Find the shop owned by the current user
-          const myShop = data.data.find((s: any) => s.ownerId === parseInt(session.user.id));
+          const myShop = data.data.find((s: any) => s.ownerId === session.user?.id);
           if (myShop) setShopId(myShop.id);
         }
       } catch (error) {

@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import UniversalPopUp from "@/components/UniversalPopUp";
 import { useRouter } from 'next/navigation';
-import { ImagePlus, X, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface Menu {
   id?: number;
@@ -30,7 +30,7 @@ const MENU_FIELDS = [
 export default function MenuFormPopUpMain({ isOpen, onClose, menu, onEditOptions, shopId, onSaveSuccess }: MenuFormPopUpProps) {
   const isEditMode = !!menu;
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { data: session } = useSession();
 
   const [formData, setFormData] = useState({
     shopId: shopId || 0,
@@ -71,45 +71,18 @@ export default function MenuFormPopUpMain({ isOpen, onClose, menu, onEditOptions
   };
 
   const handleSubmit = async () => {
-    setIsUploading(true);
-    try {
-      let imageUrl: string | undefined = undefined;
-
-      // Upload image if a new file was selected
-      if (imageFile) {
-        const uploadData = new FormData();
-        uploadData.append("file", imageFile);
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          body: uploadData,
-        });
-        const uploadResult = await uploadRes.json();
-        if (uploadResult.success) {
-          imageUrl = uploadResult.imageUrl;
-        } else {
-          console.error("Upload failed:", uploadResult.message);
-          return;
-        }
-      } else if (imagePreview === null && menu?.imageUrl) {
-        // Image was removed
-        imageUrl = "";
-      }
-
-      const payload: Record<string, unknown> = { ...formData };
-      if (imageUrl !== undefined) {
-        payload.imageUrl = imageUrl;
-      }
-
-      await fetch(`/api/shops/${shopId}/menus${isEditMode ? `/${menu?.id}` : ""}`, {
-        method: isEditMode ? "PATCH" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      await onSaveSuccess?.();
-      onClose();
-    } finally {
-      setIsUploading(false);
-    }
+    const payload = {
+      ...formData,
+      userId: session?.user?.id // Added userId to payload
+    };
+    console.log("Saving:", payload);
+    await fetch(`/api/shops/${shopId}/menus${isEditMode ? `/${menu?.id}` : ""}`, {
+      method: isEditMode ? "PATCH" : "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    })
+    await onSaveSuccess?.();
+    onClose();
   };
 
   return (

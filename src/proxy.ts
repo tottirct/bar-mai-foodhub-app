@@ -10,7 +10,7 @@ export default async function proxy(req: NextRequest) {
     const isPublicRoute =
         pathname.startsWith('/auth/login') ||
         pathname.startsWith('/auth/register') ||
-        pathname.startsWith('/api/auth') || // Allow NextAuth API routes
+        pathname.startsWith('/api/auth') ||
         pathname === '/';
 
     if (isPublicRoute) {
@@ -18,7 +18,6 @@ export default async function proxy(req: NextRequest) {
     }
 
     if (!token) {
-        // Return JSON 401 for API routes instead of redirecting
         if (pathname.startsWith('/api/')) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
@@ -94,13 +93,19 @@ export default async function proxy(req: NextRequest) {
                 if (method === 'GET') {
                     // Everyone
                 } else if (method === 'POST' || method === 'DELETE' || method === 'PATCH') {
-                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden EIEI' }, { status: 403 });
+                    if (role !== 'OWNER'){
+                        console.log("eiei")
+                         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    }
                 }
             }
 
             if (pathname.match(/^\/api\/shops\/\d+\/menus\/d+/)) {
                 if (method === 'PATCH') {
-                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden'},{status:403});
+                    if (role !== 'OWNER'){
+                        console.log("eiei2")
+                         return NextResponse.json({ error: 'Forbidden'},{status:403});
+                    }
                 }
             }
 
@@ -149,11 +154,10 @@ export default async function proxy(req: NextRequest) {
         return NextResponse.next();
     }
 
-    export const config = {
+export const config = {
         matcher: [
             '/admin/:path*',
             '/owner/:path*',
             '/customer/:path*',
-            '/api/:path*'
         ],
     };

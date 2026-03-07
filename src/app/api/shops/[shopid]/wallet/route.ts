@@ -10,7 +10,7 @@ export async function POST(
 ) {
     try {
         const { shopid } = await params;
-        const shopId = parseInt(shopid);
+        const shopId = shopid;
         const body = await request.json();
         const { amount } = body;
 
@@ -24,7 +24,7 @@ export async function POST(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const ownerId = parseInt(session.user.id);
+        const ownerId = session.user.id;
 
         const checkShop = await prisma.shop.findFirst({
             where: {

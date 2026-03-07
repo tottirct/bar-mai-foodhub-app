@@ -3,7 +3,7 @@
 import { X, Loader2, AlertCircle, TrendingUp, TrendingDown, RefreshCw } from "lucide-react";
 
 interface ShopData {
-    id: number;
+    id: string;
     name: string;
 }
 

@@ -1402,22 +1402,12 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
-    _avg: UserAvgAggregateOutputType | null
-    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
 
-  export type UserAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type UserSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type UserMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     email: string | null
     name: string | null
     username: string | null
@@ -1427,7 +1417,7 @@ export namespace Prisma {
   }
 
   export type UserMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     email: string | null
     name: string | null
     username: string | null
@@ -1447,14 +1437,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type UserAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type UserSumAggregateInputType = {
-    id?: true
-  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -1525,18 +1507,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: UserAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: UserSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1567,14 +1537,12 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
-    _avg?: UserAvgAggregateInputType
-    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
 
   export type UserGroupByOutputType = {
-    id: number
+    id: string
     email: string
     name: string
     username: string
@@ -1582,8 +1550,6 @@ export namespace Prisma {
     role: $Enums.Role
     deletedAt: Date | null
     _count: UserCountAggregateOutputType | null
-    _avg: UserAvgAggregateOutputType | null
-    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1644,7 +1610,7 @@ export namespace Prisma {
       wallets: Prisma.$WalletPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       email: string
       name: string
       username: string
@@ -2023,7 +1989,7 @@ export namespace Prisma {
    * Fields of the User model
    */
   interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'Int'>
+    readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
@@ -2471,27 +2437,23 @@ export namespace Prisma {
   }
 
   export type WalletAvgAggregateOutputType = {
-    id: number | null
     balance: number | null
-    userId: number | null
   }
 
   export type WalletSumAggregateOutputType = {
-    id: number | null
     balance: number | null
-    userId: number | null
   }
 
   export type WalletMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     balance: number | null
-    userId: number | null
+    userId: string | null
   }
 
   export type WalletMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     balance: number | null
-    userId: number | null
+    userId: string | null
   }
 
   export type WalletCountAggregateOutputType = {
@@ -2503,15 +2465,11 @@ export namespace Prisma {
 
 
   export type WalletAvgAggregateInputType = {
-    id?: true
     balance?: true
-    userId?: true
   }
 
   export type WalletSumAggregateInputType = {
-    id?: true
     balance?: true
-    userId?: true
   }
 
   export type WalletMinAggregateInputType = {
@@ -2620,9 +2578,9 @@ export namespace Prisma {
   }
 
   export type WalletGroupByOutputType = {
-    id: number
+    id: string
     balance: number
-    userId: number
+    userId: string
     _count: WalletCountAggregateOutputType | null
     _avg: WalletAvgAggregateOutputType | null
     _sum: WalletSumAggregateOutputType | null
@@ -2670,9 +2628,9 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       balance: number
-      userId: number
+      userId: string
     }, ExtArgs["result"]["wallet"]>
     composites: {}
   }
@@ -3043,9 +3001,9 @@ export namespace Prisma {
    * Fields of the Wallet model
    */
   interface WalletFieldRefs {
-    readonly id: FieldRef<"Wallet", 'Int'>
+    readonly id: FieldRef<"Wallet", 'String'>
     readonly balance: FieldRef<"Wallet", 'Int'>
-    readonly userId: FieldRef<"Wallet", 'Int'>
+    readonly userId: FieldRef<"Wallet", 'String'>
   }
     
 
@@ -3420,22 +3378,18 @@ export namespace Prisma {
   }
 
   export type ShopAvgAggregateOutputType = {
-    id: number | null
-    ownerId: number | null
     wallet: number | null
   }
 
   export type ShopSumAggregateOutputType = {
-    id: number | null
-    ownerId: number | null
     wallet: number | null
   }
 
   export type ShopMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     description: string | null
-    ownerId: number | null
+    ownerId: string | null
     isOpen: boolean | null
     imageUrl: string | null
     wallet: number | null
@@ -3443,10 +3397,10 @@ export namespace Prisma {
   }
 
   export type ShopMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     description: string | null
-    ownerId: number | null
+    ownerId: string | null
     isOpen: boolean | null
     imageUrl: string | null
     wallet: number | null
@@ -3467,14 +3421,10 @@ export namespace Prisma {
 
 
   export type ShopAvgAggregateInputType = {
-    id?: true
-    ownerId?: true
     wallet?: true
   }
 
   export type ShopSumAggregateInputType = {
-    id?: true
-    ownerId?: true
     wallet?: true
   }
 
@@ -3599,10 +3549,10 @@ export namespace Prisma {
   }
 
   export type ShopGroupByOutputType = {
-    id: number
+    id: string
     name: string
     description: string | null
-    ownerId: number
+    ownerId: string
     isOpen: boolean
     imageUrl: string | null
     wallet: number
@@ -3672,10 +3622,10 @@ export namespace Prisma {
       orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string
       description: string | null
-      ownerId: number
+      ownerId: string
       isOpen: boolean
       imageUrl: string | null
       wallet: number
@@ -4052,10 +4002,10 @@ export namespace Prisma {
    * Fields of the Shop model
    */
   interface ShopFieldRefs {
-    readonly id: FieldRef<"Shop", 'Int'>
+    readonly id: FieldRef<"Shop", 'String'>
     readonly name: FieldRef<"Shop", 'String'>
     readonly description: FieldRef<"Shop", 'String'>
-    readonly ownerId: FieldRef<"Shop", 'Int'>
+    readonly ownerId: FieldRef<"Shop", 'String'>
     readonly isOpen: FieldRef<"Shop", 'Boolean'>
     readonly imageUrl: FieldRef<"Shop", 'String'>
     readonly wallet: FieldRef<"Shop", 'Int'>
@@ -4482,32 +4432,28 @@ export namespace Prisma {
   }
 
   export type MenuAvgAggregateOutputType = {
-    id: number | null
     price: number | null
-    shopId: number | null
   }
 
   export type MenuSumAggregateOutputType = {
-    id: number | null
     price: number | null
-    shopId: number | null
   }
 
   export type MenuMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     price: number | null
-    shopId: number | null
+    shopId: string | null
     imageUrl: string | null
     deletedAt: Date | null
     isAvailable: boolean | null
   }
 
   export type MenuMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     price: number | null
-    shopId: number | null
+    shopId: string | null
     imageUrl: string | null
     deletedAt: Date | null
     isAvailable: boolean | null
@@ -4526,15 +4472,11 @@ export namespace Prisma {
 
 
   export type MenuAvgAggregateInputType = {
-    id?: true
     price?: true
-    shopId?: true
   }
 
   export type MenuSumAggregateInputType = {
-    id?: true
     price?: true
-    shopId?: true
   }
 
   export type MenuMinAggregateInputType = {
@@ -4655,10 +4597,10 @@ export namespace Prisma {
   }
 
   export type MenuGroupByOutputType = {
-    id: number
+    id: string
     name: string
     price: number
-    shopId: number
+    shopId: string
     imageUrl: string | null
     deletedAt: Date | null
     isAvailable: boolean
@@ -4722,10 +4664,10 @@ export namespace Prisma {
       options: Prisma.$MenuOptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string
       price: number
-      shopId: number
+      shopId: string
       imageUrl: string | null
       deletedAt: Date | null
       isAvailable: boolean
@@ -5100,10 +5042,10 @@ export namespace Prisma {
    * Fields of the Menu model
    */
   interface MenuFieldRefs {
-    readonly id: FieldRef<"Menu", 'Int'>
+    readonly id: FieldRef<"Menu", 'String'>
     readonly name: FieldRef<"Menu", 'String'>
     readonly price: FieldRef<"Menu", 'Int'>
-    readonly shopId: FieldRef<"Menu", 'Int'>
+    readonly shopId: FieldRef<"Menu", 'String'>
     readonly imageUrl: FieldRef<"Menu", 'String'>
     readonly deletedAt: FieldRef<"Menu", 'DateTime'>
     readonly isAvailable: FieldRef<"Menu", 'Boolean'>
@@ -5505,30 +5447,26 @@ export namespace Prisma {
   }
 
   export type MenuOptionAvgAggregateOutputType = {
-    id: number | null
     price: number | null
-    menuId: number | null
   }
 
   export type MenuOptionSumAggregateOutputType = {
-    id: number | null
     price: number | null
-    menuId: number | null
   }
 
   export type MenuOptionMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     price: number | null
-    menuId: number | null
+    menuId: string | null
     deletedAt: Date | null
   }
 
   export type MenuOptionMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     price: number | null
-    menuId: number | null
+    menuId: string | null
     deletedAt: Date | null
   }
 
@@ -5543,15 +5481,11 @@ export namespace Prisma {
 
 
   export type MenuOptionAvgAggregateInputType = {
-    id?: true
     price?: true
-    menuId?: true
   }
 
   export type MenuOptionSumAggregateInputType = {
-    id?: true
     price?: true
-    menuId?: true
   }
 
   export type MenuOptionMinAggregateInputType = {
@@ -5666,10 +5600,10 @@ export namespace Prisma {
   }
 
   export type MenuOptionGroupByOutputType = {
-    id: number
+    id: string
     name: string
     price: number
-    menuId: number
+    menuId: string
     deletedAt: Date | null
     _count: MenuOptionCountAggregateOutputType | null
     _avg: MenuOptionAvgAggregateOutputType | null
@@ -5722,10 +5656,10 @@ export namespace Prisma {
       menu: Prisma.$MenuPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string
       price: number
-      menuId: number
+      menuId: string
       deletedAt: Date | null
     }, ExtArgs["result"]["menuOption"]>
     composites: {}
@@ -6097,10 +6031,10 @@ export namespace Prisma {
    * Fields of the MenuOption model
    */
   interface MenuOptionFieldRefs {
-    readonly id: FieldRef<"MenuOption", 'Int'>
+    readonly id: FieldRef<"MenuOption", 'String'>
     readonly name: FieldRef<"MenuOption", 'String'>
     readonly price: FieldRef<"MenuOption", 'Int'>
-    readonly menuId: FieldRef<"MenuOption", 'Int'>
+    readonly menuId: FieldRef<"MenuOption", 'String'>
     readonly deletedAt: FieldRef<"MenuOption", 'DateTime'>
   }
     
@@ -6476,23 +6410,17 @@ export namespace Prisma {
   }
 
   export type OrderAvgAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    shopId: number | null
     totalPrice: number | null
   }
 
   export type OrderSumAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    shopId: number | null
     totalPrice: number | null
   }
 
   export type OrderMinAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    shopId: number | null
+    id: string | null
+    userId: string | null
+    shopId: string | null
     totalPrice: number | null
     status: string | null
     createdAt: Date | null
@@ -6500,9 +6428,9 @@ export namespace Prisma {
   }
 
   export type OrderMaxAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    shopId: number | null
+    id: string | null
+    userId: string | null
+    shopId: string | null
     totalPrice: number | null
     status: string | null
     createdAt: Date | null
@@ -6522,16 +6450,10 @@ export namespace Prisma {
 
 
   export type OrderAvgAggregateInputType = {
-    id?: true
-    userId?: true
-    shopId?: true
     totalPrice?: true
   }
 
   export type OrderSumAggregateInputType = {
-    id?: true
-    userId?: true
-    shopId?: true
     totalPrice?: true
   }
 
@@ -6653,9 +6575,9 @@ export namespace Prisma {
   }
 
   export type OrderGroupByOutputType = {
-    id: number
-    userId: number
-    shopId: number
+    id: string
+    userId: string
+    shopId: string
     totalPrice: number
     status: string
     createdAt: Date
@@ -6718,9 +6640,9 @@ export namespace Prisma {
       shop: Prisma.$ShopPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      userId: number
-      shopId: number
+      id: string
+      userId: string
+      shopId: string
       totalPrice: number
       status: string
       createdAt: Date
@@ -7096,9 +7018,9 @@ export namespace Prisma {
    * Fields of the Order model
    */
   interface OrderFieldRefs {
-    readonly id: FieldRef<"Order", 'Int'>
-    readonly userId: FieldRef<"Order", 'Int'>
-    readonly shopId: FieldRef<"Order", 'Int'>
+    readonly id: FieldRef<"Order", 'String'>
+    readonly userId: FieldRef<"Order", 'String'>
+    readonly shopId: FieldRef<"Order", 'String'>
     readonly totalPrice: FieldRef<"Order", 'Int'>
     readonly status: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
@@ -7568,6 +7490,7 @@ export namespace Prisma {
 
 
   export const UserOrderByRelevanceFieldEnum: {
+    id: 'id',
     email: 'email',
     name: 'name',
     username: 'username',
@@ -7577,9 +7500,19 @@ export namespace Prisma {
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
 
 
+  export const WalletOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId'
+  };
+
+  export type WalletOrderByRelevanceFieldEnum = (typeof WalletOrderByRelevanceFieldEnum)[keyof typeof WalletOrderByRelevanceFieldEnum]
+
+
   export const ShopOrderByRelevanceFieldEnum: {
+    id: 'id',
     name: 'name',
     description: 'description',
+    ownerId: 'ownerId',
     imageUrl: 'imageUrl'
   };
 
@@ -7587,7 +7520,9 @@ export namespace Prisma {
 
 
   export const MenuOrderByRelevanceFieldEnum: {
+    id: 'id',
     name: 'name',
+    shopId: 'shopId',
     imageUrl: 'imageUrl'
   };
 
@@ -7595,13 +7530,18 @@ export namespace Prisma {
 
 
   export const MenuOptionOrderByRelevanceFieldEnum: {
-    name: 'name'
+    id: 'id',
+    name: 'name',
+    menuId: 'menuId'
   };
 
   export type MenuOptionOrderByRelevanceFieldEnum = (typeof MenuOptionOrderByRelevanceFieldEnum)[keyof typeof MenuOptionOrderByRelevanceFieldEnum]
 
 
   export const OrderOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    shopId: 'shopId',
     status: 'status',
     mongoOrderId: 'mongoOrderId'
   };
@@ -7612,13 +7552,6 @@ export namespace Prisma {
   /**
    * Field references
    */
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
 
 
   /**
@@ -7643,6 +7576,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -7663,7 +7603,7 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    id?: IntFilter<"User"> | number
+    id?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
@@ -7690,7 +7630,7 @@ export namespace Prisma {
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     email?: string
     username?: string
     AND?: UserWhereInput | UserWhereInput[]
@@ -7714,17 +7654,15 @@ export namespace Prisma {
     role?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
-    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
-    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
     AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"User"> | number
+    id?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
@@ -7737,9 +7675,9 @@ export namespace Prisma {
     AND?: WalletWhereInput | WalletWhereInput[]
     OR?: WalletWhereInput[]
     NOT?: WalletWhereInput | WalletWhereInput[]
-    id?: IntFilter<"Wallet"> | number
+    id?: StringFilter<"Wallet"> | string
     balance?: IntFilter<"Wallet"> | number
-    userId?: IntFilter<"Wallet"> | number
+    userId?: StringFilter<"Wallet"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -7748,11 +7686,12 @@ export namespace Prisma {
     balance?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    _relevance?: WalletOrderByRelevanceInput
   }
 
   export type WalletWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    userId?: number
+    id?: string
+    userId?: string
     AND?: WalletWhereInput | WalletWhereInput[]
     OR?: WalletWhereInput[]
     NOT?: WalletWhereInput | WalletWhereInput[]
@@ -7775,19 +7714,19 @@ export namespace Prisma {
     AND?: WalletScalarWhereWithAggregatesInput | WalletScalarWhereWithAggregatesInput[]
     OR?: WalletScalarWhereWithAggregatesInput[]
     NOT?: WalletScalarWhereWithAggregatesInput | WalletScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Wallet"> | number
+    id?: StringWithAggregatesFilter<"Wallet"> | string
     balance?: IntWithAggregatesFilter<"Wallet"> | number
-    userId?: IntWithAggregatesFilter<"Wallet"> | number
+    userId?: StringWithAggregatesFilter<"Wallet"> | string
   }
 
   export type ShopWhereInput = {
     AND?: ShopWhereInput | ShopWhereInput[]
     OR?: ShopWhereInput[]
     NOT?: ShopWhereInput | ShopWhereInput[]
-    id?: IntFilter<"Shop"> | number
+    id?: StringFilter<"Shop"> | string
     name?: StringFilter<"Shop"> | string
     description?: StringNullableFilter<"Shop"> | string | null
-    ownerId?: IntFilter<"Shop"> | number
+    ownerId?: StringFilter<"Shop"> | string
     isOpen?: BoolFilter<"Shop"> | boolean
     imageUrl?: StringNullableFilter<"Shop"> | string | null
     wallet?: IntFilter<"Shop"> | number
@@ -7813,13 +7752,13 @@ export namespace Prisma {
   }
 
   export type ShopWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: ShopWhereInput | ShopWhereInput[]
     OR?: ShopWhereInput[]
     NOT?: ShopWhereInput | ShopWhereInput[]
     name?: StringFilter<"Shop"> | string
     description?: StringNullableFilter<"Shop"> | string | null
-    ownerId?: IntFilter<"Shop"> | number
+    ownerId?: StringFilter<"Shop"> | string
     isOpen?: BoolFilter<"Shop"> | boolean
     imageUrl?: StringNullableFilter<"Shop"> | string | null
     wallet?: IntFilter<"Shop"> | number
@@ -7849,10 +7788,10 @@ export namespace Prisma {
     AND?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
     OR?: ShopScalarWhereWithAggregatesInput[]
     NOT?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Shop"> | number
+    id?: StringWithAggregatesFilter<"Shop"> | string
     name?: StringWithAggregatesFilter<"Shop"> | string
     description?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    ownerId?: IntWithAggregatesFilter<"Shop"> | number
+    ownerId?: StringWithAggregatesFilter<"Shop"> | string
     isOpen?: BoolWithAggregatesFilter<"Shop"> | boolean
     imageUrl?: StringNullableWithAggregatesFilter<"Shop"> | string | null
     wallet?: IntWithAggregatesFilter<"Shop"> | number
@@ -7863,10 +7802,10 @@ export namespace Prisma {
     AND?: MenuWhereInput | MenuWhereInput[]
     OR?: MenuWhereInput[]
     NOT?: MenuWhereInput | MenuWhereInput[]
-    id?: IntFilter<"Menu"> | number
+    id?: StringFilter<"Menu"> | string
     name?: StringFilter<"Menu"> | string
     price?: IntFilter<"Menu"> | number
-    shopId?: IntFilter<"Menu"> | number
+    shopId?: StringFilter<"Menu"> | string
     imageUrl?: StringNullableFilter<"Menu"> | string | null
     deletedAt?: DateTimeNullableFilter<"Menu"> | Date | string | null
     isAvailable?: BoolFilter<"Menu"> | boolean
@@ -7888,13 +7827,13 @@ export namespace Prisma {
   }
 
   export type MenuWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: MenuWhereInput | MenuWhereInput[]
     OR?: MenuWhereInput[]
     NOT?: MenuWhereInput | MenuWhereInput[]
     name?: StringFilter<"Menu"> | string
     price?: IntFilter<"Menu"> | number
-    shopId?: IntFilter<"Menu"> | number
+    shopId?: StringFilter<"Menu"> | string
     imageUrl?: StringNullableFilter<"Menu"> | string | null
     deletedAt?: DateTimeNullableFilter<"Menu"> | Date | string | null
     isAvailable?: BoolFilter<"Menu"> | boolean
@@ -7921,10 +7860,10 @@ export namespace Prisma {
     AND?: MenuScalarWhereWithAggregatesInput | MenuScalarWhereWithAggregatesInput[]
     OR?: MenuScalarWhereWithAggregatesInput[]
     NOT?: MenuScalarWhereWithAggregatesInput | MenuScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Menu"> | number
+    id?: StringWithAggregatesFilter<"Menu"> | string
     name?: StringWithAggregatesFilter<"Menu"> | string
     price?: IntWithAggregatesFilter<"Menu"> | number
-    shopId?: IntWithAggregatesFilter<"Menu"> | number
+    shopId?: StringWithAggregatesFilter<"Menu"> | string
     imageUrl?: StringNullableWithAggregatesFilter<"Menu"> | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Menu"> | Date | string | null
     isAvailable?: BoolWithAggregatesFilter<"Menu"> | boolean
@@ -7934,10 +7873,10 @@ export namespace Prisma {
     AND?: MenuOptionWhereInput | MenuOptionWhereInput[]
     OR?: MenuOptionWhereInput[]
     NOT?: MenuOptionWhereInput | MenuOptionWhereInput[]
-    id?: IntFilter<"MenuOption"> | number
+    id?: StringFilter<"MenuOption"> | string
     name?: StringFilter<"MenuOption"> | string
     price?: IntFilter<"MenuOption"> | number
-    menuId?: IntFilter<"MenuOption"> | number
+    menuId?: StringFilter<"MenuOption"> | string
     deletedAt?: DateTimeNullableFilter<"MenuOption"> | Date | string | null
     menu?: XOR<MenuScalarRelationFilter, MenuWhereInput>
   }
@@ -7953,13 +7892,13 @@ export namespace Prisma {
   }
 
   export type MenuOptionWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: MenuOptionWhereInput | MenuOptionWhereInput[]
     OR?: MenuOptionWhereInput[]
     NOT?: MenuOptionWhereInput | MenuOptionWhereInput[]
     name?: StringFilter<"MenuOption"> | string
     price?: IntFilter<"MenuOption"> | number
-    menuId?: IntFilter<"MenuOption"> | number
+    menuId?: StringFilter<"MenuOption"> | string
     deletedAt?: DateTimeNullableFilter<"MenuOption"> | Date | string | null
     menu?: XOR<MenuScalarRelationFilter, MenuWhereInput>
   }, "id">
@@ -7981,10 +7920,10 @@ export namespace Prisma {
     AND?: MenuOptionScalarWhereWithAggregatesInput | MenuOptionScalarWhereWithAggregatesInput[]
     OR?: MenuOptionScalarWhereWithAggregatesInput[]
     NOT?: MenuOptionScalarWhereWithAggregatesInput | MenuOptionScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"MenuOption"> | number
+    id?: StringWithAggregatesFilter<"MenuOption"> | string
     name?: StringWithAggregatesFilter<"MenuOption"> | string
     price?: IntWithAggregatesFilter<"MenuOption"> | number
-    menuId?: IntWithAggregatesFilter<"MenuOption"> | number
+    menuId?: StringWithAggregatesFilter<"MenuOption"> | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"MenuOption"> | Date | string | null
   }
 
@@ -7992,9 +7931,9 @@ export namespace Prisma {
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
-    id?: IntFilter<"Order"> | number
-    userId?: IntFilter<"Order"> | number
-    shopId?: IntFilter<"Order"> | number
+    id?: StringFilter<"Order"> | string
+    userId?: StringFilter<"Order"> | string
+    shopId?: StringFilter<"Order"> | string
     totalPrice?: IntFilter<"Order"> | number
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -8017,12 +7956,12 @@ export namespace Prisma {
   }
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
-    userId?: IntFilter<"Order"> | number
-    shopId?: IntFilter<"Order"> | number
+    userId?: StringFilter<"Order"> | string
+    shopId?: StringFilter<"Order"> | string
     totalPrice?: IntFilter<"Order"> | number
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -8050,9 +7989,9 @@ export namespace Prisma {
     AND?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     OR?: OrderScalarWhereWithAggregatesInput[]
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Order"> | number
-    userId?: IntWithAggregatesFilter<"Order"> | number
-    shopId?: IntWithAggregatesFilter<"Order"> | number
+    id?: StringWithAggregatesFilter<"Order"> | string
+    userId?: StringWithAggregatesFilter<"Order"> | string
+    shopId?: StringWithAggregatesFilter<"Order"> | string
     totalPrice?: IntWithAggregatesFilter<"Order"> | number
     status?: StringWithAggregatesFilter<"Order"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -8060,6 +7999,7 @@ export namespace Prisma {
   }
 
   export type UserCreateInput = {
+    id?: string
     email: string
     name: string
     username: string
@@ -8072,7 +8012,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateInput = {
-    id?: number
+    id?: string
     email: string
     name: string
     username: string
@@ -8085,6 +8025,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -8097,7 +8038,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -8110,7 +8051,7 @@ export namespace Prisma {
   }
 
   export type UserCreateManyInput = {
-    id?: number
+    id?: string
     email: string
     name: string
     username: string
@@ -8120,6 +8061,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -8129,7 +8071,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -8139,44 +8081,48 @@ export namespace Prisma {
   }
 
   export type WalletCreateInput = {
+    id?: string
     balance?: number
     user: UserCreateNestedOneWithoutWalletsInput
   }
 
   export type WalletUncheckedCreateInput = {
-    id?: number
+    id?: string
     balance?: number
-    userId: number
+    userId: string
   }
 
   export type WalletUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutWalletsNestedInput
   }
 
   export type WalletUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type WalletCreateManyInput = {
-    id?: number
+    id?: string
     balance?: number
-    userId: number
+    userId: string
   }
 
   export type WalletUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
   }
 
   export type WalletUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ShopCreateInput = {
+    id?: string
     name: string
     description?: string | null
     isOpen: boolean
@@ -8189,10 +8135,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedCreateInput = {
-    id?: number
+    id?: string
     name: string
     description?: string | null
-    ownerId: number
+    ownerId: string
     isOpen: boolean
     imageUrl?: string | null
     wallet?: number
@@ -8202,6 +8148,7 @@ export namespace Prisma {
   }
 
   export type ShopUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -8214,10 +8161,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    ownerId?: IntFieldUpdateOperationsInput | number
+    ownerId?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     wallet?: IntFieldUpdateOperationsInput | number
@@ -8227,10 +8174,10 @@ export namespace Prisma {
   }
 
   export type ShopCreateManyInput = {
-    id?: number
+    id?: string
     name: string
     description?: string | null
-    ownerId: number
+    ownerId: string
     isOpen: boolean
     imageUrl?: string | null
     wallet?: number
@@ -8238,6 +8185,7 @@ export namespace Prisma {
   }
 
   export type ShopUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -8247,10 +8195,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    ownerId?: IntFieldUpdateOperationsInput | number
+    ownerId?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     wallet?: IntFieldUpdateOperationsInput | number
@@ -8258,6 +8206,7 @@ export namespace Prisma {
   }
 
   export type MenuCreateInput = {
+    id?: string
     name: string
     price: number
     imageUrl?: string | null
@@ -8268,10 +8217,10 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedCreateInput = {
-    id?: number
+    id?: string
     name: string
     price: number
-    shopId: number
+    shopId: string
     imageUrl?: string | null
     deletedAt?: Date | string | null
     isAvailable?: boolean
@@ -8279,6 +8228,7 @@ export namespace Prisma {
   }
 
   export type MenuUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8289,10 +8239,10 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    shopId?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
@@ -8300,16 +8250,17 @@ export namespace Prisma {
   }
 
   export type MenuCreateManyInput = {
-    id?: number
+    id?: string
     name: string
     price: number
-    shopId: number
+    shopId: string
     imageUrl?: string | null
     deletedAt?: Date | string | null
     isAvailable?: boolean
   }
 
   export type MenuUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8318,16 +8269,17 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    shopId?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type MenuOptionCreateInput = {
+    id?: string
     name: string
     price: number
     deletedAt?: Date | string | null
@@ -8335,14 +8287,15 @@ export namespace Prisma {
   }
 
   export type MenuOptionUncheckedCreateInput = {
-    id?: number
+    id?: string
     name: string
     price: number
-    menuId: number
+    menuId: string
     deletedAt?: Date | string | null
   }
 
   export type MenuOptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8350,36 +8303,38 @@ export namespace Prisma {
   }
 
   export type MenuOptionUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
-    menuId?: IntFieldUpdateOperationsInput | number
+    menuId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionCreateManyInput = {
-    id?: number
+    id?: string
     name: string
     price: number
-    menuId: number
+    menuId: string
     deletedAt?: Date | string | null
   }
 
   export type MenuOptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
-    menuId?: IntFieldUpdateOperationsInput | number
+    menuId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderCreateInput = {
+    id?: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -8389,9 +8344,9 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedCreateInput = {
-    id?: number
-    userId: number
-    shopId: number
+    id?: string
+    userId: string
+    shopId: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -8399,6 +8354,7 @@ export namespace Prisma {
   }
 
   export type OrderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8408,9 +8364,9 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8418,9 +8374,9 @@ export namespace Prisma {
   }
 
   export type OrderCreateManyInput = {
-    id?: number
-    userId: number
-    shopId: number
+    id?: string
+    userId: string
+    shopId: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -8428,6 +8384,7 @@ export namespace Prisma {
   }
 
   export type OrderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8435,24 +8392,13 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mongoOrderId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8534,10 +8480,6 @@ export namespace Prisma {
     deletedAt?: SortOrder
   }
 
-  export type UserAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -8556,26 +8498,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     deletedAt?: SortOrder
-  }
-
-  export type UserSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -8620,9 +8542,26 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type WalletOrderByRelevanceInput = {
+    fields: WalletOrderByRelevanceFieldEnum | WalletOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
   }
 
   export type WalletCountOrderByAggregateInput = {
@@ -8632,9 +8571,7 @@ export namespace Prisma {
   }
 
   export type WalletAvgOrderByAggregateInput = {
-    id?: SortOrder
     balance?: SortOrder
-    userId?: SortOrder
   }
 
   export type WalletMaxOrderByAggregateInput = {
@@ -8650,9 +8587,23 @@ export namespace Prisma {
   }
 
   export type WalletSumOrderByAggregateInput = {
-    id?: SortOrder
     balance?: SortOrder
-    userId?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -8703,8 +8654,6 @@ export namespace Prisma {
   }
 
   export type ShopAvgOrderByAggregateInput = {
-    id?: SortOrder
-    ownerId?: SortOrder
     wallet?: SortOrder
   }
 
@@ -8731,8 +8680,6 @@ export namespace Prisma {
   }
 
   export type ShopSumOrderByAggregateInput = {
-    id?: SortOrder
-    ownerId?: SortOrder
     wallet?: SortOrder
   }
 
@@ -8794,9 +8741,7 @@ export namespace Prisma {
   }
 
   export type MenuAvgOrderByAggregateInput = {
-    id?: SortOrder
     price?: SortOrder
-    shopId?: SortOrder
   }
 
   export type MenuMaxOrderByAggregateInput = {
@@ -8820,9 +8765,7 @@ export namespace Prisma {
   }
 
   export type MenuSumOrderByAggregateInput = {
-    id?: SortOrder
     price?: SortOrder
-    shopId?: SortOrder
   }
 
   export type MenuScalarRelationFilter = {
@@ -8845,9 +8788,7 @@ export namespace Prisma {
   }
 
   export type MenuOptionAvgOrderByAggregateInput = {
-    id?: SortOrder
     price?: SortOrder
-    menuId?: SortOrder
   }
 
   export type MenuOptionMaxOrderByAggregateInput = {
@@ -8867,9 +8808,7 @@ export namespace Prisma {
   }
 
   export type MenuOptionSumOrderByAggregateInput = {
-    id?: SortOrder
     price?: SortOrder
-    menuId?: SortOrder
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -8900,9 +8839,6 @@ export namespace Prisma {
   }
 
   export type OrderAvgOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    shopId?: SortOrder
     totalPrice?: SortOrder
   }
 
@@ -8927,9 +8863,6 @@ export namespace Prisma {
   }
 
   export type OrderSumOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    shopId?: SortOrder
     totalPrice?: SortOrder
   }
 
@@ -9037,14 +8970,6 @@ export namespace Prisma {
     update?: XOR<XOR<WalletUpdateToOneWithWhereWithoutUserInput, WalletUpdateWithoutUserInput>, WalletUncheckedUpdateWithoutUserInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
@@ -9087,6 +9012,14 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutWalletsInput, UserUncheckedCreateWithoutWalletsInput>
     connectOrCreate?: UserCreateOrConnectWithoutWalletsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutWalletsNestedInput = {
@@ -9305,17 +9238,6 @@ export namespace Prisma {
     update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutOrdersInput, ShopUpdateWithoutOrdersInput>, ShopUncheckedUpdateWithoutOrdersInput>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -9349,33 +9271,6 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -9392,6 +9287,17 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -9427,6 +9333,33 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -9501,6 +9434,7 @@ export namespace Prisma {
   }
 
   export type OrderCreateWithoutUserInput = {
+    id?: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -9509,8 +9443,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedCreateWithoutUserInput = {
-    id?: number
-    shopId: number
+    id?: string
+    shopId: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -9528,6 +9462,7 @@ export namespace Prisma {
   }
 
   export type ShopCreateWithoutUserInput = {
+    id?: string
     name: string
     description?: string | null
     isOpen: boolean
@@ -9539,7 +9474,7 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedCreateWithoutUserInput = {
-    id?: number
+    id?: string
     name: string
     description?: string | null
     isOpen: boolean
@@ -9561,11 +9496,12 @@ export namespace Prisma {
   }
 
   export type WalletCreateWithoutUserInput = {
+    id?: string
     balance?: number
   }
 
   export type WalletUncheckedCreateWithoutUserInput = {
-    id?: number
+    id?: string
     balance?: number
   }
 
@@ -9594,9 +9530,9 @@ export namespace Prisma {
     AND?: OrderScalarWhereInput | OrderScalarWhereInput[]
     OR?: OrderScalarWhereInput[]
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
-    id?: IntFilter<"Order"> | number
-    userId?: IntFilter<"Order"> | number
-    shopId?: IntFilter<"Order"> | number
+    id?: StringFilter<"Order"> | string
+    userId?: StringFilter<"Order"> | string
+    shopId?: StringFilter<"Order"> | string
     totalPrice?: IntFilter<"Order"> | number
     status?: StringFilter<"Order"> | string
     createdAt?: DateTimeFilter<"Order"> | Date | string
@@ -9623,10 +9559,10 @@ export namespace Prisma {
     AND?: ShopScalarWhereInput | ShopScalarWhereInput[]
     OR?: ShopScalarWhereInput[]
     NOT?: ShopScalarWhereInput | ShopScalarWhereInput[]
-    id?: IntFilter<"Shop"> | number
+    id?: StringFilter<"Shop"> | string
     name?: StringFilter<"Shop"> | string
     description?: StringNullableFilter<"Shop"> | string | null
-    ownerId?: IntFilter<"Shop"> | number
+    ownerId?: StringFilter<"Shop"> | string
     isOpen?: BoolFilter<"Shop"> | boolean
     imageUrl?: StringNullableFilter<"Shop"> | string | null
     wallet?: IntFilter<"Shop"> | number
@@ -9645,15 +9581,17 @@ export namespace Prisma {
   }
 
   export type WalletUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
   }
 
   export type WalletUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserCreateWithoutWalletsInput = {
+    id?: string
     email: string
     name: string
     username: string
@@ -9665,7 +9603,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutWalletsInput = {
-    id?: number
+    id?: string
     email: string
     name: string
     username: string
@@ -9693,6 +9631,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutWalletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -9704,7 +9643,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutWalletsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -9716,6 +9655,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutShopsInput = {
+    id?: string
     email: string
     name: string
     username: string
@@ -9727,7 +9667,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutShopsInput = {
-    id?: number
+    id?: string
     email: string
     name: string
     username: string
@@ -9744,6 +9684,7 @@ export namespace Prisma {
   }
 
   export type MenuCreateWithoutShopInput = {
+    id?: string
     name: string
     price: number
     imageUrl?: string | null
@@ -9753,7 +9694,7 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedCreateWithoutShopInput = {
-    id?: number
+    id?: string
     name: string
     price: number
     imageUrl?: string | null
@@ -9773,6 +9714,7 @@ export namespace Prisma {
   }
 
   export type OrderCreateWithoutShopInput = {
+    id?: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -9781,8 +9723,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedCreateWithoutShopInput = {
-    id?: number
-    userId: number
+    id?: string
+    userId: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -9811,6 +9753,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutShopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -9822,7 +9765,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutShopsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -9853,10 +9796,10 @@ export namespace Prisma {
     AND?: MenuScalarWhereInput | MenuScalarWhereInput[]
     OR?: MenuScalarWhereInput[]
     NOT?: MenuScalarWhereInput | MenuScalarWhereInput[]
-    id?: IntFilter<"Menu"> | number
+    id?: StringFilter<"Menu"> | string
     name?: StringFilter<"Menu"> | string
     price?: IntFilter<"Menu"> | number
-    shopId?: IntFilter<"Menu"> | number
+    shopId?: StringFilter<"Menu"> | string
     imageUrl?: StringNullableFilter<"Menu"> | string | null
     deletedAt?: DateTimeNullableFilter<"Menu"> | Date | string | null
     isAvailable?: BoolFilter<"Menu"> | boolean
@@ -9879,6 +9822,7 @@ export namespace Prisma {
   }
 
   export type ShopCreateWithoutMenusInput = {
+    id?: string
     name: string
     description?: string | null
     isOpen: boolean
@@ -9890,10 +9834,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedCreateWithoutMenusInput = {
-    id?: number
+    id?: string
     name: string
     description?: string | null
-    ownerId: number
+    ownerId: string
     isOpen: boolean
     imageUrl?: string | null
     wallet?: number
@@ -9907,13 +9851,14 @@ export namespace Prisma {
   }
 
   export type MenuOptionCreateWithoutMenuInput = {
+    id?: string
     name: string
     price: number
     deletedAt?: Date | string | null
   }
 
   export type MenuOptionUncheckedCreateWithoutMenuInput = {
-    id?: number
+    id?: string
     name: string
     price: number
     deletedAt?: Date | string | null
@@ -9941,6 +9886,7 @@ export namespace Prisma {
   }
 
   export type ShopUpdateWithoutMenusInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -9952,10 +9898,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedUpdateWithoutMenusInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    ownerId?: IntFieldUpdateOperationsInput | number
+    ownerId?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     wallet?: IntFieldUpdateOperationsInput | number
@@ -9983,14 +9929,15 @@ export namespace Prisma {
     AND?: MenuOptionScalarWhereInput | MenuOptionScalarWhereInput[]
     OR?: MenuOptionScalarWhereInput[]
     NOT?: MenuOptionScalarWhereInput | MenuOptionScalarWhereInput[]
-    id?: IntFilter<"MenuOption"> | number
+    id?: StringFilter<"MenuOption"> | string
     name?: StringFilter<"MenuOption"> | string
     price?: IntFilter<"MenuOption"> | number
-    menuId?: IntFilter<"MenuOption"> | number
+    menuId?: StringFilter<"MenuOption"> | string
     deletedAt?: DateTimeNullableFilter<"MenuOption"> | Date | string | null
   }
 
   export type MenuCreateWithoutOptionsInput = {
+    id?: string
     name: string
     price: number
     imageUrl?: string | null
@@ -10000,10 +9947,10 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedCreateWithoutOptionsInput = {
-    id?: number
+    id?: string
     name: string
     price: number
-    shopId: number
+    shopId: string
     imageUrl?: string | null
     deletedAt?: Date | string | null
     isAvailable?: boolean
@@ -10026,6 +9973,7 @@ export namespace Prisma {
   }
 
   export type MenuUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10035,16 +9983,17 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedUpdateWithoutOptionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    shopId?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserCreateWithoutOrdersInput = {
+    id?: string
     email: string
     name: string
     username: string
@@ -10056,7 +10005,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
-    id?: number
+    id?: string
     email: string
     name: string
     username: string
@@ -10073,6 +10022,7 @@ export namespace Prisma {
   }
 
   export type ShopCreateWithoutOrdersInput = {
+    id?: string
     name: string
     description?: string | null
     isOpen: boolean
@@ -10084,10 +10034,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedCreateWithoutOrdersInput = {
-    id?: number
+    id?: string
     name: string
     description?: string | null
-    ownerId: number
+    ownerId: string
     isOpen: boolean
     imageUrl?: string | null
     wallet?: number
@@ -10112,6 +10062,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -10123,7 +10074,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -10146,6 +10097,7 @@ export namespace Prisma {
   }
 
   export type ShopUpdateWithoutOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -10157,10 +10109,10 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedUpdateWithoutOrdersInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    ownerId?: IntFieldUpdateOperationsInput | number
+    ownerId?: StringFieldUpdateOperationsInput | string
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     wallet?: IntFieldUpdateOperationsInput | number
@@ -10169,8 +10121,8 @@ export namespace Prisma {
   }
 
   export type OrderCreateManyUserInput = {
-    id?: number
-    shopId: number
+    id?: string
+    shopId: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -10178,7 +10130,7 @@ export namespace Prisma {
   }
 
   export type ShopCreateManyUserInput = {
-    id?: number
+    id?: string
     name: string
     description?: string | null
     isOpen: boolean
@@ -10188,6 +10140,7 @@ export namespace Prisma {
   }
 
   export type OrderUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10196,8 +10149,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10205,8 +10158,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10214,6 +10167,7 @@ export namespace Prisma {
   }
 
   export type ShopUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -10225,7 +10179,7 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -10237,7 +10191,7 @@ export namespace Prisma {
   }
 
   export type ShopUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isOpen?: BoolFieldUpdateOperationsInput | boolean
@@ -10247,7 +10201,7 @@ export namespace Prisma {
   }
 
   export type MenuCreateManyShopInput = {
-    id?: number
+    id?: string
     name: string
     price: number
     imageUrl?: string | null
@@ -10256,8 +10210,8 @@ export namespace Prisma {
   }
 
   export type OrderCreateManyShopInput = {
-    id?: number
-    userId: number
+    id?: string
+    userId: string
     totalPrice: number
     status?: string
     createdAt?: Date | string
@@ -10265,6 +10219,7 @@ export namespace Prisma {
   }
 
   export type MenuUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10274,7 +10229,7 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedUpdateWithoutShopInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10284,7 +10239,7 @@ export namespace Prisma {
   }
 
   export type MenuUncheckedUpdateManyWithoutShopInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10293,6 +10248,7 @@ export namespace Prisma {
   }
 
   export type OrderUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10301,8 +10257,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateWithoutShopInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10310,8 +10266,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateManyWithoutShopInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     totalPrice?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10319,27 +10275,28 @@ export namespace Prisma {
   }
 
   export type MenuOptionCreateManyMenuInput = {
-    id?: number
+    id?: string
     name: string
     price: number
     deletedAt?: Date | string | null
   }
 
   export type MenuOptionUpdateWithoutMenuInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionUncheckedUpdateWithoutMenuInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MenuOptionUncheckedUpdateManyWithoutMenuInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

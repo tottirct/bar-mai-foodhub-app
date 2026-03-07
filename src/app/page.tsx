@@ -3,7 +3,7 @@ import { ArrowRight, Utensils, Store, Smartphone, Zap, ShieldCheck } from "lucid
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
+    <main className="h-full bg-gray-50 flex flex-col">
       {/* Hero Section */}
       <section className="relative flex-1 flex flex-col items-center justify-center py-20 md:py-32 px-6 text-center overflow-hidden">
         {/* Background Decorative Elements */}

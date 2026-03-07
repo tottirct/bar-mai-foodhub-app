@@ -11,7 +11,7 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
-        const menuId = parseInt(id);
+        const menuId = id;
 
         const menu = await prisma.menu.findFirst({
             where: { 
@@ -54,7 +54,7 @@ export async function POST(
 ) {
     try {
         const { id } = await params;
-        const menuId = parseInt(id);
+        const menuId = id;
         const { name, price } = await request.json();
 
         const menu = await prisma.menu.findFirst({
@@ -68,7 +68,7 @@ export async function POST(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const ownerId = parseInt(session.user.id);
+        const ownerId = session.user.id;
 
         const checkOwner = await prisma.user.findFirst({
             where: {
@@ -119,7 +119,7 @@ export async function DELETE(
     try {
         
         const { id } = await params;
-        const menuId = parseInt(id);
+        const menuId = id;
         
         const { searchParams } = new URL(request.url);
         const optionId = searchParams.get('optionId');
@@ -148,7 +148,7 @@ export async function DELETE(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const ownerId = parseInt(session.user.id);
+        const ownerId = session.user.id;
 
         const checkOwner = await prisma.user.findFirst({
             where: {
@@ -164,7 +164,7 @@ export async function DELETE(
             return  NextResponse.json({success: false,message:"ไม่ใช่เจ้าของร้าน"},{status:403});
         }
 
-        const optId = parseInt(optionId);
+        const optId = optionId;
         const now = new Date();
 
         const targetOption = await prisma.menuOption.findFirst({
