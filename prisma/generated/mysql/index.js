@@ -82,7 +82,7 @@ Prisma.NullTypes = {
 
 
 
-const path = require('path')
+  const path = require('path')
 
 /**
  * Enums
@@ -225,7 +225,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Work\\database\\bar-mai-app\\prisma\\generated\\mysql",
+      "value": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\generated\\mysql",
       "fromEnvVar": null
     },
     "config": {
@@ -239,7 +239,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Work\\database\\bar-mai-app\\prisma\\schema.mysql.prisma",
+    "sourceFilePath": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\schema.mysql.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -253,7 +253,6 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -275,7 +274,7 @@ if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
     "prisma/generated/mysql",
     "generated/mysql",
   ]
-
+  
   const alternativePath = alternativePaths.find((altPath) => {
     return fs.existsSync(path.join(process.cwd(), altPath, 'schema.prisma'))
   }) ?? alternativePaths[0]
@@ -293,8 +292,8 @@ config.compilerWasm = undefined
 const { warnEnvConflicts } = require('./runtime/library.js')
 
 warnEnvConflicts({
-  rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(config.dirname, config.relativeEnvPaths.rootEnvPath),
-  schemaEnvPath: config.relativeEnvPaths.schemaEnvPath && path.resolve(config.dirname, config.relativeEnvPaths.schemaEnvPath)
+    rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(config.dirname, config.relativeEnvPaths.rootEnvPath),
+    schemaEnvPath: config.relativeEnvPaths.schemaEnvPath && path.resolve(config.dirname, config.relativeEnvPaths.schemaEnvPath)
 })
 
 const PrismaClient = getPrismaClient(config)
