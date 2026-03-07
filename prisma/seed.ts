@@ -152,7 +152,6 @@ async function main() {
                      price: menuData.price,
                      shopId: shop.id,
                      isAvailable: Math.random() > 0.1, // 90% chance to be available
-                     imageUrl: 'https://images.unsplash.com/photo-1626804475297-4160cbbe0a4e?w=500&h=500&fit=crop'
                  }
              });
 
