@@ -5,7 +5,7 @@ import MenuFormPopUpMain from "@/components/owner/MenuFormPopUp_main";
 interface MenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   shopId: number;
-  menu?: { id: number; name: string; price: number; isAvailable: boolean };
+  menu?: { id: number; name: string; price: number; isAvailable: boolean; imageUrl?: string | null };
   onSaveSuccess?: () => Promise<void>;
 }
 
@@ -30,12 +30,12 @@ export const MenuButton = ({ text, shopId, menu, onSaveSuccess, ...props }: Menu
 
       {isModalOpen && view === 'main' && (
         <MenuFormPopUpMain
-          isOpen={isModalOpen} 
-          onClose={handleClose} 
+          isOpen={isModalOpen}
+          onClose={handleClose}
           shopId={shopId}
           menu={menu}
           onEditOptions={() => setView('options')}
-          onSaveSuccess={onSaveSuccess} 
+          onSaveSuccess={onSaveSuccess}
         />
       )}
     </>

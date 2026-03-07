@@ -131,7 +131,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Work\\database\\bar-mai-app\\prisma\\generated\\mongo",
+      "value": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\generated\\mongo",
       "fromEnvVar": null
     },
     "config": {
@@ -145,7 +145,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Work\\database\\bar-mai-app\\prisma\\schema.mongo.prisma",
+    "sourceFilePath": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\schema.mongo.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
