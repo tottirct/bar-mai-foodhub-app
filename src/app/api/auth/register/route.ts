@@ -3,12 +3,13 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { mongo } from '@/lib/mongo'
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
         const { username, email, name, password, role, shopName, shopDescription } = body;
-        
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Check if there is an active session
@@ -66,9 +67,25 @@ export async function POST(request: Request) {
             }
         });
 
+        try {
+            await mongo.activityLog.create({
+                data: {
+                    userId: newUser.id,
+                    userRole: newUser.role,
+                    action: "USER_REGISTER",
+                    description: `ลงทะเบียนผู้ใช้ใหม่ ${newUser.name}`,
+                    metadata: { userId: newUser.id, userRole: newUser.role }
+                }
+            });
+
+
+        } catch (mongoError) {
+            console.error("บันทึกลง mongo พลาด", mongoError);
+        }
+
         return NextResponse.json({ message: "ลงทะเบียนผู้ใช้ใหม่สำเร็จ", user: newUser }, { status: 201 });
     } catch (error) {
         console.error("Register Error:", error);
         return NextResponse.json({ message: "เกิดข้อผิดพลาดขณะลงทะเบียนผู้ใช้ใหม่" }, { status: 500 });
     }
-}
+}

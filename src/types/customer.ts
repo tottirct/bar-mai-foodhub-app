@@ -1,11 +1,11 @@
 export interface SelectedOption {
-    optionId: number;
+    optionId: string;
     name: string;
     price: number;
 }
 
 export interface OrderItem {
-    menuId: number;
+    menuId: string;
     menuName: string;
     price: number;
     quantity: number;
@@ -14,9 +14,9 @@ export interface OrderItem {
 }
 
 export interface Order {
-    id: number;
-    userId: number;
-    shopId: number;
+    id: string;
+    userId: string;
+    shopId: string;
     totalPrice: number;
     status: string;
     createdAt: string;
@@ -26,7 +26,7 @@ export interface Order {
 }
 
 export interface Shop {
-    id: number;
+    id: string;
     name: string;
     description: string | null;
     isOpen: boolean;
@@ -37,15 +37,15 @@ export interface Shop {
 
 export interface Transaction {
     id: string;
-    userId: number;
+    userId: string;
     action: string;
     description: string;
     metadata: {
         amount?: number;
         totalPrice?: number;
-        shopId?: number;
+        shopId?: string;
         shopName?: string;
-        orderId?: number;
+        orderId?: string;
     };
     createdAt: string;
 }
@@ -56,20 +56,20 @@ export interface WalletData {
 }
 
 export interface Menu {
-    id: number;
+    id: string;
     name: string;
     price: number;
-    shopId: number;
+    shopId: string;
     imageUrl?: string;
     isAvailable: boolean;
 }
 
 
 export interface MenuOption {
-    id: number;
+    id: string;
     name: string;
     price: number;
-    menuId: number;
+    menuId: string;
 }
 
 export interface MenuDetail extends Menu {

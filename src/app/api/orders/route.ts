@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkUserId = parseInt(session.user.id);
+        const checkUserId = session.user.id;
 
         if(checkUserId !== userId) {
             return NextResponse.json({success: false,message:"อย่าสั่งข้าวแทนคนอื่น"},{status:403});
@@ -159,7 +159,7 @@ export async function GET(
             return NextResponse.json({ success: false, message: "ลืมส่ง userId มาเห้ยไอบูม" }, { status: 400 });
         }
 
-        const userId = parseInt(userIdParam);
+        const userId = userIdParam;
 
         const session = await getServerSession(authOptions);
 
@@ -167,7 +167,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkUserId = parseInt(session.user.id);
+        const checkUserId = session.user.id;
 
         const checkUser = await prisma.user.findFirst({
             where: {

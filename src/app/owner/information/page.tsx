@@ -19,8 +19,8 @@ import { ShopProfileForm } from "@/components/owner/ShopProfileForm";
 export default function OwnerInformationPage() {
     const { data: session } = useSession();
 
-    const [shopId, setShopId] = useState<number | null>(null);
-    const [userId, setUserId] = useState<number | null>(null);
+    const [shopId, setShopId] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -68,7 +68,7 @@ export default function OwnerInformationPage() {
         if (!session?.user?.id) return;
 
         setLoading(true);
-        const currentUserId = parseInt((session.user as any).id);
+        const currentUserId = (session.user as any).id;
         setUserId(currentUserId);
 
         try {

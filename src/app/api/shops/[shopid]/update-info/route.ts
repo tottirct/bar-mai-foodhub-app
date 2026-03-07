@@ -18,7 +18,7 @@ export async function GET(
 ) {
     try {
         const { shopid } = await params;
-        const shopId = parseInt(shopid);
+        const shopId = shopid;
 
         const session = await getServerSession(authOptions);
 
@@ -26,7 +26,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkOwnerId = parseInt(session.user.id);
+        const checkOwnerId = session.user.id;
 
         const isAdmin = await prisma.user.findFirst({
             where: {
@@ -78,7 +78,7 @@ export async function PATCH(
 ) {
     try {
         const { shopid } = await params;
-        const shopId = parseInt(shopid);
+        const shopId = shopid;
 
         const body = await request.json();
         const { name, description,isOpen,imageUrl} = body;
@@ -100,7 +100,7 @@ export async function PATCH(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkOwnerId = parseInt(session.user.id);
+        const checkOwnerId = session.user.id;
 
         if(checkOwnerId !== ownerCheck.ownerId) {
             return NextResponse.json({success: false,message:"ไม่ใช่ id ของคุณหนิ"},{status:403});

@@ -29,7 +29,7 @@ export default function TrolleyPage() {
     const [error, setError] = useState<string | null>(null);
 
     const { data: session, status } = useSession();
-    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+    const userId = session?.user?.id || null;
 
 
     const fetchOrders = async () => {
@@ -81,7 +81,7 @@ export default function TrolleyPage() {
     }, [status, userId]);
 
 
-    const removeLocalOrder = (id: number) => {
+    const removeLocalOrder = (id: number | string) => {
         const next = localOrders.filter(o => o.id !== id);
         setLocalOrders(next);
         const toSave = next.map(({ status, shop, ...rest }) => rest);

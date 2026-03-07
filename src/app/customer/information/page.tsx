@@ -20,7 +20,7 @@ export default function InformationPage() {
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
     const { data: session, status } = useSession();
-    const userId = session?.user?.id ? parseInt(session.user.id) : null;
+    const userId = session?.user?.id || null;
 
 
     const fetchUserInfo = async () => {

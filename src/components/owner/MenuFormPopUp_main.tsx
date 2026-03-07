@@ -1,7 +1,7 @@
 import { useState } from "react";
 import UniversalPopUp from "@/components/UniversalPopUp";
 import { useRouter } from 'next/navigation';
-import { on } from "events";
+import { useSession } from "next-auth/react";
 
 interface Menu {
   id?: number;
@@ -28,6 +28,7 @@ const MENU_FIELDS = [
 export default function MenuFormPopUpMain({ isOpen, onClose, menu, onEditOptions, shopId, onSaveSuccess }: MenuFormPopUpProps) {
   const isEditMode = !!menu;
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [formData, setFormData] = useState({
     shopId: shopId || 0,
@@ -45,11 +46,15 @@ export default function MenuFormPopUpMain({ isOpen, onClose, menu, onEditOptions
   };
 
   const handleSubmit = async () => {
-    console.log("Saving:", formData);
+    const payload = {
+      ...formData,
+      userId: session?.user?.id // Added userId to payload
+    };
+    console.log("Saving:", payload);
     await fetch(`/api/shops/${shopId}/menus${isEditMode ? `/${menu?.id}` : ""}`, {
       method: isEditMode ? "PATCH" : "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     })
     await onSaveSuccess?.();
     onClose();

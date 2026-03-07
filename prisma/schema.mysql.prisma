@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        String @id @default(cuid())
   email     String  @unique
   name      String
   username  String  @unique
@@ -22,9 +22,9 @@ model User {
 }
 
 model Wallet {
-  id        Int    @id @default(autoincrement())
+  id        String @id @default(cuid())
   balance   Int    @default(0)
-  userId    Int    @unique
+  userId    String @unique
   user      User   @relation(fields: [userId], references: [id])
 }
 
@@ -35,10 +35,10 @@ enum Role {
 }
 
 model Shop {
-  id          Int     @id @default(autoincrement())
+  id        String @id @default(cuid())
   name        String
   description String?
-  ownerId     Int
+  ownerId     String
   isOpen      Boolean
   imageUrl    String? @db.Text
   wallet      Int     @default(0)
@@ -49,10 +49,10 @@ model Shop {
 }
 
 model Menu {
-  id      Int    @id @default(autoincrement())
+  id        String @id @default(cuid())
   name    String
   price   Int
-  shopId  Int
+  shopId  String
   imageUrl String? @db.Text
   deletedAt DateTime?
   isAvailable Boolean @default(true)
@@ -61,19 +61,19 @@ model Menu {
 }
 
 model MenuOption {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(cuid())
   name    String 
   price   Int
-  menuId  Int
+  menuId  String
   deletedAt DateTime?
 
   menu    Menu   @relation(fields: [menuId], references: [id])
 }
 
 model Order {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  shopId       Int
+  id           String @id @default(cuid())
+  userId       String
+  shopId       String
   totalPrice   Int
   status       String   @default("PENDING")
   createdAt    DateTime @default(now())

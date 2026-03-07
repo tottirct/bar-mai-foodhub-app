@@ -10,7 +10,7 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
-        const userId = parseInt(id);
+        const userId = id;
 
         const session = await getServerSession(authOptions);
 
@@ -18,7 +18,7 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkUserId = parseInt(session.user.id);
+        const checkUserId = session.user.id;
 
         const isAdmin = await prisma.user.findFirst({
             where: {
@@ -62,7 +62,7 @@ export async function PATCH(
 ) {
     try {
         const { id } = await params;
-        const userId = parseInt(id);
+        const userId = id;
 
         const body = await request.json();
         const { name, username, email } = body;
@@ -84,7 +84,7 @@ export async function PATCH(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const checkUserId = parseInt(session.user.id);
+        const checkUserId = session.user.id;
 
         if(checkUserId !== userId) {
             return NextResponse.json({success: false,message:"ไม่ใช่ id ของคุณหนิ"},{status:403});

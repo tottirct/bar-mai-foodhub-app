@@ -10,8 +10,8 @@ export async function PATCH(
 ) {
     try {
         const { shopid, orderid } = await params;
-        const shopId =  parseInt(shopid);
-        const orderId = parseInt(orderid);
+        const shopId =  shopid;
+        const orderId = orderid;
 
         const { status } = await request.json();
 
@@ -38,7 +38,7 @@ export async function PATCH(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const ownerId = parseInt(session.user.id);
+        const ownerId = session.user.id;
 
         if(ownerId !== order?.shop.ownerId) {
             return NextResponse.json({success:false,message:"ไม่ใช่เจ้าของร้าน"},{status:403});

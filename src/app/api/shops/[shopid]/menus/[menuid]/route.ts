@@ -29,8 +29,8 @@ export async function PATCH(
 ) {
     try {
         const { shopid, menuid } = await params;
-        const shopId = parseInt(shopid);
-        const menuId = parseInt(menuid);
+        const shopId = shopid;
+        const menuId = menuid;
 
         const body = await request.json();
         const { name,price,isAvailable, imageUrl} = body;

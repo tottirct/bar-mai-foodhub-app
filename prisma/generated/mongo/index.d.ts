@@ -946,7 +946,7 @@ export namespace Prisma {
     name: "Item"
     objects: {}
     scalars: {
-      menuId: number
+      menuId: string
       menuName: string
       price: number
       quantity: number
@@ -967,7 +967,7 @@ export namespace Prisma {
    * Fields of the Item model
    */
   interface ItemFieldRefs {
-    readonly menuId: FieldRef<"Item", 'Int'>
+    readonly menuId: FieldRef<"Item", 'String'>
     readonly menuName: FieldRef<"Item", 'String'>
     readonly price: FieldRef<"Item", 'Float'>
     readonly quantity: FieldRef<"Item", 'Int'>
@@ -1023,7 +1023,7 @@ export namespace Prisma {
     name: "SelectedOption"
     objects: {}
     scalars: {
-      optionId: number
+      optionId: string
       name: string
       price: number
     }
@@ -1040,7 +1040,7 @@ export namespace Prisma {
    * Fields of the SelectedOption model
    */
   interface SelectedOptionFieldRefs {
-    readonly optionId: FieldRef<"SelectedOption", 'Int'>
+    readonly optionId: FieldRef<"SelectedOption", 'String'>
     readonly name: FieldRef<"SelectedOption", 'String'>
     readonly price: FieldRef<"SelectedOption", 'Float'>
   }
@@ -1068,30 +1068,20 @@ export namespace Prisma {
 
   export type AggregateOrderDetail = {
     _count: OrderDetailCountAggregateOutputType | null
-    _avg: OrderDetailAvgAggregateOutputType | null
-    _sum: OrderDetailSumAggregateOutputType | null
     _min: OrderDetailMinAggregateOutputType | null
     _max: OrderDetailMaxAggregateOutputType | null
   }
 
-  export type OrderDetailAvgAggregateOutputType = {
-    mysqlOrderId: number | null
-  }
-
-  export type OrderDetailSumAggregateOutputType = {
-    mysqlOrderId: number | null
-  }
-
   export type OrderDetailMinAggregateOutputType = {
     id: string | null
-    mysqlOrderId: number | null
+    mysqlOrderId: string | null
     note: string | null
     createdAt: Date | null
   }
 
   export type OrderDetailMaxAggregateOutputType = {
     id: string | null
-    mysqlOrderId: number | null
+    mysqlOrderId: string | null
     note: string | null
     createdAt: Date | null
   }
@@ -1104,14 +1094,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type OrderDetailAvgAggregateInputType = {
-    mysqlOrderId?: true
-  }
-
-  export type OrderDetailSumAggregateInputType = {
-    mysqlOrderId?: true
-  }
 
   export type OrderDetailMinAggregateInputType = {
     id?: true
@@ -1173,18 +1155,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: OrderDetailAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: OrderDetailSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: OrderDetailMinAggregateInputType
@@ -1215,20 +1185,16 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: OrderDetailCountAggregateInputType | true
-    _avg?: OrderDetailAvgAggregateInputType
-    _sum?: OrderDetailSumAggregateInputType
     _min?: OrderDetailMinAggregateInputType
     _max?: OrderDetailMaxAggregateInputType
   }
 
   export type OrderDetailGroupByOutputType = {
     id: string
-    mysqlOrderId: number
+    mysqlOrderId: string
     note: string | null
     createdAt: Date
     _count: OrderDetailCountAggregateOutputType | null
-    _avg: OrderDetailAvgAggregateOutputType | null
-    _sum: OrderDetailSumAggregateOutputType | null
     _min: OrderDetailMinAggregateOutputType | null
     _max: OrderDetailMaxAggregateOutputType | null
   }
@@ -1272,7 +1238,7 @@ export namespace Prisma {
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      mysqlOrderId: number
+      mysqlOrderId: string
       note: string | null
       createdAt: Date
     }, ExtArgs["result"]["orderDetail"]>
@@ -1670,7 +1636,7 @@ export namespace Prisma {
    */
   interface OrderDetailFieldRefs {
     readonly id: FieldRef<"OrderDetail", 'String'>
-    readonly mysqlOrderId: FieldRef<"OrderDetail", 'Int'>
+    readonly mysqlOrderId: FieldRef<"OrderDetail", 'String'>
     readonly note: FieldRef<"OrderDetail", 'String'>
     readonly createdAt: FieldRef<"OrderDetail", 'DateTime'>
   }
@@ -2067,26 +2033,14 @@ export namespace Prisma {
 
   export type AggregateActivityLog = {
     _count: ActivityLogCountAggregateOutputType | null
-    _avg: ActivityLogAvgAggregateOutputType | null
-    _sum: ActivityLogSumAggregateOutputType | null
     _min: ActivityLogMinAggregateOutputType | null
     _max: ActivityLogMaxAggregateOutputType | null
   }
 
-  export type ActivityLogAvgAggregateOutputType = {
-    userId: number | null
-    shopId: number | null
-  }
-
-  export type ActivityLogSumAggregateOutputType = {
-    userId: number | null
-    shopId: number | null
-  }
-
   export type ActivityLogMinAggregateOutputType = {
     id: string | null
-    userId: number | null
-    shopId: number | null
+    userId: string | null
+    shopId: string | null
     userRole: string | null
     action: string | null
     description: string | null
@@ -2095,8 +2049,8 @@ export namespace Prisma {
 
   export type ActivityLogMaxAggregateOutputType = {
     id: string | null
-    userId: number | null
-    shopId: number | null
+    userId: string | null
+    shopId: string | null
     userRole: string | null
     action: string | null
     description: string | null
@@ -2115,16 +2069,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type ActivityLogAvgAggregateInputType = {
-    userId?: true
-    shopId?: true
-  }
-
-  export type ActivityLogSumAggregateInputType = {
-    userId?: true
-    shopId?: true
-  }
 
   export type ActivityLogMinAggregateInputType = {
     id?: true
@@ -2196,18 +2140,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: ActivityLogAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ActivityLogSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: ActivityLogMinAggregateInputType
@@ -2238,24 +2170,20 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ActivityLogCountAggregateInputType | true
-    _avg?: ActivityLogAvgAggregateInputType
-    _sum?: ActivityLogSumAggregateInputType
     _min?: ActivityLogMinAggregateInputType
     _max?: ActivityLogMaxAggregateInputType
   }
 
   export type ActivityLogGroupByOutputType = {
     id: string
-    userId: number | null
-    shopId: number | null
+    userId: string | null
+    shopId: string | null
     userRole: string
     action: string
     description: string
     metadata: JsonValue | null
     createdAt: Date
     _count: ActivityLogCountAggregateOutputType | null
-    _avg: ActivityLogAvgAggregateOutputType | null
-    _sum: ActivityLogSumAggregateOutputType | null
     _min: ActivityLogMinAggregateOutputType | null
     _max: ActivityLogMaxAggregateOutputType | null
   }
@@ -2305,8 +2233,8 @@ export namespace Prisma {
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: number | null
-      shopId: number | null
+      userId: string | null
+      shopId: string | null
       userRole: string
       action: string
       description: string
@@ -2705,8 +2633,8 @@ export namespace Prisma {
    */
   interface ActivityLogFieldRefs {
     readonly id: FieldRef<"ActivityLog", 'String'>
-    readonly userId: FieldRef<"ActivityLog", 'Int'>
-    readonly shopId: FieldRef<"ActivityLog", 'Int'>
+    readonly userId: FieldRef<"ActivityLog", 'String'>
+    readonly shopId: FieldRef<"ActivityLog", 'String'>
     readonly userRole: FieldRef<"ActivityLog", 'String'>
     readonly action: FieldRef<"ActivityLog", 'String'>
     readonly description: FieldRef<"ActivityLog", 'String'>
@@ -3124,20 +3052,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -3155,6 +3069,20 @@ export namespace Prisma {
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -3180,7 +3108,7 @@ export namespace Prisma {
     OR?: OrderDetailWhereInput[]
     NOT?: OrderDetailWhereInput | OrderDetailWhereInput[]
     id?: StringFilter<"OrderDetail"> | string
-    mysqlOrderId?: IntFilter<"OrderDetail"> | number
+    mysqlOrderId?: StringFilter<"OrderDetail"> | string
     items?: ItemCompositeListFilter | ItemObjectEqualityInput[]
     note?: StringNullableFilter<"OrderDetail"> | string | null
     createdAt?: DateTimeFilter<"OrderDetail"> | Date | string
@@ -3196,7 +3124,7 @@ export namespace Prisma {
 
   export type OrderDetailWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    mysqlOrderId?: number
+    mysqlOrderId?: string
     AND?: OrderDetailWhereInput | OrderDetailWhereInput[]
     OR?: OrderDetailWhereInput[]
     NOT?: OrderDetailWhereInput | OrderDetailWhereInput[]
@@ -3211,10 +3139,8 @@ export namespace Prisma {
     note?: SortOrder
     createdAt?: SortOrder
     _count?: OrderDetailCountOrderByAggregateInput
-    _avg?: OrderDetailAvgOrderByAggregateInput
     _max?: OrderDetailMaxOrderByAggregateInput
     _min?: OrderDetailMinOrderByAggregateInput
-    _sum?: OrderDetailSumOrderByAggregateInput
   }
 
   export type OrderDetailScalarWhereWithAggregatesInput = {
@@ -3222,7 +3148,7 @@ export namespace Prisma {
     OR?: OrderDetailScalarWhereWithAggregatesInput[]
     NOT?: OrderDetailScalarWhereWithAggregatesInput | OrderDetailScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"OrderDetail"> | string
-    mysqlOrderId?: IntWithAggregatesFilter<"OrderDetail"> | number
+    mysqlOrderId?: StringWithAggregatesFilter<"OrderDetail"> | string
     note?: StringNullableWithAggregatesFilter<"OrderDetail"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"OrderDetail"> | Date | string
   }
@@ -3232,8 +3158,8 @@ export namespace Prisma {
     OR?: ActivityLogWhereInput[]
     NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
     id?: StringFilter<"ActivityLog"> | string
-    userId?: IntNullableFilter<"ActivityLog"> | number | null
-    shopId?: IntNullableFilter<"ActivityLog"> | number | null
+    userId?: StringNullableFilter<"ActivityLog"> | string | null
+    shopId?: StringNullableFilter<"ActivityLog"> | string | null
     userRole?: StringFilter<"ActivityLog"> | string
     action?: StringFilter<"ActivityLog"> | string
     description?: StringFilter<"ActivityLog"> | string
@@ -3257,8 +3183,8 @@ export namespace Prisma {
     AND?: ActivityLogWhereInput | ActivityLogWhereInput[]
     OR?: ActivityLogWhereInput[]
     NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
-    userId?: IntNullableFilter<"ActivityLog"> | number | null
-    shopId?: IntNullableFilter<"ActivityLog"> | number | null
+    userId?: StringNullableFilter<"ActivityLog"> | string | null
+    shopId?: StringNullableFilter<"ActivityLog"> | string | null
     userRole?: StringFilter<"ActivityLog"> | string
     action?: StringFilter<"ActivityLog"> | string
     description?: StringFilter<"ActivityLog"> | string
@@ -3276,10 +3202,8 @@ export namespace Prisma {
     metadata?: SortOrder
     createdAt?: SortOrder
     _count?: ActivityLogCountOrderByAggregateInput
-    _avg?: ActivityLogAvgOrderByAggregateInput
     _max?: ActivityLogMaxOrderByAggregateInput
     _min?: ActivityLogMinOrderByAggregateInput
-    _sum?: ActivityLogSumOrderByAggregateInput
   }
 
   export type ActivityLogScalarWhereWithAggregatesInput = {
@@ -3287,8 +3211,8 @@ export namespace Prisma {
     OR?: ActivityLogScalarWhereWithAggregatesInput[]
     NOT?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ActivityLog"> | string
-    userId?: IntNullableWithAggregatesFilter<"ActivityLog"> | number | null
-    shopId?: IntNullableWithAggregatesFilter<"ActivityLog"> | number | null
+    userId?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+    shopId?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
     userRole?: StringWithAggregatesFilter<"ActivityLog"> | string
     action?: StringWithAggregatesFilter<"ActivityLog"> | string
     description?: StringWithAggregatesFilter<"ActivityLog"> | string
@@ -3298,7 +3222,7 @@ export namespace Prisma {
 
   export type OrderDetailCreateInput = {
     id?: string
-    mysqlOrderId: number
+    mysqlOrderId: string
     items?: XOR<ItemListCreateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: string | null
     createdAt?: Date | string
@@ -3306,21 +3230,21 @@ export namespace Prisma {
 
   export type OrderDetailUncheckedCreateInput = {
     id?: string
-    mysqlOrderId: number
+    mysqlOrderId: string
     items?: XOR<ItemListCreateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: string | null
     createdAt?: Date | string
   }
 
   export type OrderDetailUpdateInput = {
-    mysqlOrderId?: IntFieldUpdateOperationsInput | number
+    mysqlOrderId?: StringFieldUpdateOperationsInput | string
     items?: XOR<ItemListUpdateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderDetailUncheckedUpdateInput = {
-    mysqlOrderId?: IntFieldUpdateOperationsInput | number
+    mysqlOrderId?: StringFieldUpdateOperationsInput | string
     items?: XOR<ItemListUpdateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3328,21 +3252,21 @@ export namespace Prisma {
 
   export type OrderDetailCreateManyInput = {
     id?: string
-    mysqlOrderId: number
+    mysqlOrderId: string
     items?: XOR<ItemListCreateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: string | null
     createdAt?: Date | string
   }
 
   export type OrderDetailUpdateManyMutationInput = {
-    mysqlOrderId?: IntFieldUpdateOperationsInput | number
+    mysqlOrderId?: StringFieldUpdateOperationsInput | string
     items?: XOR<ItemListUpdateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderDetailUncheckedUpdateManyInput = {
-    mysqlOrderId?: IntFieldUpdateOperationsInput | number
+    mysqlOrderId?: StringFieldUpdateOperationsInput | string
     items?: XOR<ItemListUpdateEnvelopeInput, ItemCreateInput> | ItemCreateInput[]
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3350,8 +3274,8 @@ export namespace Prisma {
 
   export type ActivityLogCreateInput = {
     id?: string
-    userId?: number | null
-    shopId?: number | null
+    userId?: string | null
+    shopId?: string | null
     userRole: string
     action: string
     description: string
@@ -3361,8 +3285,8 @@ export namespace Prisma {
 
   export type ActivityLogUncheckedCreateInput = {
     id?: string
-    userId?: number | null
-    shopId?: number | null
+    userId?: string | null
+    shopId?: string | null
     userRole: string
     action: string
     description: string
@@ -3371,8 +3295,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUpdateInput = {
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    shopId?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3381,8 +3305,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUncheckedUpdateInput = {
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    shopId?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3392,8 +3316,8 @@ export namespace Prisma {
 
   export type ActivityLogCreateManyInput = {
     id?: string
-    userId?: number | null
-    shopId?: number | null
+    userId?: string | null
+    shopId?: string | null
     userRole: string
     action: string
     description: string
@@ -3402,8 +3326,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUpdateManyMutationInput = {
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    shopId?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3412,8 +3336,8 @@ export namespace Prisma {
   }
 
   export type ActivityLogUncheckedUpdateManyInput = {
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    shopId?: NullableStringFieldUpdateOperationsInput | string | null
     userRole?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -3436,17 +3360,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type ItemCompositeListFilter = {
     equals?: ItemObjectEqualityInput[]
     every?: ItemWhereInput
@@ -3457,7 +3370,7 @@ export namespace Prisma {
   }
 
   export type ItemObjectEqualityInput = {
-    menuId: number
+    menuId: string
     menuName: string
     price: number
     quantity: number
@@ -3503,10 +3416,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type OrderDetailAvgOrderByAggregateInput = {
-    mysqlOrderId?: SortOrder
-  }
-
   export type OrderDetailMaxOrderByAggregateInput = {
     id?: SortOrder
     mysqlOrderId?: SortOrder
@@ -3519,10 +3428,6 @@ export namespace Prisma {
     mysqlOrderId?: SortOrder
     note?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type OrderDetailSumOrderByAggregateInput = {
-    mysqlOrderId?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3541,22 +3446,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -3591,18 +3480,6 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-    isSet?: boolean
-  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -3627,11 +3504,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type ActivityLogAvgOrderByAggregateInput = {
-    userId?: SortOrder
-    shopId?: SortOrder
-  }
-
   export type ActivityLogMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -3650,28 +3522,6 @@ export namespace Prisma {
     action?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type ActivityLogSumOrderByAggregateInput = {
-    userId?: SortOrder
-    shopId?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-    isSet?: boolean
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -3694,7 +3544,7 @@ export namespace Prisma {
   }
 
   export type ItemCreateInput = {
-    menuId: number
+    menuId: string
     menuName: string
     price: number
     quantity: number
@@ -3702,12 +3552,8 @@ export namespace Prisma {
     specialNote?: string | null
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
   }
 
   export type ItemListUpdateEnvelopeInput = {
@@ -3726,19 +3572,6 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-    unset?: boolean
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -3753,22 +3586,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type ItemWhereInput = {
     AND?: ItemWhereInput | ItemWhereInput[]
     OR?: ItemWhereInput[]
     NOT?: ItemWhereInput | ItemWhereInput[]
-    menuId?: IntFilter<"Item"> | number
+    menuId?: StringFilter<"Item"> | string
     menuName?: StringFilter<"Item"> | string
     price?: FloatFilter<"Item"> | number
     quantity?: IntFilter<"Item"> | number
@@ -3777,7 +3599,7 @@ export namespace Prisma {
   }
 
   export type SelectedOptionObjectEqualityInput = {
-    optionId: number
+    optionId: string
     name: string
     price: number
   }
@@ -3825,7 +3647,7 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -3833,23 +3655,7 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -3895,35 +3701,6 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-    isSet?: boolean
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -3938,7 +3715,7 @@ export namespace Prisma {
   }
 
   export type SelectedOptionCreateInput = {
-    optionId: number
+    optionId: string
     name: string
     price: number
   }
@@ -3963,6 +3740,17 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type SelectedOptionCompositeListFilter = {
     equals?: SelectedOptionObjectEqualityInput[]
     every?: SelectedOptionWhereInput
@@ -3973,7 +3761,7 @@ export namespace Prisma {
   }
 
   export type ItemUpdateInput = {
-    menuId?: IntFieldUpdateOperationsInput | number
+    menuId?: StringFieldUpdateOperationsInput | string
     menuName?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
@@ -3981,16 +3769,35 @@ export namespace Prisma {
     specialNote?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type SelectedOptionWhereInput = {
     AND?: SelectedOptionWhereInput | SelectedOptionWhereInput[]
     OR?: SelectedOptionWhereInput[]
     NOT?: SelectedOptionWhereInput | SelectedOptionWhereInput[]
-    optionId?: IntFilter<"SelectedOption"> | number
+    optionId?: StringFilter<"SelectedOption"> | string
     name?: StringFilter<"SelectedOption"> | string
     price?: FloatFilter<"SelectedOption"> | number
   }
 
   export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
@@ -4015,7 +3822,7 @@ export namespace Prisma {
   }
 
   export type SelectedOptionUpdateInput = {
-    optionId?: IntFieldUpdateOperationsInput | number
+    optionId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
   }

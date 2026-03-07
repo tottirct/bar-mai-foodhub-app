@@ -16,10 +16,10 @@ export async function GET(
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const ownerId = parseInt(session.user.id);
+        const ownerId = session.user.id;
 
         const { shopid } = await params;
-        const shopId = parseInt(shopid);
+        const shopId = shopid;
 
         const shop = await prisma.shop.findFirst({
             where: {

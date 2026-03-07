@@ -11,14 +11,14 @@ export async function GET(
 ) {
     try {
         const { userid } = await params;
-        const userId = parseInt(userid); 
+        const userId = userid; 
 
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
-        const adminId = parseInt(session.user.id);
+        const adminId = session.user.id;
 
         const checkAdmin = await prisma.user.findFirst({
             where: {

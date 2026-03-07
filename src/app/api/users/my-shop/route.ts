@@ -11,8 +11,8 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const ownerId = parseInt(session.user.id);
-    if (isNaN(ownerId)) {
+    const ownerId = session.user.id;
+    if (!ownerId) {
       return NextResponse.json({ error: "Invalid User ID format" }, { status: 400 });
     }
 

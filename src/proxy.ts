@@ -93,13 +93,19 @@ export default async function proxy(req: NextRequest) {
                 if (method === 'GET') {
                     // Everyone
                 } else if (method === 'POST' || method === 'DELETE' || method === 'PATCH') {
-                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden EIEI' }, { status: 403 });
+                    if (role !== 'OWNER'){
+                        console.log("eiei")
+                         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    }
                 }
             }
 
             if (pathname.match(/^\/api\/shops\/\d+\/menus\/d+/)) {
                 if (method === 'PATCH') {
-                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden'},{status:403});
+                    if (role !== 'OWNER'){
+                        console.log("eiei2")
+                         return NextResponse.json({ error: 'Forbidden'},{status:403});
+                    }
                 }
             }
 

@@ -3,7 +3,7 @@
 import { Ban, Loader2, AlertTriangle } from "lucide-react";
 
 interface ShopData {
-    id: number;
+    id: string;
     name: string;
 }
 
