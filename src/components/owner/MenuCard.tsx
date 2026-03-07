@@ -25,7 +25,7 @@ export default function MenuCard({ id, name, price, status, shopId, onSaveSucces
 
   return (
     <>
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-4 flex overflow-hidden hover:shadow-lg transition-all duration-300">
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-200 mb-4 flex overflow-hidden hover:shadow-lg transition-all duration-300">
 
       <div className=" bg-gray-200 w-40 flex items-center justify-center">
         <span className="text-gray-400 text-sm">No Image</span>

@@ -73,7 +73,7 @@ export default function MenuFormPopUpOption({ isOpen, onClose, menuId }: MenuFor
           )}
         </div>
 
-        <div className="border-t pt-4 mt-2">
+        <div>
           <h4 className="font-medium text-sm mb-2">เพิ่มตัวเลือกใหม่</h4>
           <div className="flex gap-2">
             <input 
@@ -84,10 +84,13 @@ export default function MenuFormPopUpOption({ isOpen, onClose, menuId }: MenuFor
             />
             <input 
               type="number" 
-              placeholder="ราคา" 
+              placeholder="0" 
               className="border p-2 rounded w-20"
-              value={newOption.price}
-              onChange={(e) => setNewOption({...newOption, price: Number(e.target.value)})}
+              value={newOption.price === 0 ? "" : newOption.price}
+              onChange={(e) => {
+                const val = e.target.value === "" ? 0 : Number(e.target.value);
+                setNewOption({...newOption, price: val})
+              }}
             />
             <button onClick={handleAdd} className="bg-blue-600 text-white px-4 rounded">+</button>
           </div>

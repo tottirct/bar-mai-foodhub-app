@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { mongo } from '@/lib/mongo';
 import { now } from 'next-auth/client/_utils';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
     request: Request,
@@ -34,7 +36,15 @@ export async function POST(
 ) {
     try {
         const body = await request.json();
-        const { shopId, menuName, price, options, userId } = body;
+        const { shopId, menuName, price, isAvailable } = body;
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const userId = parseInt(session.user.id);
 
         const checkRole = await prisma.shop.findFirst({
             where: {
@@ -52,9 +62,6 @@ export async function POST(
 
         if(!menuName || price === undefined || !userId || price < 0) {
             return NextResponse.json({sucess: false, message: "เอาดีๆ"},{status: 400});
-        }
-        if (options && !Array.isArray(options)) {
-            return NextResponse.json({ success: false, message: "รูปแบบ options ไม่ถูกต้อง" }, { status: 400 });
         }
 
         const targetShop = await prisma.shop.findFirst({
@@ -74,10 +81,7 @@ export async function POST(
                 price: price,
                 shopId: shopId,
                 options: {
-                    create: options.map((opt:any) => ({
-                        name: opt.name,
-                        price: opt.price
-                    }))
+
                 }
             },
             include: {
@@ -96,7 +100,7 @@ export async function POST(
                 metadata: {
                     menuId: result.id,
                     price: (await result).price,
-                    optinsCount: options.length
+                    optinsCount: 0
                 }
             }
         });

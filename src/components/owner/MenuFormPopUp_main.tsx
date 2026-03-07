@@ -20,7 +20,7 @@ interface MenuFormPopUpProps {
 }
 
 const MENU_FIELDS = [
-  { label: "ชื่อเมนู", name: "name", type: "text" },
+  { label: "ชื่อเมนู", name: "menuName", type: "text" },
   { label: "ราคา", name: "price", type: "number" },
   { label: "สถานะพร้อมขาย", name: "isAvailable", type: "checkbox" },
 ] as const;
@@ -30,9 +30,10 @@ export default function MenuFormPopUpMain({ isOpen, onClose, menu, onEditOptions
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    name: menu?.name || "",
+    shopId: shopId || 0,
+    menuName: menu?.name || "",
     price: menu?.price || 0,
-    isAvailable: menu?.isAvailable ?? true,
+    isAvailable: menu?.isAvailable ?? true
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,17 +73,18 @@ export default function MenuFormPopUpMain({ isOpen, onClose, menu, onEditOptions
               <input 
                 name={field.name} 
                 type={field.type} 
-                className="border p-2 rounded"
+                className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 value={String(formData[field.name as keyof typeof formData] || "")} 
                 onChange={handleChange}
               />
             )}
           </div>
         ))}
-
-        <button type="button" onClick={onEditOptions} className=" bg-blue-500 text-white p-2 rounded ">
-          จัดการตัวเลือก
-        </button>
+        {isEditMode &&(
+          <button type="button" onClick={onEditOptions} className=" bg-blue-500 text-white p-2 rounded ">
+            จัดการตัวเลือก
+          </button>
+        )}
         <button onClick={handleSubmit} className="bg-green-500 text-white p-2 rounded ">
           บันทึกข้อมูล
         </button>
