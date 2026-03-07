@@ -84,11 +84,18 @@ export default function InformationPage() {
     return (
         <main className="container mx-auto p-4 md:p-8 max-w-2xl">
             {/* Header */}
-            <div className="mb-10">
-                <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-3">
-                    ข้อมูลส่วนตัว <User className="text-green-500" size={32} />
-                </h1>
-                <p className="text-gray-500 font-medium">จัดการข้อมูลและโปรไฟล์ของคุณ</p>
+            <div className="mb-10 space-y-4">
+                <div className="inline-flex items-center px-4 py-1.5 bg-green-50 text-green-600 rounded-full text-xs font-black tracking-[0.2em] uppercase">
+                    Account Management
+                </div>
+                <div>
+                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight flex items-center gap-3">
+                        ข้อมูลส่วนตัว <User className="text-green-500 w-10 h-10" />
+                    </h1>
+                    <p className="text-gray-500 font-medium mt-2 text-sm md:text-base">
+                        จัดการข้อมูลและโปรไฟล์ของคุณในระบบ
+                    </p>
+                </div>
             </div>
 
             {message && (

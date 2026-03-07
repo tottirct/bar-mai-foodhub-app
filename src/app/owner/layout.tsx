@@ -7,6 +7,7 @@ export default function OwnerLayout({ children, }: { children: React.ReactNode; 
         { label: "ออเดอร์", href: "/owner", icon: "ScrollText" },
         { label: "ธุรกรรม", href: "/owner/transactions", icon: "Banknote" },
         { label: "เมนู", href: "/owner/menus", icon: "BookOpenText" },
+        { label: "ข้อมูลร้านค้า", href: "/owner/information", icon: "Store" },
     ];
 
     return (
