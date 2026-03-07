@@ -36,6 +36,7 @@ export async function POST(
 ) {
     try {
         const body = await request.json();
+<<<<<<< HEAD
         const { shopId, menuName, price, isAvailable } = body;
 
         const session = await getServerSession(authOptions);
@@ -45,6 +46,9 @@ export async function POST(
         }
 
         const userId = parseInt(session.user.id);
+=======
+        const { shopId, menuName, price, imageUrl, options, userId } = body;
+>>>>>>> 7e9360518c699ac7231de8422becb76795a3b6aa
 
         const checkRole = await prisma.shop.findFirst({
             where: {
@@ -80,6 +84,7 @@ export async function POST(
                 name: menuName,
                 price: price,
                 shopId: shopId,
+                imageUrl: imageUrl,
                 options: {
 
                 }

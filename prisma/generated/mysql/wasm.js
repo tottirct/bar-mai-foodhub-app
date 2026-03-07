@@ -115,6 +115,7 @@ exports.Prisma.ShopScalarFieldEnum = {
   description: 'description',
   ownerId: 'ownerId',
   isOpen: 'isOpen',
+  imageUrl: 'imageUrl',
   wallet: 'wallet',
   deletedAt: 'deletedAt'
 };
@@ -124,6 +125,7 @@ exports.Prisma.MenuScalarFieldEnum = {
   name: 'name',
   price: 'price',
   shopId: 'shopId',
+  imageUrl: 'imageUrl',
   deletedAt: 'deletedAt',
   isAvailable: 'isAvailable'
 };
@@ -165,11 +167,13 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ShopOrderByRelevanceFieldEnum = {
   name: 'name',
-  description: 'description'
+  description: 'description',
+  imageUrl: 'imageUrl'
 };
 
 exports.Prisma.MenuOrderByRelevanceFieldEnum = {
-  name: 'name'
+  name: 'name',
+  imageUrl: 'imageUrl'
 };
 
 exports.Prisma.MenuOptionOrderByRelevanceFieldEnum = {
@@ -205,7 +209,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Work\\database\\bar-mai-app\\prisma\\generated\\mysql",
+      "value": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\generated\\mysql",
       "fromEnvVar": null
     },
     "config": {
@@ -219,7 +223,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Work\\database\\bar-mai-app\\prisma\\schema.mysql.prisma",
+    "sourceFilePath": "C:\\Users\\Supasek Sangkat\\work\\newDBProject\\bar-mai-foodhub-app\\prisma\\schema.mysql.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -241,13 +245,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mysql\" // ป้องกันการทับซ้อนกับ Client ของ MongoDB\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"MYSQL_DATABASE_URL\")\n}\n\nmodel User {\n  id        Int       @id @default(autoincrement())\n  email     String    @unique\n  name      String\n  username  String    @unique\n  password  String\n  role      Role      @default(CUSTOMER)\n  deletedAt DateTime?\n  orders    Order[]\n  shops     Shop[]\n  wallets   Wallet?\n}\n\nmodel Wallet {\n  id      Int  @id @default(autoincrement())\n  balance Int  @default(0)\n  userId  Int  @unique\n  user    User @relation(fields: [userId], references: [id])\n}\n\nenum Role {\n  CUSTOMER\n  OWNER\n  ADMIN\n}\n\nmodel Shop {\n  id          Int       @id @default(autoincrement())\n  name        String\n  description String?\n  ownerId     Int\n  isOpen      Boolean\n  wallet      Int       @default(0)\n  user        User      @relation(fields: [ownerId], references: [id])\n  deletedAt   DateTime?\n  menus       Menu[]\n  orders      Order[]\n}\n\nmodel Menu {\n  id          Int          @id @default(autoincrement())\n  name        String\n  price       Int\n  shopId      Int\n  deletedAt   DateTime?\n  isAvailable Boolean      @default(true)\n  shop        Shop         @relation(fields: [shopId], references: [id])\n  options     MenuOption[]\n}\n\nmodel MenuOption {\n  id        Int       @id @default(autoincrement())\n  name      String\n  price     Int\n  menuId    Int\n  deletedAt DateTime?\n\n  menu Menu @relation(fields: [menuId], references: [id])\n}\n\nmodel Order {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  shopId       Int\n  totalPrice   Int\n  status       String   @default(\"PENDING\")\n  createdAt    DateTime @default(now())\n  mongoOrderId String?\n  user         User     @relation(fields: [userId], references: [id])\n  shop         Shop     @relation(fields: [shopId], references: [id])\n}\n",
-  "inlineSchemaHash": "e10c4bde3762dba5d547877c9e9917759c2fc238e2ff00fa2cb405048204b4a1",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/mysql\" // ป้องกันการทับซ้อนกับ Client ของ MongoDB\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"MYSQL_DATABASE_URL\")\n}\n\nmodel User {\n  id        Int       @id @default(autoincrement())\n  email     String    @unique\n  name      String\n  username  String    @unique\n  password  String\n  role      Role      @default(CUSTOMER)\n  deletedAt DateTime?\n  orders    Order[]\n  shops     Shop[]\n  wallets   Wallet?\n}\n\nmodel Wallet {\n  id      Int  @id @default(autoincrement())\n  balance Int  @default(0)\n  userId  Int  @unique\n  user    User @relation(fields: [userId], references: [id])\n}\n\nenum Role {\n  CUSTOMER\n  OWNER\n  ADMIN\n}\n\nmodel Shop {\n  id          Int       @id @default(autoincrement())\n  name        String\n  description String?\n  ownerId     Int\n  isOpen      Boolean\n  imageUrl    String?   @db.Text\n  wallet      Int       @default(0)\n  user        User      @relation(fields: [ownerId], references: [id])\n  deletedAt   DateTime?\n  menus       Menu[]\n  orders      Order[]\n}\n\nmodel Menu {\n  id          Int          @id @default(autoincrement())\n  name        String\n  price       Int\n  shopId      Int\n  imageUrl    String?      @db.Text\n  deletedAt   DateTime?\n  isAvailable Boolean      @default(true)\n  shop        Shop         @relation(fields: [shopId], references: [id])\n  options     MenuOption[]\n}\n\nmodel MenuOption {\n  id        Int       @id @default(autoincrement())\n  name      String\n  price     Int\n  menuId    Int\n  deletedAt DateTime?\n\n  menu Menu @relation(fields: [menuId], references: [id])\n}\n\nmodel Order {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  shopId       Int\n  totalPrice   Int\n  status       String   @default(\"PENDING\")\n  createdAt    DateTime @default(now())\n  mongoOrderId String?\n  user         User     @relation(fields: [userId], references: [id])\n  shop         Shop     @relation(fields: [shopId], references: [id])\n}\n",
+  "inlineSchemaHash": "a8d0e0167452c894c14c08269830efb50d04784e0ad7eff61102a4f64c0a2dc3",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToUser\"},{\"name\":\"shops\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToUser\"},{\"name\":\"wallets\",\"kind\":\"object\",\"type\":\"Wallet\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Wallet\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"balance\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Shop\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isOpen\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"wallet\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShopToUser\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"menus\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToShop\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToShop\"}],\"dbName\":null},\"Menu\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isAvailable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"MenuToShop\"},{\"name\":\"options\",\"kind\":\"object\",\"type\":\"MenuOption\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"MenuOption\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"menuId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"menu\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"mongoOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrderToUser\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"OrderToShop\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToUser\"},{\"name\":\"shops\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToUser\"},{\"name\":\"wallets\",\"kind\":\"object\",\"type\":\"Wallet\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Wallet\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"balance\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToWallet\"}],\"dbName\":null},\"Shop\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isOpen\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"wallet\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShopToUser\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"menus\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToShop\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToShop\"}],\"dbName\":null},\"Menu\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isAvailable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"MenuToShop\"},{\"name\":\"options\",\"kind\":\"object\",\"type\":\"MenuOption\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"MenuOption\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"menuId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"menu\",\"kind\":\"object\",\"type\":\"Menu\",\"relationName\":\"MenuToMenuOption\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalPrice\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"mongoOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrderToUser\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"OrderToShop\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
