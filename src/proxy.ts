@@ -31,29 +31,23 @@ export default async function proxy(req: NextRequest) {
 
     // Frontend Route Protection
     if (pathname.startsWith('/admin') && role !== 'ADMIN') {
-            return NextResponse.redirect(new URL('/unauthorized', req.url));
-        }
+        return NextResponse.redirect(new URL('/unauthorized', req.url));
+    }
 
     if (pathname.startsWith('/owner') && role !== 'OWNER') {
-            return NextResponse.redirect(new URL('/unauthorized', req.url));
-        }
+        return NextResponse.redirect(new URL('/unauthorized', req.url));
+    }
 
-        if (pathname.startsWith('/customer') && role !== 'CUSTOMER') {
-            return NextResponse.redirect(new URL('/unauthorized', req.url));
-        }
+    if (pathname.startsWith('/customer') && role !== 'CUSTOMER') {
+        return NextResponse.redirect(new URL('/unauthorized', req.url));
+    }
 
         // API Route Protection
         if (pathname.startsWith('/api/')) {
+            
             // --- Admin Routes ---
-            if (pathname.startsWith('/api/admins/logs') && method === 'GET') {
-                if (role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-            }
-            if (pathname.startsWith('/api/admins/transactions') && method === 'GET') {
-                if (role !== 'ADMIN' && role !== 'OWNER') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-            }
-            if (pathname.match(/^\/api\/admins\/users(\/.*)?$/)) {
-                if (method === 'GET' && role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-                if (method === 'DELETE' && role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+            if(pathname.startsWith('/api/admins/')) {
+                if(role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
             }
 
             // --- Menu Routes ---
@@ -72,18 +66,27 @@ export default async function proxy(req: NextRequest) {
 
             if (pathname === '/api/orders') {
                 if (method === 'POST' && role !== 'CUSTOMER') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-                if (method === 'GET' && role !== 'CUSTOMER') return NextResponse.json({ error: 'Forbidden' }, { status: 403 }); // Assuming User=Customer
+                if (method === 'GET' && role !== 'CUSTOMER' && role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 }); // Assuming User=Customer
             }
 
             if (pathname === '/api/shops' && method === 'GET') {
                 // Everyone
             }
 
-            if (pathname === '/api/shops/transactions' && method === 'GET') {
+            if (pathname.match(/^\/api\/shops\/\d+\/transactions/) && method === 'GET') {
                 if (role !== 'OWNER' && role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
             }
 
-            if (pathname === '/api/shops/wallet' && method === 'POST') {
+            if (pathname.match(/^\/api\/shops\/\d+\/update-info/)) {
+                if(method === 'GET') {
+                    if (role !== 'OWNER' && role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                }
+                if(method === 'PATCH') {
+                    if (role !== 'OWNER') return NextResponse.json({error: 'Forbidden'},{status:403});
+                }
+            }
+
+            if (pathname.match(/^\/api\/shops\/\d+\/wallet/) && method === 'POST') {
                 if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
             }
 
@@ -91,7 +94,13 @@ export default async function proxy(req: NextRequest) {
                 if (method === 'GET') {
                     // Everyone
                 } else if (method === 'POST' || method === 'DELETE' || method === 'PATCH') {
-                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden EIEI' }, { status: 403 });
+                }
+            }
+
+            if (pathname.match(/^\/api\/shops\/\d+\/menus\/d+/)) {
+                if (method === 'PATCH') {
+                    if (role !== 'OWNER') return NextResponse.json({ error: 'Forbidden'},{status:403});
                 }
             }
 
@@ -110,8 +119,30 @@ export default async function proxy(req: NextRequest) {
                 }
             }
 
-            if (pathname.match(/^\/api\/users\/\d+\/update-info$/)) {
+            if (pathname.match(/^\/api\/users\/\d+\/update-info/)) {
+                if(method === 'GET') {
+                    if(role !== 'CUSTOMER' && role !== 'ADMIN') {
+                        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    }
+                }
+                if(method === 'PATCH') {
+                    if(role !== 'CUSTOMER') {
+                        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    }
+                }
+            }
 
+            if (pathname.match(/^\/api\/users\/\d+\/wallet/)) {
+                if(method === 'GET') {
+                    if(role !== 'CUSTOMER' && role !== 'ADMIN') {
+                        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    }
+                }
+                if(method === 'POST') {
+                    if(role !== 'CUSTOMER') {
+                        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+                    }
+                }
             }
         }
 

@@ -110,6 +110,7 @@ export async function PATCH(
                         menuId: (await updatedMenu).id,
                         name: name,
                         price: price,
+                        imageUrl: imageUrl,
                         status: isAvailable
                     }
 
