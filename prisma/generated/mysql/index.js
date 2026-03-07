@@ -225,7 +225,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Work\\database\\bar-mai-app\\prisma\\generated\\mysql",
+      "value": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\generated\\mysql",
       "fromEnvVar": null
     },
     "config": {
@@ -239,7 +239,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Work\\database\\bar-mai-app\\prisma\\schema.mysql.prisma",
+    "sourceFilePath": "D:\\Work\\Database\\Proj\\bar-mai-foodhub-app\\prisma\\schema.mysql.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
