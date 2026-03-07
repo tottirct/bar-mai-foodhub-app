@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { mongo } from '@/lib/mongo'
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function POST(request: NextRequest) {
     try {
@@ -18,6 +20,18 @@ export async function POST(request: NextRequest) {
                 options: true,
             }
         });
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const checkUserId = parseInt(session.user.id);
+
+        if(checkUserId !== userId) {
+            return NextResponse.json({success: false,message:"อย่าสั่งข้าวแทนคนอื่น"},{status:403});
+        } 
 
         const processedItems = items.map((item: any) => {
             const menu = dbMenus.find(m => m.id === item.menuId);
@@ -135,6 +149,28 @@ export async function GET(
         }
 
         const userId = parseInt(userIdParam);
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const checkUserId = parseInt(session.user.id);
+
+        const checkUser = await prisma.user.findFirst({
+            where: {
+                id: checkUserId,
+                deletedAt: null
+            }
+        });
+
+        if(!checkUser) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status:404});
+        }
+        if((checkUser.id !== userId) && (checkUser.role !== "ADMIN")) {
+            return NextResponse.json({success: false, message:"ไม่ใช่ข้อมูลของคุณครับ และคุณไม่ใช่ admin"},{status:403});
+        }
 
         const allOrders = await prisma.order.findMany({
             where: {

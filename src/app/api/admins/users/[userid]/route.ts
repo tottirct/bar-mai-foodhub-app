@@ -11,9 +11,18 @@ export async function DELETE(
         const userId = parseInt(userid);
         const { adminId, reason } = await request.json();
 
-        const adminCheck = await prisma.user.findUnique({ where: { id: adminId } });
-        if (!adminCheck || adminCheck.role !== 'ADMIN') {
-            return NextResponse.json({ success: false, message: "ไม่มีสิทธิ์" }, { status: 403 });
+        const adminCheck = await prisma.user.findFirst({
+             where: {
+                id: adminId,
+                deletedAt: null
+            } 
+        });
+
+        if (!adminCheck) {
+            return NextResponse.json({ success: false, message: "หา user ไม่เจอ" }, { status: 404 });
+        }
+        if(adminCheck.role !== "ADMIN") {
+            return NextResponse.json({success: false,message:"ไม่ใช่ admin หนิ"},{status:403});
         }
 
         const now = new Date();

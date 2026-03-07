@@ -28,8 +28,19 @@ export async function GET(
             },
         });
 
-        if (ownerId !== shop?.ownerId) {
-            return NextResponse.json({ success: false, message: "ไม่ใช่เจ้าของร้านนี้" }, { status: 403 });
+        const isAdmin = await prisma.user.findFirst({
+            where: {
+                id: ownerId,
+                deletedAt: null
+            }
+        });
+
+        if(!isAdmin) {
+            return NextResponse.json({success: false,message:"หา user ไม่เจอ"},{status:404});
+        }
+
+        if ((ownerId !== shop?.ownerId) && (isAdmin.role !== "ADMIN")) {
+            return NextResponse.json({ success: false, message: "ไม่ใช่เจ้าของร้านนี้และไม่ใช่ admin" }, { status: 403 });
         }
 
         if (!shop) {

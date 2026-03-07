@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { mongo } from '@/lib/mongo';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function PATCH(
     request: Request,
@@ -35,6 +37,18 @@ export async function PATCH(
 
         if(!checkMenu) {
             return NextResponse.json({success: false,message:"หาเมนูไม่เจอ"},{status:404})
+        }
+
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const ownerId = parseInt(session.user.id);
+
+        if(checkShop.ownerId !== ownerId) {
+            return NextResponse.json({success: false, message:"คุณไม่ใช่เจ้าของร้านนี้"},{status:403});
         }
 
         const updatedMenu = await prisma.menu.update({
