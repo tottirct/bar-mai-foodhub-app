@@ -67,72 +67,6 @@ This project uses a **Dual-Database Architecture** powered by Prisma ORM:
 - `OrderDetail` — Order details (Items, Add-ons, Notes)
 - `ActivityLog` — System activity audit trail
 
-```
-┌────────────────────────────────────────┐
-│              Next.js App               │
-│          (App Router + API)            │
-├──────────────────┬─────────────────────┤
-│   Prisma MySQL   │   Prisma MongoDB    │
-│   Client         │   Client            │
-├──────────────────┼─────────────────────┤
-│   MySQL 8.0      │   MongoDB           │
-│   ─────────────  │   ───────────────   │
-│   User           │   OrderDetail       │
-│   Wallet         │   ActivityLog       │
-│   Shop           │                     │
-│   Menu           │                     │
-│   MenuOption     │                     │
-│   Order          │                     │
-└──────────────────┴─────────────────────┘
-```
-
----
-
-## Project Structure
-
-```
-bar-mai-foodhub-app/
-├── prisma/
-│   ├── schema.mysql.prisma      # MySQL Schema
-│   ├── schema.mongo.prisma      # MongoDB Schema
-│   └── generated/               # Generated Prisma Clients
-├── src/
-│   ├── app/
-│   │   ├── page.tsx             # Landing Page
-│   │   ├── layout.tsx           # Root Layout
-│   │   ├── api/                 # API Routes
-│   │   │   ├── auth/            # NextAuth Endpoints
-│   │   │   ├── users/           # User Management API
-│   │   │   ├── shops/           # Shop & Menu API
-│   │   │   ├── orders/          # Order API
-│   │   │   ├── admins/          # Admin API
-│   │   │   ├── menus/           # Menu API
-│   │   │   └── upload/          # Image Upload API
-│   │   ├── customer/            # Customer Pages
-│   │   │   ├── [id]/            # Shop Detail
-│   │   │   ├── credit/          # E-Wallet / Credit
-│   │   │   ├── information/     # User Profile
-│   │   │   └── trolley/         # Shopping Cart
-│   │   ├── owner/               # Owner Pages
-│   │   │   ├── menus/           # Menu Management
-│   │   │   ├── transactions/    # Transaction History
-│   │   │   └── information/     # Owner Profile
-│   │   └── admin/               # Admin Pages
-│   │       ├── shops/           # Shop Management
-│   │       └── users/           # User Management
-│   ├── components/              # Reusable Components
-│   │   ├── Navbar.tsx
-│   │   ├── Sidebar.tsx
-│   │   ├── customer/            # Customer Components
-│   │   ├── owner/               # Owner Components
-│   │   └── admin/               # Admin Components
-│   ├── lib/                     # Utilities & DB Clients
-│   └── types/                   # TypeScript Type Definitions
-├── docker-compose.yml           # MySQL + MongoDB Containers
-├── package.json
-└── tsconfig.json
-```
-
 ---
 
 ## Getting Started
@@ -196,6 +130,7 @@ npx prisma generate --schema=prisma/schema.mongo.prisma
 
 # Push schema to MySQL
 npx prisma db push --schema=prisma/schema.mysql.prisma
+npx prisma db push --schema=prisma/schema.mongo.prisma
 ```
 
 ### 6. Run the Development Server
