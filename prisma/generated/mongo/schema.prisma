@@ -1,0 +1,45 @@
+// 📍 ไฟล์: prisma/schema.mongo.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/mongo" // ป้องกันการทับซ้อนกับ Client ของ MySQL
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_DATABASE_URL")
+}
+
+model OrderDetail {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  mysqlOrderId String   @unique
+  items        Item[]
+  note         String?
+  createdAt    DateTime @default(now())
+}
+
+type Item {
+  menuId          String
+  menuName        String
+  price           Float
+  quantity        Int
+  selectedOptions SelectedOption[] // 👈 เพิ่มฟิลด์นี้เพื่อเก็บ Add-on ที่เลือก
+  specialNote     String? // เช่น "ไม่ใส่ผักชี", "เผ็ดน้อย"
+}
+
+type SelectedOption {
+  optionId String
+  name     String
+  price    Float
+}
+
+model ActivityLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String? // อ้างอิง User ID จากฝั่ง MySQL
+  shopId      String?
+  userRole    String // เก็บ Role ตอนที่กระทำ (เช่น "CUSTOMER", "OWNER", "ADMIN") เพื่อให้ Query หาง่ายๆ
+  action      String // ประเภทของสิ่งที่ทำ (เช่น "WALLET_TOPUP", "ORDER_PLACED", "LOGIN", "SHOP_INCOME")
+  description String // คำอธิบายแบบอ่านรู้เรื่อง เช่น "เติมเงินเข้าวอลเล็ต 500 บาท"
+  metadata    Json? // ⭐️ ฟิลด์ทีเด็ด: เก็บข้อมูลแบบยืดหยุ่นเป็น JSON
+  createdAt   DateTime @default(now())
+}

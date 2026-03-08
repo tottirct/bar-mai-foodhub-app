@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/mysql" // ป้องกันการทับซ้อนกับ Client ของ MongoDB
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  username  String    @unique
+  password  String
+  role      Role      @default(CUSTOMER)
+  deletedAt DateTime?
+  orders    Order[]
+  shops     Shop[]
+  wallets   Wallet?
+}
+
+model Wallet {
+  id      String @id @default(cuid())
+  balance Int    @default(0)
+  userId  String @unique
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  CUSTOMER
+  OWNER
+  ADMIN
+}
+
+model Shop {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  ownerId     String
+  isOpen      Boolean
+  imageUrl    String?   @db.Text
+  wallet      Int       @default(0)
+  user        User      @relation(fields: [ownerId], references: [id])
+  deletedAt   DateTime?
+  menus       Menu[]
+  orders      Order[]
+}
+
+model Menu {
+  id          String       @id @default(cuid())
+  name        String
+  price       Int
+  shopId      String
+  imageUrl    String?      @db.Text
+  deletedAt   DateTime?
+  isAvailable Boolean      @default(true)
+  shop        Shop         @relation(fields: [shopId], references: [id])
+  options     MenuOption[]
+}
+
+model MenuOption {
+  id        String    @id @default(cuid())
+  name      String
+  price     Int
+  menuId    String
+  deletedAt DateTime?
+
+  menu Menu @relation(fields: [menuId], references: [id])
+}
+
+model Order {
+  id           String   @id @default(cuid())
+  userId       String
+  shopId       String
+  totalPrice   Int
+  status       String   @default("PENDING")
+  createdAt    DateTime @default(now())
+  mongoOrderId String?
+  user         User     @relation(fields: [userId], references: [id])
+  shop         Shop     @relation(fields: [shopId], references: [id])
+}

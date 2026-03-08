@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@layer base {
+  h1{
+    @apply text-3xl font-bold;
+  }
+  h2{
+    @apply text-xl font-medium;
+  }
+  sub{
+    @apply text-xs font-thin;
+  }
+}
+
+@layer components {
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200;
+  }
+
+  .nav-item-active {
+    @apply bg-orange-50 text-orange-600;
+  }
+
+  .nav-item-inactive {
+    @apply text-gray-600 hover:bg-orange-50 hover:text-orange-600;
+  }
+
+  .nav-item-admin {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200;
+  }
+
+  .nav-item-admin-active {
+    @apply bg-indigo-500/10 text-indigo-400 border border-indigo-500/20;
+  }
+
+  .nav-item-admin-inactive {
+    @apply text-slate-400 hover:bg-slate-800 hover:text-slate-200;
+  }
+}
