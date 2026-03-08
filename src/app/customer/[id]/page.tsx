@@ -445,9 +445,6 @@ export default function ShopMenuPage({ params }: { params: Promise<{ id: string 
                                             <h3 className={`text-lg font-bold line-clamp-1 mb-1 ${isAvailable ? "text-gray-800" : "text-gray-400 italic"}`}>
                                                 {menu.name}
                                             </h3>
-                                            <p className="text-sm text-gray-500 line-clamp-2 mb-4 h-10">
-                                                อร่อย สด ใหม่ พร้อมเสิร์ฟถึงที่
-                                            </p>
                                         </div>
                                         <button
                                             className={`w-full py-2.5 font-bold rounded-xl transition-all flex items-center justify-center gap-2 group/btn ${canOrder
