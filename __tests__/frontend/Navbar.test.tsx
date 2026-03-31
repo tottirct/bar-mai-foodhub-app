@@ -13,14 +13,22 @@ describe('Navbar', () => {
         expect(screen.getByText('บาร์ใหม่')).toBeInTheDocument();
     });
 
-    it('renders login and register buttons when not logged in', () => { // test login and register buttons
+    it('renders register button when not logged in', () => { // test register buttons
+        render(
+            <SessionProvider session={null}>
+                <Navbar />
+            </SessionProvider>
+        );
+        expect(screen.getByText('ลงทะเบียน')).toBeInTheDocument();
+    });
+
+    it('renders login button when not logged in', () => { // test login button
         render(
             <SessionProvider session={null}>
                 <Navbar />
             </SessionProvider>
         );
         expect(screen.getByText('เข้าสู่ระบบ')).toBeInTheDocument();
-        expect(screen.getByText('ลงทะเบียน')).toBeInTheDocument();
     });
 
     it('renders logout button when logged in', () => { // test logout button
