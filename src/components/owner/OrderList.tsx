@@ -28,7 +28,7 @@ interface Order {
 }
 
 interface OrderListProps {
-    shopId: number;
+    shopId: string;
 }
 
 export default function OrderList({ shopId }: OrderListProps) {
